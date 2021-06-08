@@ -1,10 +1,19 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+import { Box, Button, Grid } from '@material-ui/core';
 import LogoComponent from '../layout/LogoComponent';
+import ProductCard from '../layout/Products/ProductCard';
+import Image1 from '../../assets/images/1.jpg';
+import Image2 from '../../assets/images/2.jpg';
+import Image3 from '../../assets/images/3.jpg';
+import { Link } from 'react-router-dom';
 
 function Homepage() {
 	return (
-		<>
+		<div
+			style={{
+				minHeight: '100vh',
+			}}
+		>
 			<Box
 				style={{
 					height: 368,
@@ -29,17 +38,78 @@ function Homepage() {
 			</Box>
 			<Box
 				style={{
-					height: 559,
+					minHeight: 559,
 					backgroundColor: '#FFFFFF',
 				}}
-			></Box>
+			>
+				<Box
+					style={{
+						margin: 46,
+					}}
+				>
+					<Box
+						style={{
+							color: '#000000',
+							fontFamily: 'Calibri',
+							fontWeight: 'bold',
+							fontSize: 36,
+							marginBottom: 14,
+						}}
+					>
+						Trending Products
+					</Box>
+					<Grid container>
+						<Grid item lg={4}>
+							<ProductCard
+								productName='Red Coat'
+								productPrice='$25'
+								productImage={Image1}
+							/>
+						</Grid>
+						<Grid item lg={4}>
+							<ProductCard
+								productName='Red Jacket'
+								productPrice='$35'
+								productImage={Image2}
+							/>
+						</Grid>
+						<Grid item lg={4}>
+							<ProductCard
+								productName='Yellow Camisole'
+								productPrice='$45'
+								productImage={Image3}
+							/>
+						</Grid>
+					</Grid>
+					<center>
+						<Link
+							to='/products/trending'
+							style={{
+								textDecoration: 'none',
+							}}
+						>
+							<Button
+								variant='contained'
+								style={{
+									backgroundColor: '#000000',
+									color: '#FFFFFF',
+									fontFamily: 'Calibri',
+									fontSize: 16,
+								}}
+							>
+								View More
+							</Button>
+						</Link>
+					</center>
+				</Box>
+			</Box>
 			<Box
 				style={{
 					height: 559,
 					backgroundColor: '#E6C200',
 				}}
 			></Box>
-		</>
+		</div>
 	);
 }
 

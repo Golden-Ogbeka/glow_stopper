@@ -11,6 +11,7 @@ function Navbar() {
 			style={{
 				height: 64,
 				backgroundColor: '#000000',
+				boxShadow: 'none',
 			}}
 		>
 			<Toolbar>

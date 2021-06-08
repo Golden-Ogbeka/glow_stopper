@@ -3,6 +3,9 @@ import './App.css';
 import Navbar from './components/layout/Navbar';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Homepage from './components/pages/Homepage';
+import Footer from './components/layout/Footer';
+import PageNotFound from './components/pages/PageNotFound';
+import ScrollToTop from './components/layout/ScrollToTop';
 
 const useStyles = makeStyles({
 	root: {
@@ -19,9 +22,12 @@ function App() {
 		<div className={classes.root}>
 			<BrowserRouter>
 				<Navbar />
+				<ScrollToTop />
 				<Switch>
 					<Route path='/' component={Homepage} exact />
+					<Route path='*' component={PageNotFound} />
 				</Switch>
+				<Footer />
 			</BrowserRouter>
 		</div>
 	);
