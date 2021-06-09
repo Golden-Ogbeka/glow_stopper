@@ -7,118 +7,113 @@ function PageNotFound() {
 		<div style={{ minHeight: '100vh' }}>
 			<Box
 				style={{
-					height: 368,
+					minHeight: 368,
 					backgroundColor: '#000000',
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'center',
 					alignItems: 'center',
+					textAlign: 'center',
 				}}
 			>
 				<span
 					style={{
 						fontFamily: 'Elsie',
 						fontWeight: 'lighter',
-						fontSize: 144,
+						fontSize: '10vh',
 						color: '#FFD700',
 					}}
 				>
 					Page not found
 				</span>
 			</Box>
-			<center>
+			<Box
+				// maxWidth='45vw'
+				minHeight='542px'
+				style={{
+					marginBlock: 30,
+					marginInline: '3vw',
+					display: 'flex',
+					justifyContent: 'center',
+					textAlign: 'center',
+				}}
+			>
 				<Box
-					width='90vw'
-					minHeight='542px'
-					style={{
-						backgroundColor: '#000000',
-						marginBlock: 91,
-					}}
+					display='flex'
+					alignItems='center'
+					justifyContent='center'
+					flexWrap='wrap'
 				>
-					<Box
-						padding='91px'
-						display='flex'
-						alignItems='center'
-						justifyContent='space-between'
-					>
+					<Box>
 						<span
 							style={{
-								fontFamily: 'Elsie',
-								fontWeight: 'bold',
-								fontSize: 144,
-								color: '#FFD700',
+								fontFamily: 'Calibri',
+								fontWeight: 'normal',
+								fontSize: '4vh',
+								color: '#000000',
 							}}
 						>
-							404
+							We couldn’t find the page you are looking for. Use any of the links below
+							to go to other pages
 						</span>
-						<Box maxWidth='641px' textAlign='left'>
-							<span
+						<Box paddingTop='40px' marginBottom='40px'>
+							<Link
+								to='/'
 								style={{
-									fontFamily: 'Calibri',
-									fontWeight: 'bold',
-									fontSize: 40,
-									color: '#FFFFFF',
+									textDecoration: 'none',
 								}}
 							>
-								We couldn’t find the page you are looking for. Use any of the links
-								below to go to other pages
-							</span>
-							<Box paddingTop='40px' marginBottom='40px'>
-								<Link
-									to='/'
+								<Button
+									variant='contained'
 									style={{
-										textDecoration: 'none',
+										color: '#FFFFFF',
+										backgroundColor: '#836E00',
 									}}
+									size='large'
 								>
-									<Button
-										variant='contained'
-										style={{
-											color: '#FFFFFF',
-											backgroundColor: '#836E00',
-										}}
-									>
-										Home
-									</Button>
-								</Link>
-								<Link
-									to='/about'
+									Home
+								</Button>
+							</Link>
+							<Link
+								to='/about'
+								style={{
+									textDecoration: 'none',
+									marginLeft: 30,
+									marginRight: 30,
+								}}
+							>
+								<Button
+									variant='contained'
 									style={{
-										textDecoration: 'none',
-										marginLeft: 30,
-										marginRight: 30,
+										color: '#FFFFFF',
+										backgroundColor: '#836E00',
 									}}
+									size='large'
 								>
-									<Button
-										variant='contained'
-										style={{
-											color: '#FFFFFF',
-											backgroundColor: '#836E00',
-										}}
-									>
-										About
-									</Button>
-								</Link>
-								<Link
-									to='/contact'
+									About
+								</Button>
+							</Link>
+							<Link
+								to='/contact'
+								style={{
+									textDecoration: 'none',
+								}}
+							>
+								<Button
+									variant='contained'
 									style={{
-										textDecoration: 'none',
+										color: '#FFFFFF',
+										backgroundColor: '#836E00',
 									}}
+									size='large'
 								>
-									<Button
-										variant='contained'
-										style={{
-											color: '#FFFFFF',
-											backgroundColor: '#836E00',
-										}}
-									>
-										Contact
-									</Button>
-								</Link>
-							</Box>
+									Contact
+								</Button>
+							</Link>
 						</Box>
 					</Box>
 				</Box>
-			</center>
+			</Box>
 		</div>
 	);
 }

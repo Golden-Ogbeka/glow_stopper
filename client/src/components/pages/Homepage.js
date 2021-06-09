@@ -25,16 +25,18 @@ function Homepage() {
 				}}
 			>
 				<LogoComponent />
-				<span
-					style={{
-						fontFamily: 'Calibri',
-						fontWeight: 'lighter',
-						fontSize: 48,
-						color: '#FFFFFF',
-					}}
-				>
-					Home of all products
-				</span>
+				<Box paddingTop='18px'>
+					<span
+						style={{
+							fontFamily: 'Calibri',
+							fontWeight: 'lighter',
+							fontSize: 30,
+							color: '#FFFFFF',
+						}}
+					>
+						Home of all products
+					</span>
+				</Box>
 			</Box>
 			<Box
 				style={{
@@ -44,36 +46,44 @@ function Homepage() {
 			>
 				<Box
 					style={{
-						margin: 46,
+						padding: 46,
 					}}
 				>
-					<Box
+					<h2
 						style={{
 							color: '#000000',
 							fontFamily: 'Calibri',
 							fontWeight: 'bold',
 							fontSize: 36,
+							marginTop: 0,
 							marginBottom: 14,
 						}}
 					>
 						Trending Products
-					</Box>
-					<Grid container>
-						<Grid item lg={4}>
+					</h2>
+					<Grid container justify='center' spacing='1'>
+						<Grid item lg={4} md={4} sm={12} xs={12}>
 							<ProductCard
 								productName='Red Coat'
 								productPrice='$25'
 								productImage={Image1}
 							/>
 						</Grid>
-						<Grid item lg={4}>
+						<Grid item lg={4} md={4} sm={12} xs={12}>
 							<ProductCard
 								productName='Red Jacket'
 								productPrice='$35'
 								productImage={Image2}
 							/>
 						</Grid>
-						<Grid item lg={4}>
+						<Grid item lg={4} md={4} sm={12} xs={12}>
+							<ProductCard
+								productName='Yellow Camisole'
+								productPrice='$45'
+								productImage={Image3}
+							/>
+						</Grid>
+						<Grid item lg={4} md={4} sm={12} xs={12}>
 							<ProductCard
 								productName='Yellow Camisole'
 								productPrice='$45'
@@ -105,10 +115,79 @@ function Homepage() {
 			</Box>
 			<Box
 				style={{
-					height: 559,
+					minHeight: 559,
 					backgroundColor: '#E6C200',
 				}}
-			></Box>
+			>
+				<Box
+					style={{
+						padding: 46,
+					}}
+				>
+					<h2
+						style={{
+							color: '#000000',
+							fontFamily: 'Calibri',
+							fontWeight: 'bold',
+							fontSize: 36,
+							marginBottom: 14,
+							marginTop: 0,
+						}}
+					>
+						New Releases
+					</h2>
+					<Grid container justify='center' spacing='1'>
+						<Grid item lg={4} md={4} sm={12} xs={12}>
+							<ProductCard
+								productName='Red Coat'
+								productPrice='$25'
+								productImage={Image1}
+							/>
+						</Grid>
+						<Grid item lg={4} md={4} sm={12} xs={12}>
+							<ProductCard
+								productName='Red Jacket'
+								productPrice='$35'
+								productImage={Image2}
+							/>
+						</Grid>
+						<Grid item lg={4} md={4} sm={12} xs={12}>
+							<ProductCard
+								productName='Yellow Camisole'
+								productPrice='$45'
+								productImage={Image3}
+							/>
+						</Grid>
+						<Grid item lg={4} md={4} sm={12} xs={12}>
+							<ProductCard
+								productName='Yellow Camisole'
+								productPrice='$45'
+								productImage={Image3}
+							/>
+						</Grid>
+					</Grid>
+					<center>
+						<Link
+							to='/products/trending'
+							style={{
+								textDecoration: 'none',
+							}}
+						>
+							<Button
+								variant='contained'
+								style={{
+									backgroundColor: '#000000',
+									color: '#FFFFFF',
+									fontFamily: 'Calibri',
+									fontSize: 16,
+								}}
+							>
+								View More
+							</Button>
+						</Link>
+					</center>
+				</Box>
+			</Box>
 		</div>
 	);
 }
