@@ -42,36 +42,47 @@ function Navbar() {
 					edge='start'
 					style={{
 						marginRight: 20,
+						display: 'flex',
+						alignItems: 'center',
+						verticalAlign: 'center',
 					}}
 					color='inherit'
 					aria-label='menu'
 				>
 					<MenuIcon />
 				</IconButton>
-				<Link
-					to='/'
+				<Box
 					style={{
-						fontFamily: 'Elsie',
-						fontWeight: 'bold',
-						fontSize: 32,
-						color: '#FFD700',
 						flexGrow: 1,
-						textDecoration: 'none',
 					}}
 				>
-					Glow
-				</Link>
+					<Link
+						to='/'
+						style={{
+							fontFamily: 'Elsie',
+							fontWeight: 'bold',
+							fontSize: 32,
+							color: '#FFD700',
+							flexGrow: 1,
+							textDecoration: 'none',
+						}}
+					>
+						Glow
+					</Link>
+				</Box>
 				<Hidden smDown>
 					<Box>
-						<IconButton
-							style={{
-								marginInline: 20,
-							}}
-							color='inherit'
-							aria-label='menu'
-						>
-							<ShoppingCartOutlined htmlColor='#FFD700' />
-						</IconButton>
+						<Link to='/cart'>
+							<IconButton
+								style={{
+									marginInline: 20,
+								}}
+								color='inherit'
+								aria-label='menu'
+							>
+								<ShoppingCartOutlined htmlColor='#FFD700' />
+							</IconButton>
+						</Link>
 						<Link
 							to='/products'
 							style={{

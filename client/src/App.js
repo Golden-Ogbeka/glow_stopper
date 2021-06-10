@@ -7,6 +7,11 @@ import Footer from './components/layout/Footer';
 import PageNotFound from './components/pages/PageNotFound';
 import ScrollToTop from './components/layout/ScrollToTop';
 import FloatingActionButton from './components/layout/FloatingActionButton';
+import Cart from './components/pages/Cart';
+import Contact from './components/pages/Contact';
+import Products from './components/pages/product pages/Products';
+import ProductCategory from './components/pages/product pages/ProductCategory';
+import ProductView from './components/pages/product pages/ProductView';
 
 const useStyles = makeStyles({
 	root: {
@@ -26,6 +31,15 @@ function App() {
 				<ScrollToTop />
 				<Switch>
 					<Route path='/' component={Homepage} exact />
+					<Route path='/cart' component={Cart} exact />
+					<Route path='/contact' component={Contact} exact />
+					<Route path='/products' component={Products} exact />
+					<Route path='/product/view/:productID' exact component={ProductView} />
+					<Route
+						path='/products/category/:category'
+						component={ProductCategory}
+						exact
+					/>
 					<Route path='*' component={PageNotFound} />
 				</Switch>
 				<FloatingActionButton />

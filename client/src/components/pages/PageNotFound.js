@@ -28,10 +28,8 @@ function PageNotFound() {
 				</span>
 			</Box>
 			<Box
-				// maxWidth='45vw'
 				minHeight='542px'
 				style={{
-					marginBlock: 30,
 					marginInline: '3vw',
 					display: 'flex',
 					justifyContent: 'center',

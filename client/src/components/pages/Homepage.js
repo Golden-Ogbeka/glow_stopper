@@ -46,7 +46,8 @@ function Homepage() {
 			>
 				<Box
 					style={{
-						padding: 46,
+						paddingBlock: 46,
+						paddingInline: '3vw',
 					}}
 				>
 					<h2
@@ -61,7 +62,7 @@ function Homepage() {
 					>
 						Trending Products
 					</h2>
-					<Grid container justify='center' spacing='1'>
+					<Grid container justify='center' spacing={1}>
 						<Grid item lg={4} md={4} sm={12} xs={12}>
 							<ProductCard
 								productName='Red Coat'
@@ -121,7 +122,8 @@ function Homepage() {
 			>
 				<Box
 					style={{
-						padding: 46,
+						paddingBlock: 46,
+						paddingInline: '3vw',
 					}}
 				>
 					<h2
@@ -136,7 +138,7 @@ function Homepage() {
 					>
 						New Releases
 					</h2>
-					<Grid container justify='center' spacing='1'>
+					<Grid container justify='center' spacing={1}>
 						<Grid item lg={4} md={4} sm={12} xs={12}>
 							<ProductCard
 								productName='Red Coat'
