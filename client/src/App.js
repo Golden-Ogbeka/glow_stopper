@@ -12,6 +12,7 @@ import Contact from './components/pages/Contact';
 import Products from './components/pages/product pages/Products';
 import ProductCategory from './components/pages/product pages/ProductCategory';
 import ProductView from './components/pages/product pages/ProductView';
+import About from './components/pages/about page/About';
 
 const useStyles = makeStyles({
 	root: {
@@ -32,6 +33,7 @@ function App() {
 				<Switch>
 					<Route path='/' component={Homepage} exact />
 					<Route path='/cart' component={Cart} exact />
+					<Route path='/about' component={About} exact />
 					<Route path='/contact' component={Contact} exact />
 					<Route path='/products' component={Products} exact />
 					<Route path='/product/view/:productID' exact component={ProductView} />
