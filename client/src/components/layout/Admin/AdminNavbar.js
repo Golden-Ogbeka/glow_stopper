@@ -11,21 +11,17 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import {
-	MoreVert,
-	ShoppingCartOutlined,
-	Menu as MenuIcon,
-} from '@material-ui/icons';
+import { MoreVert, Menu as MenuIcon } from '@material-ui/icons';
 
-function Navbar() {
-	const [menuAnchor, setmenuAnchor] = React.useState(null);
+function AdminNavbar() {
+	const [menuAnchor, setMenuAnchor] = React.useState(null);
 
 	const openMenu = (event) => {
-		setmenuAnchor(event.currentTarget);
+		setMenuAnchor(event.currentTarget);
 	};
 
 	const closeMenu = () => {
-		setmenuAnchor(null);
+		setMenuAnchor(null);
 	};
 
 	return (
@@ -57,7 +53,7 @@ function Navbar() {
 					}}
 				>
 					<Link
-						to='/'
+						to='/admin/dashboard'
 						style={{
 							fontFamily: 'Elsie',
 							fontWeight: 'bold',
@@ -72,19 +68,8 @@ function Navbar() {
 				</Box>
 				<Hidden smDown>
 					<Box>
-						<Link to='/cart'>
-							<IconButton
-								style={{
-									marginInline: 20,
-								}}
-								color='inherit'
-								aria-label='menu'
-							>
-								<ShoppingCartOutlined htmlColor='#FFD700' />
-							</IconButton>
-						</Link>
 						<Link
-							to='/products'
+							to='/'
 							style={{
 								textDecoration: 'none',
 								color: '#FFFFFF',
@@ -99,11 +84,11 @@ function Navbar() {
 									fontSize: 16,
 								}}
 							>
-								Products
+								Customer Section
 							</Button>
 						</Link>
 						<Link
-							to='/about'
+							to='/admin/products/new'
 							style={{
 								textDecoration: 'none',
 								color: '#FFFFFF',
@@ -118,11 +103,11 @@ function Navbar() {
 									fontSize: 16,
 								}}
 							>
-								About
+								Add Product
 							</Button>
 						</Link>
 						<Link
-							to='/contact'
+							to='/admin/dashboard'
 							style={{
 								textDecoration: 'none',
 								color: '#FFFFFF',
@@ -137,7 +122,7 @@ function Navbar() {
 									fontSize: 16,
 								}}
 							>
-								Contact
+								Dashboard
 							</Button>
 						</Link>
 					</Box>
@@ -192,4 +177,4 @@ function Navbar() {
 	);
 }
 
-export default Navbar;
+export default AdminNavbar;

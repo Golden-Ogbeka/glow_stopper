@@ -3,11 +3,7 @@ import React from 'react';
 
 function AboutHistory() {
 	return (
-		<div
-			style={{
-				minHeight: '100vh',
-			}}
-		>
+		<div>
 			<Box
 				// minHeight='50px'
 				style={{
