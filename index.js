@@ -5,6 +5,8 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const uuid = require('uuid'); //to get JWT_SECRET
 const path = require('path');
+const cors = require('cors');
+const nodemailer = require('nodemailer');
 //setup server
 const server = express();
 
@@ -13,6 +15,7 @@ const server = express();
 // 	res.sendFile(path.join(__dirname, 'build', 'index.html'));
 // 	// res.send('OK');
 // });
+
 const port = 5000;
 server.listen(port, () => {
 	console.log(`Server listening on port: ${port}`);
@@ -26,7 +29,10 @@ server.use(
 	}),
 );
 
-//Setup Database connection using test database
+// Enable cors
+server.use(cors());
+
+//Setup Database connection
 const conn = mysql.createConnection({
 	host: process.env.DB_HOST,
 	user: process.env.DB_USER,
@@ -41,6 +47,17 @@ try {
 } catch (error) {
 	console.log("Couldn't connect to database");
 }
+
+// Nodemailer
+const transporter = nodemailer.createTransport({
+	host: 'smtp.gmail.com',
+	port: 587,
+	secure: false,
+	auth: {
+		user: 'ogbekagolden@gmail.com',
+		pass: 'UNequiv0cal',
+	},
+});
 
 //setup middleware
 const verifyUser = (req, res) => {
@@ -89,7 +106,41 @@ server.post('/api/user', (req, res) => {
 	}
 });
 
-//For other routes
-server.get('*', (req, res) => {
-	res.send('Page not found');
+server.post('/admin/login', async (req, res) => {
+	const { email, password } = req.body;
+	try {
+		const sql = `SELECT * FROM admin_details WHERE email= ? AND password= ?`;
+
+		conn.query(sql, [email, password], async (err, result) => {
+			if (err) throw err;
+			//If user is not found in DB
+			if (!result.length > 0) {
+				return res.send({
+					status: 'FAILED',
+					message: 'Invalid email or password',
+				});
+			}
+
+			// Generate 6-digit token and update db
+			const token = await uuid.v4().substr(0, 5);
+			const sql2 = `UPDATE admin_details SET verification_token='${token}' WHERE email='${result[0].email}' AND password= '${result[0].password}'`;
+			await conn.query(sql2, async (err, result) => {
+				// Send mail for verification
+				await transporter.sendMail({
+					from: 'Glow Stopper Admin',
+					to: email,
+					subject: 'Verification Email',
+					text: `Your verification code is: ${token}`,
+				});
+
+				return res.send({
+					status: 'PASSED',
+					message: 'Authentication successful. Verify your account',
+					// data: result[0],
+				});
+			});
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't login");
+	}
 });
