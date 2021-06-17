@@ -49,7 +49,7 @@ function AdminLogin() {
 						message: response.data.message,
 					},
 				});
-				history.push('/admin/verify');
+				history.push('/admin/verify', { email: inputValues.email });
 			} else {
 				setContextVariables({
 					...contextVariables,
@@ -70,7 +70,7 @@ function AdminLogin() {
 					...contextVariables.feedback,
 					open: true,
 					type: 'error',
-					message: error.response?.data,
+					message: error.response ? error.response.data : 'Login Unsuccessful',
 				},
 			});
 		}
