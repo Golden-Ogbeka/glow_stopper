@@ -11,6 +11,7 @@ import AdminNavbar from '../../layout/Admin/AdminNavbar';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import AppContext from '../../../utils/AppContext';
 import axios from 'axios';
+import { api_url } from '../../../app.json';
 
 const useStyles = makeStyles((theme) => ({
 	form: {
@@ -34,7 +35,7 @@ function AdminVerifyAccount(props) {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const response = await axios.post('http://localhost:5000/admin/verify', {
+			const response = await axios.post(`${api_url}/admin/verify`, {
 				tokenValue,
 				userEmail,
 			});

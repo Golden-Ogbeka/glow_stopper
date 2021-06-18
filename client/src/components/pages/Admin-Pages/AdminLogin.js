@@ -10,6 +10,7 @@ import AdminNavbar from '../../layout/Admin/AdminNavbar';
 import axios from 'axios';
 import AppContext from '../../../utils/AppContext';
 import { useHistory } from 'react-router-dom';
+import { api_url } from '../../../app.json';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -34,10 +35,7 @@ function AdminLogin() {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const response = await axios.post(
-				'http://localhost:5000/admin/login',
-				inputValues,
-			);
+			const response = await axios.post(`${api_url}/admin/login`, inputValues);
 
 			if (response.data.status === 'PASSED') {
 				setContextVariables({
