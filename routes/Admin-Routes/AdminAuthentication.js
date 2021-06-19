@@ -55,10 +55,12 @@ router.post('/api/admin/login', async (req, res) => {
 
 router.post('/api/admin/verify', async (req, res) => {
 	const { tokenValue, userEmail } = req.body;
+	console.log(req.body);
 	try {
 		const sql = `SELECT * FROM admin_details WHERE email= ? AND verification_token= ?`;
 
 		conn.query(sql, [userEmail, tokenValue], async (err, result) => {
+			const userData = result[0];
 			if (err) throw err;
 			//If user is not found in DB
 			if (!result.length > 0) {
@@ -75,8 +77,10 @@ router.post('/api/admin/verify', async (req, res) => {
 				return res.send({
 					status: 'PASSED',
 					message: 'Verification Successful',
+					userData,
 				});
 			});
+			console.log(result);
 		});
 	} catch (error) {
 		console.log(error);

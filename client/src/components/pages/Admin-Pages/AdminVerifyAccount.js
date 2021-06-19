@@ -50,6 +50,7 @@ function AdminVerifyAccount(props) {
 						message: response.data.message,
 					},
 				});
+				sessionStorage.setItem('sessionDetails', response.data.userData);
 				history.push('/admin/dashboard');
 			} else {
 				setContextVariables({
