@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { LocalMall, ShoppingCart } from '@material-ui/icons';
 import AdminNavbar from '../../layout/Admin/AdminNavbar';
+import { Link } from 'react-router-dom';
 
 function AdminDashboard() {
 	return (
@@ -108,24 +109,44 @@ function AdminDashboard() {
 								</CardContent>
 								<CardActions>
 									<ButtonGroup fullWidth>
-										<Button
-											variant='contained'
+										<Link
+											to='/admin/products'
 											style={{
-												color: '#FFFFFF',
-												backgroundColor: '#836E00',
+												textDecoration: 'none',
+												width: '100%',
 											}}
 										>
-											View
-										</Button>
-										<Button
-											variant='contained'
+											<Button
+												variant='contained'
+												style={{
+													color: '#FFFFFF',
+													backgroundColor: '#836E00',
+													borderRadius: 0,
+													width: '100%',
+												}}
+											>
+												View
+											</Button>
+										</Link>
+										<Link
+											to='/admin/products/new'
 											style={{
-												color: '#FFFFFF',
-												backgroundColor: '#FB4E4E',
+												width: '100%',
+												textDecoration: 'none',
 											}}
 										>
-											Add
-										</Button>
+											<Button
+												variant='contained'
+												style={{
+													color: '#FFFFFF',
+													width: '100%',
+													backgroundColor: '#FB4E4E',
+													borderRadius: 0,
+												}}
+											>
+												Add
+											</Button>
+										</Link>
 									</ButtonGroup>
 								</CardActions>
 							</Card>

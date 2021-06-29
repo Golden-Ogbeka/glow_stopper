@@ -5,8 +5,28 @@ import ProductCard from '../../../layout/Products/ProductCard';
 import Image1 from '../../../../assets/images/1.jpg';
 import Image2 from '../../../../assets/images/2.jpg';
 import Image3 from '../../../../assets/images/3.jpg';
+import axios from 'axios';
 
 function AdminViewProducts() {
+	const [products, setProducts] = React.useState([]);
+
+	React.useEffect(() => {
+		const getProducts = async () => {
+			try {
+				const sessionDetails = JSON.parse(localStorage.getItem('sessionDetails'));
+				const response = await axios.get('/admin/products', {
+					headers: {
+						token: sessionDetails.userToken,
+					},
+				});
+				// console.log(response.data);
+				setProducts(response.data);
+			} catch (error) {
+				setProducts([]);
+			}
+		};
+		getProducts();
+	}, []);
 	return (
 		<>
 			<AdminNavbar />

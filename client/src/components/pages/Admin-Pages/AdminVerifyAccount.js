@@ -11,7 +11,6 @@ import AdminNavbar from '../../layout/Admin/AdminNavbar';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import AppContext from '../../../utils/AppContext';
 import axios from 'axios';
-import { api_url } from '../../../app.json';
 
 const useStyles = makeStyles((theme) => ({
 	form: {
@@ -35,7 +34,7 @@ function AdminVerifyAccount(props) {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const response = await axios.post(`${api_url}/admin/verify`, {
+			const response = await axios.post('/admin/verify', {
 				tokenValue,
 				userEmail,
 			});
@@ -50,7 +49,12 @@ function AdminVerifyAccount(props) {
 						message: response.data.message,
 					},
 				});
-				sessionStorage.setItem('sessionDetails', response.data.userData);
+				const sessionDetails = {
+					userDetails: response.data.userData,
+					userToken: response.data.userToken,
+					expiresIn: new Date().getTime() + 7 * 24 * 60 * 60 * 1000,
+				};
+				localStorage.setItem('sessionDetails', JSON.stringify(sessionDetails));
 				history.push('/admin/dashboard');
 			} else {
 				setContextVariables({

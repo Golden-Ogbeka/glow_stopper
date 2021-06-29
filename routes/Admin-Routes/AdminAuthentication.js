@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const uuid = require('uuid'); //to get JWT_SECRET
+const JWT = require('jsonwebtoken');
+const conn = require('../../utils/db');
 
 // Nodemailer
 const transporter = nodemailer.createTransport({
@@ -49,13 +51,14 @@ router.post('/api/admin/login', async (req, res) => {
 			});
 		});
 	} catch (error) {
+		console.log(error);
 		return res.status(500).send("Server Error. Couldn't login");
 	}
 });
 
 router.post('/api/admin/verify', async (req, res) => {
 	const { tokenValue, userEmail } = req.body;
-	console.log(req.body);
+
 	try {
 		const sql = `SELECT * FROM admin_details WHERE email= ? AND verification_token= ?`;
 
@@ -74,18 +77,42 @@ router.post('/api/admin/verify', async (req, res) => {
 			const token = await uuid.v4().substr(0, 5);
 			const sql2 = `UPDATE admin_details SET verification_token='${token}' WHERE email='${result[0].email}' AND password= '${result[0].password}'`;
 			conn.query(sql2, async (err, result) => {
+				// Generate JWT
+				const userToken = JWT.sign(
+					{
+						email: userData.email,
+					},
+					process.env.JWT_SECRET,
+					{
+						expiresIn: '7d',
+						issuer: 'Glow Stopper',
+					},
+				);
 				return res.send({
 					status: 'PASSED',
 					message: 'Verification Successful',
 					userData,
+					userToken,
 				});
 			});
-			console.log(result);
 		});
 	} catch (error) {
-		console.log(error);
 		return res.status(500).send("Server Error. Couldn't verify account");
 	}
 });
 
-module.exports = router;
+//Authentication middleware
+const verifyAdmin = (req, res, next) => {
+	//Verify User's token
+	try {
+		const token = req.headers.token;
+		const verifyResult = JWT.verify(token, process.env.JWT_SECRET);
+
+		next();
+		// return res.send(verifyResult);
+	} catch (error) {
+		return res.status(401).send('Access Denied');
+	}
+};
+
+module.exports = { router, verifyAdmin };
