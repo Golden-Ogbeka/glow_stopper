@@ -53,8 +53,12 @@ function AdminVerifyAccount(props) {
 					userDetails: response.data.userData,
 					userToken: response.data.userToken,
 					expiresIn: new Date().getTime() + 7 * 24 * 60 * 60 * 1000,
+					adminPrivilege: true,
 				};
-				localStorage.setItem('sessionDetails', JSON.stringify(sessionDetails));
+				localStorage.setItem(
+					'sessionDetails_glowStopper',
+					JSON.stringify(sessionDetails),
+				);
 				history.push('/admin/dashboard');
 			} else {
 				setContextVariables({

@@ -44,5 +44,5 @@ server.use(cors());
 server.use('/', [AdminAuthentication, AdminRoutes]);
 
 server.all('*', (req, res) => {
-	res.status(501).statusMessage('Not Implemented');
+	res.status(501).send('Not Implemented');
 });

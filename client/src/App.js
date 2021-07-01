@@ -23,6 +23,8 @@ import { Close } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { IconButton, Snackbar } from '@material-ui/core';
 import AppContext from './utils/AppContext';
+import PrivateRoute from './utils/Routes/PrivateRoute';
+import PublicRoute from './utils/Routes/PublicRoute';
 
 const useStyles = makeStyles({
 	root: {
@@ -35,8 +37,10 @@ const useStyles = makeStyles({
 
 function App() {
 	const classes = useStyles();
+	let storedSession = localStorage.getItem('sessionDetails_glowStopper');
+
 	const [contextVariables, setContextVariables] = React.useState({
-		// loggedInStatus: sessionDetails ? true : false,
+		loggedInStatus: storedSession ? true : false,
 		feedback: {
 			open: false,
 			message: '',
@@ -98,9 +102,19 @@ function App() {
 						/>
 
 						{/* Admin Routes */}
-						<Route path='/admin/login' component={AdminLogin} exact />
-						<Route path='/admin/verify' component={AdminVerifyAccount} exact />
-						<Route path='/admin/dashboard' component={AdminDashboard} exact />
+						<PublicRoute
+							path='/admin/login'
+							restricted
+							component={AdminLogin}
+							exact
+						/>
+						<PublicRoute
+							path='/admin/verify'
+							restricted
+							component={AdminVerifyAccount}
+							exact
+						/>
+						<PrivateRoute path='/admin/dashboard' component={AdminDashboard} exact />
 						<Route path='/admin/products' component={AdminViewProducts} exact />
 						<Route path='/admin/products/new' component={AdminAddProduct} exact />
 						<Route
