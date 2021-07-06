@@ -60,7 +60,7 @@ function Homepage() {
 								fontWeight: 'bold',
 								fontSize: 36,
 								marginTop: 0,
-								marginBottom: 14,
+								marginBottom: 40,
 							}}
 						>
 							Trending Products
@@ -135,7 +135,7 @@ function Homepage() {
 								fontFamily: 'Calibri',
 								fontWeight: 'bold',
 								fontSize: 36,
-								marginBottom: 14,
+								marginBottom: 40,
 								marginTop: 0,
 							}}
 						>

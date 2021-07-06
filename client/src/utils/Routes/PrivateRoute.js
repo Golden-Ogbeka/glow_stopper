@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Redirect, Route, useHistory } from 'react-router-dom';
 import AppContext from '../AppContext';
-// import CryptoJS from 'crypto-js';
-// import { encrypt_key } from '../../../app.json';
+import CryptoJS from 'crypto-js';
+import { encrypt_key } from './../../app.json';
 
 export default function PrivateRoute({
 	component: Component,
@@ -34,27 +34,12 @@ export default function PrivateRoute({
 					},
 				});
 				return history.push('/admin/login');
-			} else if (!storedSession.adminPrivilege) {
-				// User has no admin privilege
-				setLoggedInStatus(false);
-				setContextVariables({
-					...contextVariables,
-					loggedInStatus: false,
-					feedback: {
-						...contextVariables.feedback,
-						open: true,
-						message: 'Login to continue',
-						type: 'info',
-					},
-				});
-
-				return history.push('/admin/login');
 			} else {
-				// storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
-				// storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-
-				if (currentDate > storedSession.expiresIn) {
-					localStorage.removeItem('sessionDetails_glowStopper');
+				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+				if (!storedSession.adminPrivilege) {
+					// User has no admin privilege
+					setLoggedInStatus(false);
 					setContextVariables({
 						...contextVariables,
 						loggedInStatus: false,
@@ -65,12 +50,28 @@ export default function PrivateRoute({
 							type: 'info',
 						},
 					});
+
 					return history.push('/admin/login');
 				} else {
-					setContextVariables({
-						...contextVariables,
-						loggedInStatus: true,
-					});
+					if (currentDate > storedSession.expiresIn) {
+						localStorage.removeItem('sessionDetails_glowStopper');
+						setContextVariables({
+							...contextVariables,
+							loggedInStatus: false,
+							feedback: {
+								...contextVariables.feedback,
+								open: true,
+								message: 'Login to continue',
+								type: 'info',
+							},
+						});
+						return history.push('/admin/login');
+					} else {
+						setContextVariables({
+							...contextVariables,
+							loggedInStatus: true,
+						});
+					}
 				}
 			}
 		};

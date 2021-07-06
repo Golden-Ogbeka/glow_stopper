@@ -11,6 +11,8 @@ import AdminNavbar from '../../layout/Admin/AdminNavbar';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import AppContext from '../../../utils/AppContext';
 import axios from 'axios';
+import cryptojs from 'crypto-js';
+import { encrypt_key } from '../../../app.json';
 
 const useStyles = makeStyles((theme) => ({
 	form: {
@@ -55,9 +57,13 @@ function AdminVerifyAccount(props) {
 					expiresIn: new Date().getTime() + 7 * 24 * 60 * 60 * 1000,
 					adminPrivilege: true,
 				};
+				const encryptedUserSession = cryptojs.AES.encrypt(
+					JSON.stringify(sessionDetails),
+					encrypt_key,
+				).toString();
 				localStorage.setItem(
 					'sessionDetails_glowStopper',
-					JSON.stringify(sessionDetails),
+					JSON.stringify(encryptedUserSession),
 				);
 				history.push('/admin/dashboard');
 			} else {
