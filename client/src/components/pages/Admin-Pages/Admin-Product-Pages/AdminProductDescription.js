@@ -1,22 +1,20 @@
 import { Box, Button, Grid, CircularProgress } from '@material-ui/core';
-import { Share, ShoppingCartOutlined } from '@material-ui/icons';
+import { Edit } from '@material-ui/icons';
 import axios from 'axios';
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import CustomerNavbar from '../../layout/CustomerNavbar';
-import ProductCard from '../../layout/Products/ProductCard';
+import CustomerNavbar from '../../../layout/CustomerNavbar';
 import CryptoJS from 'crypto-js';
-import { encrypt_key, base_url } from '../../../app.json';
-import AppContext from '../../../utils/AppContext';
+import { encrypt_key, base_url } from '../../../../app.json';
+import AppContext from '../../../../utils/AppContext';
 
-function ProductView() {
+function AdminProductDescription() {
 	const { productID } = useParams();
 	const { contextVariables, setContextVariables } = React.useContext(AppContext);
 
 	const [productDetails, setProductDetails] = React.useState({});
-	const [similarProducts, setSimilarProducts] = React.useState([]);
-	const [loading, setLoading] = React.useState(true);
 
+	const [loading, setLoading] = React.useState(true);
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
@@ -33,22 +31,6 @@ function ProductView() {
 				});
 				if (response.data.status === 'PASSED') {
 					setProductDetails(response.data.productDetails);
-					// Get similar products
-					const response2 = await axios.get(
-						`/admin/product?productCategory=${response.data.productDetails.product_category}`,
-						{
-							headers: {
-								token: storedSession.userToken,
-							},
-						},
-					);
-
-					// Filter products that aren't this product
-					const uniqueSimilarProducts = response2.data.products.filter(
-						(similarProduct) => similarProduct.product_id.toString() !== productID,
-					);
-
-					setSimilarProducts(uniqueSimilarProducts);
 				} else {
 					setProductDetails({});
 					setContextVariables({
@@ -64,7 +46,6 @@ function ProductView() {
 				setLoading(false);
 			} catch (error) {
 				setProductDetails({});
-				setSimilarProducts([]);
 				setLoading(false);
 			}
 		};
@@ -156,81 +137,28 @@ function ProductView() {
 										&#8358;{productDetails.product_price}
 									</span>
 								</Box>
-								<Button
-									variant='contained'
+								<Link
+									to={`/admin/product/edit/${productDetails.product_id}`}
 									style={{
-										marginRight: '24px',
-										height: 50,
-										width: 'auto',
-										backgroundColor: '#836E00',
-										borderRadius: 4,
-										color: '#FFFFFF',
+										textDecoration: 'none',
 									}}
-									startIcon={<ShoppingCartOutlined />}
 								>
-									Add to cart
-								</Button>
-								<Button
-									variant='contained'
-									style={{
-										height: 50,
-										width: 'auto',
-										backgroundColor: '#C4C4C4',
-										borderRadius: 4,
-									}}
-									startIcon={<Share />}
-								>
-									Share
-								</Button>
+									<Button
+										variant='contained'
+										style={{
+											height: 50,
+											backgroundColor: '#5bc0de',
+											borderRadius: 4,
+											marginTop: 20,
+										}}
+										fullWidth
+										startIcon={<Edit />}
+									>
+										Edit Product
+									</Button>
+								</Link>
 							</Grid>
 						</Grid>
-						<Box
-							style={{
-								paddingTop: 77,
-								paddingBottom: '3vw',
-								paddingInline: '3vw',
-							}}
-						>
-							<span
-								style={{
-									fontWeight: 'bold',
-									fontSize: 36,
-									fontFamily: 'Calibri',
-								}}
-							>
-								Similar Products
-							</span>
-							<Grid
-								container
-								justify='flex-start'
-								spacing={1}
-								style={{ paddingTop: 14 }}
-							>
-								{similarProducts.length > 0 ? (
-									similarProducts.slice(0, 3).map((product) => (
-										<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
-											<ProductCard
-												productID={product.product_id}
-												productName={product.product_name}
-												productPrice={product.product_price}
-												productImage={`${base_url}${product.product_image}`}
-											/>
-										</Grid>
-									))
-								) : (
-									<span
-										style={{
-											fontSize: 20,
-											padding: 20,
-											fontWeight: 'bold',
-											fontFamily: 'Calibri',
-										}}
-									>
-										No similar product found
-									</span>
-								)}
-							</Grid>
-						</Box>
 					</>
 				) : (
 					<Box
@@ -251,30 +179,12 @@ function ProductView() {
 								fontFamily: 'Calibri',
 							}}
 						>
-							View other products with the links below
+							View all products with the link below
 						</span>
 						<br />
 						<br />
 						<Link
-							to='/products/trending'
-							style={{
-								textDecoration: 'none',
-							}}
-						>
-							<Button
-								variant='contained'
-								style={{
-									backgroundColor: '#000000',
-									color: '#FFFFFF',
-									fontFamily: 'Calibri',
-									fontSize: 16,
-								}}
-							>
-								Trending Products
-							</Button>
-						</Link>
-						<Link
-							to='/products/new'
+							to='/admin/products'
 							style={{
 								textDecoration: 'none',
 							}}
@@ -288,7 +198,7 @@ function ProductView() {
 									fontSize: 16,
 								}}
 							>
-								New Products
+								All Products
 							</Button>
 						</Link>
 					</Box>
@@ -298,4 +208,4 @@ function ProductView() {
 	);
 }
 
-export default ProductView;
+export default AdminProductDescription;

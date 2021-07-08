@@ -88,7 +88,7 @@ function AdminNavbar() {
 							</Button>
 						</Link>
 						<Link
-							to='/admin/products/new'
+							to='/admin/product/new'
 							style={{
 								textDecoration: 'none',
 								color: '#FFFFFF',
@@ -142,33 +142,33 @@ function AdminNavbar() {
 					>
 						<Link
 							onClick={closeMenu}
-							to='/products'
+							to='/'
 							style={{
 								color: '#000000',
 								textDecoration: 'none',
 							}}
 						>
-							<MenuItem onClick={closeMenu}>Products</MenuItem>
+							<MenuItem onClick={closeMenu}>Customer Section</MenuItem>
 						</Link>
 						<Link
 							onClick={closeMenu}
-							to='/about'
+							to='/admin/product/new'
 							style={{
 								color: '#000000',
 								textDecoration: 'none',
 							}}
 						>
-							<MenuItem onClick={closeMenu}>About</MenuItem>
+							<MenuItem onClick={closeMenu}>Add Product</MenuItem>
 						</Link>
 						<Link
 							onClick={closeMenu}
-							to='/contact'
+							to='/admin/dashboard'
 							style={{
 								color: '#000000',
 								textDecoration: 'none',
 							}}
 						>
-							<MenuItem onClick={closeMenu}>Contact</MenuItem>
+							<MenuItem onClick={closeMenu}>Dashboard</MenuItem>
 						</Link>
 					</Menu>
 				</Hidden>

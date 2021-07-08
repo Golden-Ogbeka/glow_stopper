@@ -1,3 +1,4 @@
 {
-    "encrypt_key" : "glow_stopper_encrypt"
+    "encrypt_key" : "glow_stopper_encrypt",
+    "base_url": "http://localhost:5000"
 }

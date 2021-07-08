@@ -8,9 +8,10 @@ import {
 	CardMedia,
 } from '@material-ui/core';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 function ProductCategoryCard(props) {
+	const history = useHistory();
 	return (
 		<>
 			<Card
@@ -19,7 +20,9 @@ function ProductCategoryCard(props) {
 					marginBottom: 40,
 				}}
 			>
-				<CardActionArea>
+				<CardActionArea
+					onClick={() => history.push(`/products/category/${props.category}`)}
+				>
 					<CardMedia
 						image={props.categoryImage}
 						style={{

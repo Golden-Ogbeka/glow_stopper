@@ -129,7 +129,7 @@ function AdminDashboard() {
 											</Button>
 										</Link>
 										<Link
-											to='/admin/products/new'
+											to='/admin/product/new'
 											style={{
 												width: '100%',
 												textDecoration: 'none',

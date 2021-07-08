@@ -43,6 +43,10 @@ server.use(cors());
 // Routing
 server.use('/', [AdminAuthentication, AdminRoutes]);
 
+// Static files
+server.use('/uploads', express.static('uploads'));
+// server.use(express.static(path.join(__dirname, 'client/build')));
+
 server.all('*', (req, res) => {
 	res.status(501).send('Not Implemented');
 });

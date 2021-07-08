@@ -1,14 +1,12 @@
-import { Box, CircularProgress, Grid } from '@material-ui/core';
+import { Box, Grid, CircularProgress } from '@material-ui/core';
 import React from 'react';
 import ProductCard from '../../layout/Products/ProductCard';
-import { useParams } from 'react-router';
 import CustomerNavbar from '../../layout/CustomerNavbar';
 import CryptoJS from 'crypto-js';
 import { encrypt_key, base_url } from '../../../app.json';
 import axios from 'axios';
 
-function ProductCategory() {
-	const { category } = useParams();
+function NewProducts() {
 	const [products, setProducts] = React.useState([]);
 	const [loading, setLoading] = React.useState(true);
 	React.useEffect(() => {
@@ -19,16 +17,15 @@ function ProductCategory() {
 				);
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.get(
-					`/admin/product?productCategory=${category}`,
-					{
-						headers: {
-							token: storedSession.userToken,
-						},
+				const response = await axios.get('/admin/products', {
+					headers: {
+						token: storedSession.userToken,
 					},
-				);
+				});
 
-				setProducts(response.data.products);
+				if (response.data.status === 'PASSED') {
+					setProducts(response.data.products);
+				}
 				setLoading(false);
 			} catch (error) {
 				setProducts([]);
@@ -36,7 +33,6 @@ function ProductCategory() {
 			}
 		};
 		getProducts();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
 		<>
@@ -65,18 +61,7 @@ function ProductCategory() {
 							textTransform: 'capitalize',
 						}}
 					>
-						{category.toLowerCase()}
-					</span>
-
-					<span
-						style={{
-							fontFamily: 'Calibri',
-							fontWeight: 'lighter',
-							fontSize: 48,
-							color: '#FFFFFF',
-						}}
-					>
-						category
+						New Products
 					</span>
 				</Box>
 				<Box
@@ -96,11 +81,11 @@ function ProductCategory() {
 								<CircularProgress />
 							) : products.length > 0 ? (
 								products.map((product) => (
-									<Grid item lg={4} md={4} sm={12} xs={12}>
+									<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
 										<ProductCard
+											productID={product.product_id}
 											productName={product.product_name}
 											productPrice={product.product_price}
-											productID={product.product_id}
 											productImage={`${base_url}${product.product_image}`}
 										/>
 									</Grid>
@@ -108,11 +93,11 @@ function ProductCategory() {
 							) : (
 								<span
 									style={{
-										fontSize: 20,
+										fontSize: 30,
 										fontFamily: 'Calibri',
 									}}
 								>
-									No product found in this category
+									No trending product
 								</span>
 							)}
 						</Grid>
@@ -123,4 +108,4 @@ function ProductCategory() {
 	);
 }
 
-export default ProductCategory;
+export default NewProducts;

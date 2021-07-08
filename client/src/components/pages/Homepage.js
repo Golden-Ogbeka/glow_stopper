@@ -1,14 +1,41 @@
 import React from 'react';
-import { Box, Button, Grid } from '@material-ui/core';
+import { Box, Button, Grid, CircularProgress } from '@material-ui/core';
 import LogoComponent from '../layout/LogoComponent';
 import ProductCard from '../layout/Products/ProductCard';
-import Image1 from '../../assets/images/1.jpg';
-import Image2 from '../../assets/images/2.jpg';
-import Image3 from '../../assets/images/3.jpg';
 import { Link } from 'react-router-dom';
 import CustomerNavbar from '../layout/CustomerNavbar';
+import CryptoJS from 'crypto-js';
+import { encrypt_key, base_url } from './../../app.json';
+import axios from 'axios';
 
 function Homepage() {
+	const [products, setProducts] = React.useState([]);
+	const [loading, setLoading] = React.useState(true);
+	React.useEffect(() => {
+		const getProducts = async () => {
+			try {
+				let storedSession = JSON.parse(
+					localStorage.getItem('sessionDetails_glowStopper'),
+				);
+				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+				const response = await axios.get('/admin/products', {
+					headers: {
+						token: storedSession.userToken,
+					},
+				});
+
+				if (response.data.status === 'PASSED') {
+					setProducts(response.data.products);
+				}
+				setLoading(false);
+			} catch (error) {
+				setProducts([]);
+				setLoading(false);
+			}
+		};
+		getProducts();
+	}, []);
 	return (
 		<>
 			<CustomerNavbar />
@@ -65,35 +92,30 @@ function Homepage() {
 						>
 							Trending Products
 						</h2>
-						<Grid container justify='center' spacing={1}>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCard
-									productName='Red Coat'
-									productPrice='$25'
-									productImage={Image1}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCard
-									productName='Red Jacket'
-									productPrice='$35'
-									productImage={Image2}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCard
-									productName='Yellow Camisole'
-									productPrice='$45'
-									productImage={Image3}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCard
-									productName='Yellow Camisole'
-									productPrice='$45'
-									productImage={Image3}
-								/>
-							</Grid>
+						<Grid container justify='flex-start' spacing={1}>
+							{loading ? (
+								<CircularProgress />
+							) : products.length > 0 ? (
+								products.slice(0, 3).map((product) => (
+									<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
+										<ProductCard
+											productID={product.product_id}
+											productName={product.product_name}
+											productPrice={product.product_price}
+											productImage={`${base_url}${product.product_image}`}
+										/>
+									</Grid>
+								))
+							) : (
+								<span
+									style={{
+										fontSize: 30,
+										fontFamily: 'Calibri',
+									}}
+								>
+									No product found
+								</span>
+							)}
 						</Grid>
 						<center>
 							<Link
@@ -141,39 +163,34 @@ function Homepage() {
 						>
 							New Releases
 						</h2>
-						<Grid container justify='center' spacing={1}>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCard
-									productName='Red Coat'
-									productPrice='$25'
-									productImage={Image1}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCard
-									productName='Red Jacket'
-									productPrice='$35'
-									productImage={Image2}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCard
-									productName='Yellow Camisole'
-									productPrice='$45'
-									productImage={Image3}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCard
-									productName='Yellow Camisole'
-									productPrice='$45'
-									productImage={Image3}
-								/>
-							</Grid>
+						<Grid container justify='flex-start' spacing={1}>
+							{loading ? (
+								<CircularProgress />
+							) : products.length > 0 ? (
+								products.slice(0, 3).map((product) => (
+									<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
+										<ProductCard
+											productID={product.product_id}
+											productName={product.product_name}
+											productPrice={product.product_price}
+											productImage={`${base_url}${product.product_image}`}
+										/>
+									</Grid>
+								))
+							) : (
+								<span
+									style={{
+										fontSize: 30,
+										fontFamily: 'Calibri',
+									}}
+								>
+									No product found
+								</span>
+							)}
 						</Grid>
 						<center>
 							<Link
-								to='/products/trending'
+								to='/products/new'
 								style={{
 									textDecoration: 'none',
 								}}

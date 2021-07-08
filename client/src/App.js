@@ -25,6 +25,9 @@ import { IconButton, Snackbar } from '@material-ui/core';
 import AppContext from './utils/AppContext';
 import PrivateRoute from './utils/Routes/PrivateRoute';
 import PublicRoute from './utils/Routes/PublicRoute';
+import NewProducts from './components/pages/Product-Pages/NewProducts';
+import TrendingProducts from './components/pages/Product-Pages/TrendingProducts';
+import AdminProductDescription from './components/pages/Admin-Pages/Admin-Product-Pages/AdminProductDescription';
 
 const useStyles = makeStyles({
 	root: {
@@ -94,6 +97,8 @@ function App() {
 						<Route path='/about' component={About} exact />
 						<Route path='/contact' component={Contact} exact />
 						<Route path='/products' component={Products} exact />
+						<Route path='/products/trending' component={TrendingProducts} exact />
+						<Route path='/products/new' component={NewProducts} exact />
 						<Route path='/product/view/:productID' exact component={ProductView} />
 						<Route
 							path='/products/category/:category'
@@ -116,10 +121,15 @@ function App() {
 						/>
 						<PrivateRoute path='/admin/dashboard' component={AdminDashboard} exact />
 						<Route path='/admin/products' component={AdminViewProducts} exact />
-						<Route path='/admin/products/new' component={AdminAddProduct} exact />
+						<Route path='/admin/product/new' component={AdminAddProduct} exact />
 						<Route
-							path='/admin/products/edit/:productID'
+							path='/admin/product/edit/:productID'
 							component={AdminEditProduct}
+							exact
+						/>
+						<Route
+							path='/admin/product/description/:productID'
+							component={AdminProductDescription}
 							exact
 						/>
 

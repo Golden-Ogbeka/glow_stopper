@@ -1,28 +1,35 @@
 import React from 'react';
-import { Box, Grid } from '@material-ui/core';
+import { Box, CircularProgress, Grid } from '@material-ui/core';
 import AdminNavbar from '../../../layout/Admin/AdminNavbar';
 import ProductCard from '../../../layout/Products/ProductCard';
-import Image1 from '../../../../assets/images/1.jpg';
-import Image2 from '../../../../assets/images/2.jpg';
-import Image3 from '../../../../assets/images/3.jpg';
 import axios from 'axios';
+import CryptoJS from 'crypto-js';
+import { encrypt_key, base_url } from '../../../../app.json';
 
 function AdminViewProducts() {
 	const [products, setProducts] = React.useState([]);
-
+	const [loading, setLoading] = React.useState(true);
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
-				const sessionDetails = JSON.parse(localStorage.getItem('sessionDetails'));
+				let storedSession = JSON.parse(
+					localStorage.getItem('sessionDetails_glowStopper'),
+				);
+				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 				const response = await axios.get('/admin/products', {
 					headers: {
-						token: sessionDetails.userToken,
+						token: storedSession.userToken,
 					},
 				});
-				// console.log(response.data);
-				setProducts(response.data);
+
+				if (response.data.status === 'PASSED') {
+					setProducts(response.data.products);
+				}
+				setLoading(false);
 			} catch (error) {
 				setProducts([]);
+				setLoading(false);
 			}
 		};
 		getProducts();
@@ -73,35 +80,31 @@ function AdminViewProducts() {
 						paddingInline: '5vw',
 					}}
 				>
-					<Grid container justify='center' spacing={2}>
-						<Grid item lg={4} md={4} sm={12} xs={12}>
-							<ProductCard
-								productName='Red Coat'
-								productPrice='$25'
-								productImage={Image1}
-							/>
-						</Grid>
-						<Grid item lg={4} md={4} sm={12} xs={12}>
-							<ProductCard
-								productName='Red Jacket'
-								productPrice='$35'
-								productImage={Image2}
-							/>
-						</Grid>
-						<Grid item lg={4} md={4} sm={12} xs={12}>
-							<ProductCard
-								productName='Yellow Camisole'
-								productPrice='$45'
-								productImage={Image3}
-							/>
-						</Grid>
-						<Grid item lg={4} md={4} sm={12} xs={12}>
-							<ProductCard
-								productName='Yellow Camisole'
-								productPrice='$45'
-								productImage={Image3}
-							/>
-						</Grid>
+					<Grid container justify='flex-start' spacing={2}>
+						{loading ? (
+							<CircularProgress />
+						) : products.length > 0 ? (
+							products.map((product) => (
+								<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
+									<ProductCard
+										adminAccess={true}
+										productID={product.product_id}
+										productName={product.product_name}
+										productPrice={product.product_price}
+										productImage={`${base_url}${product.product_image}`}
+									/>
+								</Grid>
+							))
+						) : (
+							<span
+								style={{
+									fontSize: 30,
+									fontFamily: 'Calibri',
+								}}
+							>
+								No product found
+							</span>
+						)}
 					</Grid>
 				</Box>
 			</div>
