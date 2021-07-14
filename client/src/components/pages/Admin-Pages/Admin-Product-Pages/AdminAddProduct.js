@@ -10,6 +10,13 @@ import {
 	MenuItem,
 } from '@material-ui/core';
 import AdminNavbar from '../../../layout/Admin/AdminNavbar';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import CryptoJS from 'crypto-js';
+import { encrypt_key } from '../../../../app.json';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import AppContext from '../../../../utils/AppContext';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -22,6 +29,84 @@ const useStyles = makeStyles((theme) => ({
 
 function AdminAddProduct() {
 	const classes = useStyles();
+	const { contextVariables, setContextVariables } = React.useContext(AppContext);
+	const history = useHistory();
+	const formik = useFormik({
+		initialValues: {
+			productName: '',
+			productCategory: '',
+			productPrice: '',
+			productDescription: '',
+			productImage: '',
+		},
+		validationSchema: Yup.object({
+			productName: Yup.string().required('Product name is required'),
+			productCategory: Yup.string().required('Product Category is required'),
+			productPrice: Yup.number()
+				.required('Product Price is required')
+				.typeError('Product price must be a number'),
+			productDescription: Yup.string().required('Product Description is required'),
+		}),
+		onSubmit: (values) => {
+			addProduct(values);
+		},
+		enableReinitialize: true,
+	});
+
+	const addProduct = async (values) => {
+		try {
+			let storedSession = JSON.parse(
+				localStorage.getItem('sessionDetails_glowStopper'),
+			);
+			storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+			storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+
+			const formData = new FormData();
+			formData.append('productName', values.productName);
+			formData.append('productCategory', values.productCategory);
+			formData.append('productDescription', values.productDescription);
+			formData.append('productPrice', values.productPrice);
+			formData.append('productImage', values.productImage);
+			const response = await axios.post('/admin/product', formData, {
+				headers: {
+					token: storedSession.userToken,
+				},
+			});
+			if (response.data.status === 'PASSED') {
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'success',
+						message: response.data.message,
+					},
+				});
+				history.push(`/admin/product/description/${response.data.productID}`);
+			} else {
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'error',
+						message: response.data.message,
+					},
+				});
+			}
+		} catch (error) {
+			setContextVariables({
+				...contextVariables,
+				feedback: {
+					...contextVariables.feedback,
+					open: true,
+					type: 'error',
+					message: error.response.data,
+				},
+			});
+		}
+	};
+
 	return (
 		<>
 			<AdminNavbar />
@@ -84,14 +169,44 @@ function AdminAddProduct() {
 					>
 						Enter the product details below
 					</h2>
-					<form className={classes.root}>
-						<TextField label='Product name' variant='outlined' required type='text' />
+					<form className={classes.root} onSubmit={formik.handleSubmit}>
+						<TextField
+							label='Product name'
+							variant='outlined'
+							required
+							type='text'
+							id='productName'
+							name='productName'
+							placeholder="Enter product's name"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.productName || ''}
+							error={formik.touched.productName && formik.errors.productName}
+							helperText={
+								formik.touched.productName &&
+								formik.errors.productName &&
+								formik.errors.productName
+							}
+						/>
 						<FormControl variant='standard'>
 							<InputLabel>Product category</InputLabel>
-							<Select value='Dresses' label='Age'>
-								<MenuItem value='Dresses'>Dresses</MenuItem>
-								<MenuItem value='Shirts'>Shirts</MenuItem>
-								<MenuItem value='Skirts'>Skirts</MenuItem>
+							<Select
+								id='productCategory'
+								name='productCategory'
+								placeholder="Select product's category"
+								onChange={formik.handleChange}
+								onBlur={formik.handleBlur}
+								value={formik.values.productCategory || ''}
+								error={formik.touched.productCategory && formik.errors.productCategory}
+								helperText={
+									formik.touched.productCategory &&
+									formik.errors.productCategory &&
+									formik.errors.productCategory
+								}
+							>
+								<MenuItem value='DRESSES'>DRESSES</MenuItem>
+								<MenuItem value='JEANS'>JEANS</MenuItem>
+								<MenuItem value='SHOES'>SHOES</MenuItem>
 							</Select>
 						</FormControl>
 						<TextField
@@ -99,6 +214,18 @@ function AdminAddProduct() {
 							variant='outlined'
 							required
 							type='text'
+							id='productPrice'
+							name='productPrice'
+							placeholder="Enter product's price"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.productPrice || ''}
+							error={formik.touched.productPrice && formik.errors.productPrice}
+							helperText={
+								formik.touched.productPrice &&
+								formik.errors.productPrice &&
+								formik.errors.productPrice
+							}
 						/>
 						<TextField
 							label='Product description'
@@ -107,6 +234,20 @@ function AdminAddProduct() {
 							type='text'
 							multiline
 							rows='3'
+							id='productDescription'
+							name='productDescription'
+							placeholder="Enter product's description"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.productDescription || ''}
+							error={
+								formik.touched.productDescription && formik.errors.productDescription
+							}
+							helperText={
+								formik.touched.productDescription &&
+								formik.errors.productDescription &&
+								formik.errors.productDescription
+							}
 						/>
 						<Box
 							style={{
@@ -134,7 +275,16 @@ function AdminAddProduct() {
 								}}
 								id='productImage'
 								type='file'
+								accept='image/*'
+								multiple={false}
 								required
+								name='productImage'
+								onChange={(e) => {
+									const file = e.currentTarget.files[0];
+									formik.setFieldValue('productImage', file);
+									// formik.handleChange
+								}}
+								onBlur={formik.handleBlur}
 							/>
 						</Box>
 

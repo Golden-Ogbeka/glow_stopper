@@ -4,8 +4,7 @@ import LogoComponent from '../layout/LogoComponent';
 import ProductCard from '../layout/Products/ProductCard';
 import { Link } from 'react-router-dom';
 import CustomerNavbar from '../layout/CustomerNavbar';
-import CryptoJS from 'crypto-js';
-import { encrypt_key, base_url } from './../../app.json';
+import { base_url } from './../../app.json';
 import axios from 'axios';
 
 function Homepage() {
@@ -14,16 +13,7 @@ function Homepage() {
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
-				let storedSession = JSON.parse(
-					localStorage.getItem('sessionDetails_glowStopper'),
-				);
-				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
-				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.get('/admin/products', {
-					headers: {
-						token: storedSession.userToken,
-					},
-				});
+				const response = await axios.get('/products');
 
 				if (response.data.status === 'PASSED') {
 					setProducts(response.data.products);
@@ -107,14 +97,15 @@ function Homepage() {
 									</Grid>
 								))
 							) : (
-								<span
+								<Box
 									style={{
 										fontSize: 30,
 										fontFamily: 'Calibri',
+										padding: 20,
 									}}
 								>
 									No product found
-								</span>
+								</Box>
 							)}
 						</Grid>
 						<center>

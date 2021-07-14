@@ -82,7 +82,11 @@ function AdminViewProducts() {
 				>
 					<Grid container justify='flex-start' spacing={2}>
 						{loading ? (
-							<CircularProgress />
+							<CircularProgress
+								style={{
+									padding: 20,
+								}}
+							/>
 						) : products.length > 0 ? (
 							products.map((product) => (
 								<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>

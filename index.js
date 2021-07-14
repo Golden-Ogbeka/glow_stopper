@@ -8,6 +8,7 @@ const cors = require('cors');
 const AdminAuthentication =
 	require('./routes/Admin-Routes/AdminAuthentication').router;
 const AdminRoutes = require('./routes/Admin-Routes/AdminRoutes');
+const CustomerRoutes = require('./routes/Customer-Routes/CustomerRoutes');
 
 //Setup Database connection
 require('./utils/db');
@@ -41,7 +42,7 @@ server.use(
 server.use(cors());
 
 // Routing
-server.use('/', [AdminAuthentication, AdminRoutes]);
+server.use('/', [AdminAuthentication, AdminRoutes, CustomerRoutes]);
 
 // Static files
 server.use('/uploads', express.static('uploads'));

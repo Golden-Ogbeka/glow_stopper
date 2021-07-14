@@ -20,7 +20,11 @@ function ProductCard(props) {
 			}}
 		>
 			<CardActionArea
-				onClick={() => history.push(`/product/view/${props.productID}`)}
+				onClick={
+					props.adminAccess
+						? () => history.push(`/admin/product/description/${props.productID}`)
+						: () => history.push(`/product/view/${props.productID}`)
+				}
 			>
 				<CardMedia
 					image={props.productImage}

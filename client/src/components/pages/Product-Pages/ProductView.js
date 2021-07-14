@@ -90,7 +90,7 @@ function ProductView() {
 				) : Object.keys(productDetails).length > 0 ? (
 					<>
 						<Grid container style={{ padding: '3vw' }}>
-							<Grid item lg={6}>
+							<Grid item lg={6} sm={12} xs={12}>
 								<img
 									src={`${base_url}${productDetails.product_image}`}
 									alt='Product'
@@ -105,6 +105,8 @@ function ProductView() {
 							<Grid
 								item
 								lg={6}
+								sm={12}
+								xs={12}
 								style={{
 									paddingInline: 20,
 									paddingTop: 20,

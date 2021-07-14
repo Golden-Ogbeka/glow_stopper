@@ -90,7 +90,7 @@ router.post('/api/admin/verify', async (req, res) => {
 				);
 				return res.send({
 					status: 'PASSED',
-					message: 'Verification Successful',
+					message: 'Verification Successful. You are now logged in',
 					userData,
 					userToken,
 				});

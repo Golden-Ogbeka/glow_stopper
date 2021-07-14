@@ -3,10 +3,10 @@ import { Edit } from '@material-ui/icons';
 import axios from 'axios';
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import CustomerNavbar from '../../../layout/CustomerNavbar';
 import CryptoJS from 'crypto-js';
 import { encrypt_key, base_url } from '../../../../app.json';
 import AppContext from '../../../../utils/AppContext';
+import AdminNavbar from '../../../layout/Admin/AdminNavbar';
 
 function AdminProductDescription() {
 	const { productID } = useParams();
@@ -54,7 +54,7 @@ function AdminProductDescription() {
 	}, []);
 	return (
 		<>
-			<CustomerNavbar />
+			<AdminNavbar />
 			<div
 				style={{
 					minHeight: '100vh',
@@ -71,7 +71,7 @@ function AdminProductDescription() {
 				) : Object.keys(productDetails).length > 0 ? (
 					<>
 						<Grid container style={{ padding: '3vw' }}>
-							<Grid item lg={6}>
+							<Grid item lg={6} sm={12} xs={12}>
 								<img
 									src={`${base_url}${productDetails.product_image}`}
 									alt='Product'
@@ -86,6 +86,8 @@ function AdminProductDescription() {
 							<Grid
 								item
 								lg={6}
+								sm={12}
+								xs={12}
 								style={{
 									paddingInline: 20,
 									paddingTop: 20,

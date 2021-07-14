@@ -11,11 +11,16 @@ import {
 	CircularProgress,
 } from '@material-ui/core';
 import AdminNavbar from '../../../layout/Admin/AdminNavbar';
-import CryptoJS from 'crypto-js';
-import { encrypt_key, base_url } from '../../../../app.json';
-import AppContext from '../../../../utils/AppContext';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import axios from 'axios';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import CryptoJS from 'crypto-js';
+import { encrypt_key } from '../../../../app.json';
+import {
+	useHistory,
+	useParams,
+} from 'react-router-dom/cjs/react-router-dom.min';
+import AppContext from '../../../../utils/AppContext';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 function AdminEditProduct() {
 	const classes = useStyles();
 	const { productID } = useParams();
+	const history = useHistory();
 	const { contextVariables, setContextVariables } = React.useContext(AppContext);
 
 	const [productDetails, setProductDetails] = React.useState({});
@@ -72,9 +78,80 @@ function AdminEditProduct() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const updateProduct = async (e) => {
-		e.preventDefault();
-		console.log(productDetails);
+	const formik = useFormik({
+		initialValues: {
+			productName: productDetails.product_name,
+			productCategory: productDetails.product_category,
+			productPrice: productDetails.product_price,
+			productDescription: productDetails.product_desc,
+			productImage: '',
+		},
+		validationSchema: Yup.object({
+			productName: Yup.string().required('Product name is required'),
+			productCategory: Yup.string().required('Product Category is required'),
+			productPrice: Yup.number()
+				.required('Product Price is required')
+				.typeError('Product price must be a number'),
+			productDescription: Yup.string().required('Product Description is required'),
+		}),
+		onSubmit: (values) => {
+			updateProduct(values);
+		},
+		enableReinitialize: true,
+	});
+	const updateProduct = async (values) => {
+		try {
+			let storedSession = JSON.parse(
+				localStorage.getItem('sessionDetails_glowStopper'),
+			);
+			storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+			storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+
+			const formData = new FormData();
+			formData.append('productName', values.productName);
+			formData.append('productID', productID);
+			formData.append('productCategory', values.productCategory);
+			formData.append('productDescription', values.productDescription);
+			formData.append('productPrice', values.productPrice);
+			formData.append('productImage', values.productImage);
+			const response = await axios.put('/admin/product', formData, {
+				headers: {
+					token: storedSession.userToken,
+				},
+			});
+			if (response.data.status === 'PASSED') {
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'success',
+						message: response.data.message,
+					},
+				});
+				history.push(`/admin/product/description/${productID}`);
+			} else {
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'error',
+						message: response.data.message,
+					},
+				});
+			}
+		} catch (error) {
+			setContextVariables({
+				...contextVariables,
+				feedback: {
+					...contextVariables.feedback,
+					open: true,
+					type: 'error',
+					message: error.response.data,
+				},
+			});
+		}
 	};
 	return (
 		<>
@@ -141,31 +218,39 @@ function AdminEditProduct() {
 					{loading ? (
 						<CircularProgress />
 					) : (
-						<form className={classes.root} onSubmit={(e) => updateProduct(e)}>
+						<form className={classes.root} onSubmit={formik.handleSubmit}>
 							<TextField
 								label='Product name'
 								variant='outlined'
 								required
 								type='text'
-								value={productDetails.product_name || ''}
-								name='product_name'
-								onChange={(e) =>
-									setProductDetails({
-										...productDetails,
-										[e.target.name]: e.target.value,
-									})
+								id='productName'
+								name='productName'
+								placeholder="Enter product's name"
+								onChange={formik.handleChange}
+								onBlur={formik.handleBlur}
+								value={formik.values.productName || ''}
+								error={formik.touched.productName && formik.errors.productName}
+								helperText={
+									formik.touched.productName &&
+									formik.errors.productName &&
+									formik.errors.productName
 								}
 							/>
 							<FormControl variant='standard'>
 								<InputLabel>Product category</InputLabel>
 								<Select
-									value={productDetails.product_category || ''}
-									name='product_category'
-									onChange={(e) =>
-										setProductDetails({
-											...productDetails,
-											[e.target.name]: e.target.value,
-										})
+									id='productCategory'
+									name='productCategory'
+									placeholder="Select product's category"
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.productCategory || ''}
+									error={formik.touched.productCategory && formik.errors.productCategory}
+									helperText={
+										formik.touched.productCategory &&
+										formik.errors.productCategory &&
+										formik.errors.productCategory
 									}
 								>
 									<MenuItem value='DRESSES'>DRESSES</MenuItem>
@@ -178,13 +263,17 @@ function AdminEditProduct() {
 								variant='outlined'
 								required
 								type='text'
-								value={productDetails.product_price || ''}
-								name='product_price'
-								onChange={(e) =>
-									setProductDetails({
-										...productDetails,
-										[e.target.name]: e.target.value,
-									})
+								id='productPrice'
+								name='productPrice'
+								placeholder="Enter product's price"
+								onChange={formik.handleChange}
+								onBlur={formik.handleBlur}
+								value={formik.values.productPrice || ''}
+								error={formik.touched.productPrice && formik.errors.productPrice}
+								helperText={
+									formik.touched.productPrice &&
+									formik.errors.productPrice &&
+									formik.errors.productPrice
 								}
 							/>
 							<TextField
@@ -194,13 +283,19 @@ function AdminEditProduct() {
 								type='text'
 								multiline
 								rows='3'
-								value={productDetails.product_desc || ''}
-								name='product_desc'
-								onChange={(e) =>
-									setProductDetails({
-										...productDetails,
-										[e.target.name]: e.target.value,
-									})
+								id='productDescription'
+								name='productDescription'
+								placeholder="Enter product's description"
+								onChange={formik.handleChange}
+								onBlur={formik.handleBlur}
+								value={formik.values.productDescription || ''}
+								error={
+									formik.touched.productDescription && formik.errors.productDescription
+								}
+								helperText={
+									formik.touched.productDescription &&
+									formik.errors.productDescription &&
+									formik.errors.productDescription
 								}
 							/>
 							<Box
@@ -219,7 +314,7 @@ function AdminEditProduct() {
 										padding: 10,
 									}}
 								>
-									Select a product image (optional)
+									Change product's image (optional)
 								</label>
 
 								<input
@@ -229,6 +324,15 @@ function AdminEditProduct() {
 									}}
 									id='productImage'
 									type='file'
+									accept='image/*'
+									multiple={false}
+									name='productImage'
+									onChange={(e) => {
+										const file = e.currentTarget.files[0];
+										formik.setFieldValue('productImage', file);
+										// formik.handleChange
+									}}
+									onBlur={formik.handleBlur}
 								/>
 							</Box>
 
@@ -245,7 +349,7 @@ function AdminEditProduct() {
 									}}
 									type='submit'
 								>
-									Save changes
+									Update Product
 								</Button>
 							</center>
 						</form>
