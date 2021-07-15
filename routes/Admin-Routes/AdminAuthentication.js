@@ -16,6 +16,20 @@ const transporter = nodemailer.createTransport({
 	},
 });
 
+//Authentication middleware
+const verifyAdmin = (req, res, next) => {
+	//Verify User's token
+	try {
+		const token = req.headers.token;
+		const verifyResult = JWT.verify(token, process.env.JWT_SECRET);
+
+		next();
+		// return res.send(verifyResult);
+	} catch (error) {
+		return res.status(401).send('Access Denied');
+	}
+};
+
 router.post('/api/admin/login', async (req, res) => {
 	const { email, password } = req.body;
 	try {
@@ -101,18 +115,8 @@ router.post('/api/admin/verify', async (req, res) => {
 	}
 });
 
-//Authentication middleware
-const verifyAdmin = (req, res, next) => {
-	//Verify User's token
-	try {
-		const token = req.headers.token;
-		const verifyResult = JWT.verify(token, process.env.JWT_SECRET);
-
-		next();
-		// return res.send(verifyResult);
-	} catch (error) {
-		return res.status(401).send('Access Denied');
-	}
-};
+router.post('/api/admin/changePassword', verifyAdmin, (req, res) => {
+	console.log(req.body);
+});
 
 module.exports = { router, verifyAdmin };

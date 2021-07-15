@@ -44,6 +44,7 @@ function AdminVerifyAccount(props) {
 			if (response.data.status === 'PASSED') {
 				setContextVariables({
 					...contextVariables,
+					loggedInStatus: true,
 					feedback: {
 						...contextVariables.feedback,
 						open: true,

@@ -28,6 +28,7 @@ import PublicRoute from './utils/Routes/PublicRoute';
 import NewProducts from './components/pages/Product-Pages/NewProducts';
 import TrendingProducts from './components/pages/Product-Pages/TrendingProducts';
 import AdminProductDescription from './components/pages/Admin-Pages/Admin-Product-Pages/AdminProductDescription';
+import AdminChangePassword from './components/pages/Admin-Pages/AdminChangePassword';
 
 const useStyles = makeStyles({
 	root: {
@@ -120,16 +121,29 @@ function App() {
 							exact
 						/>
 						<PrivateRoute path='/admin/dashboard' component={AdminDashboard} exact />
-						<Route path='/admin/products' component={AdminViewProducts} exact />
-						<Route path='/admin/product/new' component={AdminAddProduct} exact />
-						<Route
+						<PrivateRoute
+							path='/admin/products'
+							component={AdminViewProducts}
+							exact
+						/>
+						<PrivateRoute
+							path='/admin/product/new'
+							component={AdminAddProduct}
+							exact
+						/>
+						<PrivateRoute
 							path='/admin/product/edit/:productID'
 							component={AdminEditProduct}
 							exact
 						/>
-						<Route
+						<PrivateRoute
 							path='/admin/product/description/:productID'
 							component={AdminProductDescription}
+							exact
+						/>
+						<PrivateRoute
+							path='/admin/changePassword'
+							component={AdminChangePassword}
 							exact
 						/>
 

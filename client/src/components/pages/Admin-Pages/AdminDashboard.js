@@ -8,7 +8,7 @@ import {
 	CardActions,
 	Grid,
 } from '@material-ui/core';
-import { LocalMall, ShoppingCart } from '@material-ui/icons';
+import { LocalMall, Lock, Security, ShoppingCart } from '@material-ui/icons';
 import AdminNavbar from '../../layout/Admin/AdminNavbar';
 import { Link } from 'react-router-dom';
 
@@ -227,7 +227,7 @@ function AdminDashboard() {
 											height: 50,
 										}}
 									>
-										<ShoppingCart
+										<Lock
 											style={{
 												width: 30,
 												height: 30,
@@ -244,19 +244,64 @@ function AdminDashboard() {
 											flexGrow: 1,
 										}}
 									>
-										Other
+										Change Password
 									</h4>
-
+								</CardContent>
+								<CardActions>
+									<Link
+										to='/admin/changePassword'
+										style={{
+											width: '100%',
+											textDecoration: 'none',
+										}}
+									>
+										<Button
+											variant='contained'
+											style={{
+												color: '#FFFFFF',
+												backgroundColor: '#836E00',
+											}}
+											fullWidth
+										>
+											Change
+										</Button>
+									</Link>
+								</CardActions>
+							</Card>
+						</Grid>
+						<Grid item lg={4} md={6} sm={12} xs={12}>
+							<Card>
+								<CardContent style={{ display: 'flex', alignItems: 'center' }}>
+									<Box
+										style={{
+											marginRight: 10,
+											backgroundColor: '#000000',
+											color: '#FFD700',
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+											width: 50,
+											height: 50,
+										}}
+									>
+										<Security
+											style={{
+												width: 30,
+												height: 30,
+											}}
+										/>
+									</Box>
 									<h4
 										style={{
 											margin: 0,
+											// marginRight: '55px',
 											fontFamily: 'Calibri',
-											fontWeight: 'bold',
+											fontWeight: 'normal',
 											fontSize: 30,
-											float: 'right',
+											flexGrow: 1,
 										}}
 									>
-										20
+										Add Admin
 									</h4>
 								</CardContent>
 								<CardActions>
@@ -268,7 +313,7 @@ function AdminDashboard() {
 										}}
 										fullWidth
 									>
-										View
+										Add
 									</Button>
 								</CardActions>
 							</Card>
