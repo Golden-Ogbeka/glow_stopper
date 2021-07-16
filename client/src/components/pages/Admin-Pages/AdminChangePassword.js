@@ -13,6 +13,7 @@ import AppContext from '../../../utils/AppContext';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import { encrypt_key } from '../../../app.json';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -27,7 +28,7 @@ function AdminChangePassword() {
 	const classes = useStyles();
 	const [loading, setLoading] = React.useState(false);
 	const { contextVariables, setContextVariables } = React.useContext(AppContext);
-
+	const history = useHistory();
 	const formik = useFormik({
 		initialValues: {
 			oldPassword: '',
@@ -36,7 +37,12 @@ function AdminChangePassword() {
 		},
 		validationSchema: Yup.object({
 			oldPassword: Yup.string().required('Old Password is required'),
-			newPassword: Yup.string().required('New Password is required'),
+			newPassword: Yup.string()
+				.required('New Password is required')
+				.notOneOf(
+					[Yup.ref('oldPassword'), null],
+					'New Password must be different from old password',
+				),
 			confirmNewPassword: Yup.string()
 				.required('Confirm your password')
 				.oneOf([Yup.ref('newPassword'), null], "New Passwords don't match"),
@@ -49,28 +55,51 @@ function AdminChangePassword() {
 
 	const changeAdminPassword = async (values) => {
 		try {
+			setLoading(true);
 			let storedSession = JSON.parse(
 				localStorage.getItem('sessionDetails_glowStopper'),
 			);
 			storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 			storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-			const response = await axios.post('/admin/changePassword', values, {
-				headers: {
-					token: storedSession.userToken,
+			const response = await axios.post(
+				'/admin/changePassword',
+				{
+					oldPassword: values.oldPassword,
+					newPassword: values.newPassword,
+					userEmail: storedSession.userDetails.email,
 				},
-			});
-			console.log(response);
+				{
+					headers: {
+						token: storedSession.userToken,
+					},
+				},
+			);
+			if (response.data.status === 'PASSED') {
+				setLoading(false);
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'success',
+						message: response.data.message,
+					},
+				});
+				history.push('/admin/dashboard');
+			} else {
+				setLoading(false);
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'error',
+						message: response.data.message,
+					},
+				});
+			}
 		} catch (error) {
 			setLoading(false);
-			setContextVariables({
-				...contextVariables,
-				feedback: {
-					...contextVariables.feedback,
-					open: true,
-					type: 'error',
-					message: error.response.data,
-				},
-			});
 		}
 	};
 	return (

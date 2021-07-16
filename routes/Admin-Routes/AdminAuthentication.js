@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const uuid = require('uuid'); //to get JWT_SECRET
 const JWT = require('jsonwebtoken');
 const conn = require('../../utils/db');
+const bcryptjs = require('bcryptjs');
 
 // Nodemailer
 const transporter = nodemailer.createTransport({
@@ -33,9 +34,9 @@ const verifyAdmin = (req, res, next) => {
 router.post('/api/admin/login', async (req, res) => {
 	const { email, password } = req.body;
 	try {
-		const sql = `SELECT * FROM admin_details WHERE email= ? AND password= ?`;
+		const sql = `SELECT * FROM admin_details WHERE email= ?`;
 
-		conn.query(sql, [email, password], async (err, result) => {
+		conn.query(sql, email, async (err, result) => {
 			if (err) throw err;
 			//If user is not found in DB
 			if (!result.length > 0) {
@@ -45,27 +46,36 @@ router.post('/api/admin/login', async (req, res) => {
 				});
 			}
 
-			// Generate 6-digit token and update db
-			const token = await uuid.v4().substr(0, 5);
-			const sql2 = `UPDATE admin_details SET verification_token='${token}' WHERE email='${result[0].email}' AND password= '${result[0].password}'`;
-			conn.query(sql2, async (err, result) => {
-				// Send mail for verification
-				await transporter.sendMail({
-					from: 'Glow Stopper Admin',
-					to: email,
-					subject: 'Verification Email',
-					text: `Your verification code is: ${token}`,
-				});
+			// Use bcrypt to compare passwords
+			bcryptjs.compare(password, result[0].password, (err, response) => {
+				if (err) throw err;
+				if (!response) {
+					return res.send({
+						status: 'FAILED',
+						message: 'Invalid email or password',
+					});
+				}
+				// Generate 6-digit token and update db
+				const token = uuid.v4().substr(0, 5);
+				const sql2 = `UPDATE admin_details SET verification_token='${token}' WHERE email='${result[0].email}' AND password= '${result[0].password}'`;
+				conn.query(sql2, async (err, result) => {
+					// Send mail for verification
+					await transporter.sendMail({
+						from: 'Glow Stopper Admin',
+						to: email,
+						subject: 'Verification Email',
+						text: `Your verification code is: ${token}`,
+					});
 
-				return res.send({
-					status: 'PASSED',
-					message: 'Authentication successful. Verify your account',
-					// data: result[0],
+					return res.send({
+						status: 'PASSED',
+						message: 'Authentication successful. Verify your account',
+						// data: result[0],
+					});
 				});
 			});
 		});
 	} catch (error) {
-		console.log(error);
 		return res.status(500).send("Server Error. Couldn't login");
 	}
 });
@@ -90,8 +100,11 @@ router.post('/api/admin/verify', async (req, res) => {
 			// Generate 6-digit token and update db
 			const token = await uuid.v4().substr(0, 5);
 			const sql2 = `UPDATE admin_details SET verification_token='${token}' WHERE email='${result[0].email}' AND password= '${result[0].password}'`;
-			conn.query(sql2, async (err, result) => {
+			conn.query(sql2, async (err) => {
 				// Generate JWT
+				if (err) {
+					throw err;
+				}
 				const userToken = JWT.sign(
 					{
 						email: userData.email,
@@ -116,7 +129,68 @@ router.post('/api/admin/verify', async (req, res) => {
 });
 
 router.post('/api/admin/changePassword', verifyAdmin, (req, res) => {
-	console.log(req.body);
+	let { oldPassword, newPassword, userEmail } = req.body;
+
+	try {
+		if (!oldPassword || !newPassword) {
+			return res.send({
+				status: 'FAILED',
+				message: 'Fields cannot be empty',
+			});
+		}
+		if (oldPassword === newPassword) {
+			return res.send({
+				status: 'FAILED',
+				message: 'Old password and new password must be different',
+			});
+		}
+		// Find the user
+		const sql = `SELECT * FROM admin_details WHERE email= ?`;
+		conn.query(sql, userEmail, async (err, result) => {
+			if (err) throw err;
+			if (!result.length > 0) {
+				return res.send({
+					status: 'FAILED',
+					message: 'User not found ',
+				});
+			} else {
+				// Confirm if password is correct
+				bcryptjs.compare(oldPassword, result[0].password, (err, response) => {
+					if (!response) {
+						return res.send({
+							status: 'FAILED',
+							message: 'Old password is incorrect',
+						});
+					} else {
+						// Hash password
+						bcryptjs.genSalt(10, (err, salt) => {
+							if (err) {
+								throw err;
+							}
+							bcryptjs.hash(newPassword, salt, (err, hash) => {
+								if (err) {
+									throw err;
+								}
+								const sql2 = `UPDATE admin_details SET password='${hash}' WHERE email='${userEmail}'`;
+								conn.query(sql2, async (err) => {
+									if (err) {
+										throw err;
+									}
+									return res.send({
+										status: 'PASSED',
+										message: 'Password changed successfully',
+									});
+								});
+							});
+						});
+					}
+				});
+			}
+		});
+	} catch (error) {
+		// console.log(error);
+		return res.status(500).send("Server Error. Couldn't change password");
+	}
 });
 
 module.exports = { router, verifyAdmin };
