@@ -129,6 +129,25 @@ function AdminNavbar() {
 							) : (
 								<>
 									<Link
+										to='/'
+										style={{
+											textDecoration: 'none',
+											color: '#FFFFFF',
+										}}
+									>
+										<Button
+											color='inherit'
+											style={{
+												marginInline: 20,
+												fontFamily: 'Calibri',
+												fontWeight: 'normal',
+												fontSize: 16,
+											}}
+										>
+											Customer Section
+										</Button>
+									</Link>
+									<Link
 										to='/admin/product/new'
 										style={{
 											textDecoration: 'none',
@@ -231,6 +250,16 @@ function AdminNavbar() {
 								</>
 							) : (
 								<>
+									<Link
+										onClick={closeMenu}
+										to='/'
+										style={{
+											color: '#000000',
+											textDecoration: 'none',
+										}}
+									>
+										<MenuItem onClick={closeMenu}>Customer Section</MenuItem>
+									</Link>
 									<Link
 										onClick={closeMenu}
 										to='/admin/product/new'

@@ -6,7 +6,7 @@ const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs');
 const uuid = require('uuid');
-const { route } = require('../Customer-Routes/CustomerRoutes');
+const bcryptjs = require('bcryptjs');
 
 // Get all products for admin
 router.get('/api/admin/products', verifyAdmin, async (req, res) => {
@@ -67,6 +67,7 @@ router.get('/api/admin/product', verifyAdmin, (req, res) => {
 	}
 });
 
+// Add new product
 router.post('/api/admin/product', verifyAdmin, (req, res, next) => {
 	try {
 		const form = formidable({ multiples: false });
@@ -213,6 +214,64 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 		});
 	} catch (error) {
 		return res.status(500).send("Server Error. Couldn't add product");
+	}
+});
+
+// Get all admins
+router.get('/api/admins', verifyAdmin, (req, res) => {
+	try {
+		const sql = `SELECT name, email FROM admin_details`;
+		conn.query(sql, async (err, result) => {
+			if (err) throw err;
+			const admins = result;
+
+			return res.send({
+				status: 'PASSED',
+				message: 'Admins retrieved successfully',
+				admins,
+			});
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't retrieve admins");
+	}
+});
+
+// Add new admin
+router.post('/api/admin/new', verifyAdmin, (req, res) => {
+	const { adminName, adminEmail, adminPassword } = req.body;
+	try {
+		const sql = `SELECT * FROM admin_details WHERE email= ?`;
+		conn.query(sql, adminEmail, async (err, result) => {
+			if (err) throw err;
+			else if (result.length > 0) {
+				return res.status(401).send({
+					status: 'FAILED',
+					message: 'Admin already exists',
+				});
+			} else {
+				bcryptjs.genSalt(10, (err, salt) => {
+					if (err) {
+						throw err;
+					}
+					bcryptjs.hash(adminPassword, salt, (err, hash) => {
+						if (err) {
+							throw err;
+						} else {
+							const sql = `INSERT INTO admin_details (name, email,password) VALUES (?, ?, ?)`;
+							conn.query(sql, [adminName, adminEmail, hash], async (err) => {
+								if (err) throw err;
+								return res.send({
+									status: 'PASSED',
+									message: 'Admin added successfully',
+								});
+							});
+						}
+					});
+				});
+			}
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't add new admin");
 	}
 });
 module.exports = router;

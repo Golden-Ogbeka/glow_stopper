@@ -23,37 +23,28 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 }));
-
-function AdminChangePassword() {
+function NewAdmin() {
 	const classes = useStyles();
 	const [loading, setLoading] = React.useState(false);
 	const { contextVariables, setContextVariables } = React.useContext(AppContext);
 	const history = useHistory();
 	const formik = useFormik({
 		initialValues: {
-			oldPassword: '',
-			newPassword: '',
-			confirmNewPassword: '',
+			adminName: '',
+			adminEmail: '',
+			adminPassword: '',
 		},
 		validationSchema: Yup.object({
-			oldPassword: Yup.string().required('Old Password is required'),
-			newPassword: Yup.string()
-				.required('New Password is required')
-				.notOneOf(
-					[Yup.ref('oldPassword'), null],
-					'New Password must be different from old password',
-				),
-			confirmNewPassword: Yup.string()
-				.required('Confirm your password')
-				.oneOf([Yup.ref('newPassword'), null], "New Passwords don't match"),
+			adminName: Yup.string().required('Name is required'),
+			adminEmail: Yup.string().email('Email is required'),
+			adminPassword: Yup.string().required('Password is required'),
 		}),
 		onSubmit: (values) => {
-			changeAdminPassword(values);
+			addAdmin(values);
 		},
 		enableReinitialize: true,
 	});
-
-	const changeAdminPassword = async (values) => {
+	const addAdmin = async (values) => {
 		try {
 			setLoading(true);
 			let storedSession = JSON.parse(
@@ -62,11 +53,11 @@ function AdminChangePassword() {
 			storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 			storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 			const response = await axios.post(
-				'/admin/changePassword',
+				'/admin/new',
 				{
-					oldPassword: values.oldPassword,
-					newPassword: values.newPassword,
-					userEmail: storedSession.userDetails.email,
+					adminName: values.adminName,
+					adminEmail: values.adminEmail,
+					adminPassword: values.adminPassword,
 				},
 				{
 					headers: {
@@ -85,7 +76,7 @@ function AdminChangePassword() {
 						message: response.data.message,
 					},
 				});
-				history.push('/admin/dashboard');
+				history.push('/admins/view');
 			} else {
 				setLoading(false);
 				setContextVariables({
@@ -106,7 +97,7 @@ function AdminChangePassword() {
 					...contextVariables.feedback,
 					open: true,
 					type: 'error',
-					message: error.response.data,
+					message: error.response.data.message,
 				},
 			});
 		}
@@ -121,34 +112,24 @@ function AdminChangePassword() {
 			>
 				<Box
 					style={{
-						height: 368,
+						minHeight: 368,
 						backgroundColor: '#000000',
 						display: 'flex',
 						flexDirection: 'column',
 						justifyContent: 'center',
 						alignItems: 'center',
+						textAlign: 'center',
 					}}
 				>
 					<span
 						style={{
 							fontFamily: 'Elsie',
-							fontWeight: 'bold',
-							fontSize: '15vh',
+							fontWeight: 'lighter',
+							fontSize: '10vh',
 							color: '#FFD700',
 						}}
 					>
-						Admin
-					</span>
-
-					<span
-						style={{
-							fontFamily: 'Calibri',
-							fontWeight: 'bold',
-							fontSize: 48,
-							color: '#FFFFFF',
-						}}
-					>
-						Change Password
+						New Admin
 					</span>
 				</Box>
 				<Box
@@ -164,59 +145,57 @@ function AdminChangePassword() {
 				>
 					<form className={classes.root} onSubmit={formik.handleSubmit}>
 						<TextField
-							label='Old Password'
+							label="Admin's Name"
 							variant='outlined'
 							required
-							type='password'
-							id='oldPassword'
-							name='oldPassword'
-							placeholder='Enter your old password'
+							type='text'
+							id='adminName'
+							name='adminName'
+							placeholder="Enter admin's name"
 							onChange={formik.handleChange}
-							value={formik.values.oldPassword || ''}
+							value={formik.values.adminName || ''}
 							onBlur={formik.handleBlur}
-							error={formik.touched.oldPassword && formik.errors.oldPassword}
+							error={formik.touched.adminName && formik.errors.adminName}
 							helperText={
-								formik.touched.oldPassword &&
-								formik.errors.oldPassword &&
-								formik.errors.oldPassword
+								formik.touched.adminName &&
+								formik.errors.adminName &&
+								formik.errors.adminName
 							}
 						/>
 						<TextField
-							label='New Password'
+							label="Admin's Email"
 							variant='outlined'
 							required
-							type='password'
-							id='newPassword'
-							name='newPassword'
-							placeholder='Enter your new password'
+							type='email'
+							id='adminEmail'
+							name='adminEmail'
+							placeholder="Enter admin's email"
 							onChange={formik.handleChange}
-							value={formik.values.newPassword || ''}
+							value={formik.values.adminEmail || ''}
 							onBlur={formik.handleBlur}
-							error={formik.touched.newPassword && formik.errors.newPassword}
+							error={formik.touched.adminEmail && formik.errors.adminEmail}
 							helperText={
-								formik.touched.newPassword &&
-								formik.errors.newPassword &&
-								formik.errors.newPassword
+								formik.touched.adminEmail &&
+								formik.errors.adminEmail &&
+								formik.errors.adminEmail
 							}
 						/>
 						<TextField
-							label='Confirm Password'
+							label="Admin's Password"
 							variant='outlined'
 							required
 							type='password'
-							id='confirmNewPassword'
-							name='confirmNewPassword'
-							placeholder='Enter your new password again'
+							id='adminPassword'
+							name='adminPassword'
+							placeholder="Enter Admin's Password"
 							onChange={formik.handleChange}
-							value={formik.values.confirmNewPassword || ''}
+							value={formik.values.adminPassword || ''}
 							onBlur={formik.handleBlur}
-							error={
-								formik.touched.confirmNewPassword && formik.errors.confirmNewPassword
-							}
+							error={formik.touched.adminPassword && formik.errors.adminPassword}
 							helperText={
-								formik.touched.confirmNewPassword &&
-								formik.errors.confirmNewPassword &&
-								formik.errors.confirmNewPassword
+								formik.touched.adminPassword &&
+								formik.errors.adminPassword &&
+								formik.errors.adminPassword
 							}
 						/>
 
@@ -249,7 +228,7 @@ function AdminChangePassword() {
 									}}
 									type='submit'
 								>
-									Change Password
+									Add Admin
 								</Button>
 							)}
 						</center>
@@ -260,4 +239,4 @@ function AdminChangePassword() {
 	);
 }
 
-export default AdminChangePassword;
+export default NewAdmin;

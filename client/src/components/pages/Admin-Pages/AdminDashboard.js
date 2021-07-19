@@ -301,20 +301,28 @@ function AdminDashboard() {
 											flexGrow: 1,
 										}}
 									>
-										Add Admin
+										View Admins
 									</h4>
 								</CardContent>
 								<CardActions>
-									<Button
-										variant='contained'
+									<Link
+										to='/admins/view'
 										style={{
-											color: '#FFFFFF',
-											backgroundColor: '#836E00',
+											width: '100%',
+											textDecoration: 'none',
 										}}
-										fullWidth
 									>
-										Add
-									</Button>
+										<Button
+											variant='contained'
+											style={{
+												color: '#FFFFFF',
+												backgroundColor: '#836E00',
+											}}
+											fullWidth
+										>
+											View
+										</Button>
+									</Link>
 								</CardActions>
 							</Card>
 						</Grid>

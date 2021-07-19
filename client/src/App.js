@@ -29,6 +29,8 @@ import NewProducts from './components/pages/Product-Pages/NewProducts';
 import TrendingProducts from './components/pages/Product-Pages/TrendingProducts';
 import AdminProductDescription from './components/pages/Admin-Pages/Admin-Product-Pages/AdminProductDescription';
 import AdminChangePassword from './components/pages/Admin-Pages/AdminChangePassword';
+import ViewAdmins from './components/pages/Admin-Pages/ViewAdmins';
+import NewAdmin from './components/pages/Admin-Pages/NewAdmin';
 
 const useStyles = makeStyles({
 	root: {
@@ -146,6 +148,8 @@ function App() {
 							component={AdminChangePassword}
 							exact
 						/>
+						<PrivateRoute path='/admins/view' component={ViewAdmins} exact />
+						<PrivateRoute path='/admins/new' component={NewAdmin} exact />
 
 						{/* 404 Route */}
 						<Route path='*' component={PageNotFound} />
