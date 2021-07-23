@@ -12,8 +12,8 @@ const transporter = nodemailer.createTransport({
 	port: 587,
 	secure: false,
 	auth: {
-		user: 'ogbekagolden@gmail.com',
-		pass: 'UNequiv0cal',
+		user: process.env.EMAIL_USER,
+		pass: process.env.EMAIL_PASSWORD,
 	},
 });
 
@@ -40,7 +40,7 @@ router.post('/api/admin/login', async (req, res) => {
 			if (err) throw err;
 			//If user is not found in DB
 			if (!result.length > 0) {
-				return res.send({
+				return res.status(401).send({
 					status: 'FAILED',
 					message: 'Invalid email or password',
 				});
@@ -50,7 +50,7 @@ router.post('/api/admin/login', async (req, res) => {
 			bcryptjs.compare(password, result[0].password, (err, response) => {
 				if (err) throw err;
 				if (!response) {
-					return res.send({
+					return res.status(401).send({
 						status: 'FAILED',
 						message: 'Invalid email or password',
 					});
@@ -91,7 +91,7 @@ router.post('/api/admin/verify', async (req, res) => {
 			if (err) throw err;
 			//If user is not found in DB
 			if (!result.length > 0) {
-				return res.send({
+				return res.status(401).send({
 					status: 'FAILED',
 					message: 'Invalid token',
 				});
@@ -133,13 +133,13 @@ router.post('/api/admin/changePassword', verifyAdmin, (req, res) => {
 
 	try {
 		if (!oldPassword || !newPassword) {
-			return res.send({
+			return res.status(400).send({
 				status: 'FAILED',
 				message: 'Fields cannot be empty',
 			});
 		}
 		if (oldPassword === newPassword) {
-			return res.send({
+			return res.status(400).send({
 				status: 'FAILED',
 				message: 'Old password and new password must be different',
 			});
@@ -149,7 +149,7 @@ router.post('/api/admin/changePassword', verifyAdmin, (req, res) => {
 		conn.query(sql, userEmail, async (err, result) => {
 			if (err) throw err;
 			if (!result.length > 0) {
-				return res.send({
+				return res.status(400).send({
 					status: 'FAILED',
 					message: 'User not found ',
 				});
@@ -157,7 +157,7 @@ router.post('/api/admin/changePassword', verifyAdmin, (req, res) => {
 				// Confirm if password is correct
 				bcryptjs.compare(oldPassword, result[0].password, (err, response) => {
 					if (!response) {
-						return res.send({
+						return res.status(401).send({
 							status: 'FAILED',
 							message: 'Old password is incorrect',
 						});

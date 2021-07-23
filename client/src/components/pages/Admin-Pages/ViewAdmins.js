@@ -15,9 +15,11 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import { encrypt_key } from './../../../app.json';
 import { Link } from 'react-router-dom';
+import AppContext from '../../../utils/AppContext';
 
 function ViewAdmins() {
 	const [admins, setAdmins] = React.useState([]);
+	const { contextVariables, setContextVariables } = React.useContext(AppContext);
 
 	React.useEffect(() => {
 		const getAdmins = async () => {
@@ -38,13 +40,53 @@ function ViewAdmins() {
 				}
 			} catch (error) {
 				setAdmins([]);
-				console.log(error);
 			}
 		};
 		getAdmins();
 	}, []);
 
-	const removeAdmin = () => {};
+	const removeAdmin = async (email) => {
+		if (window.confirm('Are you sure you want to remove this admin?')) {
+			try {
+				let storedSession = JSON.parse(
+					localStorage.getItem('sessionDetails_glowStopper'),
+				);
+				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+				const response = await axios.delete(`/admin/${email}`, {
+					headers: {
+						token: storedSession.userToken,
+					},
+				});
+
+				if (response.data.status === 'PASSED') {
+					setContextVariables({
+						...contextVariables,
+						feedback: {
+							...contextVariables.feedback,
+							open: true,
+							type: 'success',
+							message: response.data.message,
+						},
+					});
+					setAdmins(admins.filter((admin) => admin.email !== email));
+				}
+			} catch (error) {
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'error',
+						message:
+							error.response.status === 500
+								? error.response.data
+								: error.response.data.message,
+					},
+				});
+			}
+		}
+	};
 	return (
 		<>
 			<AdminNavbar />
@@ -75,7 +117,7 @@ function ViewAdmins() {
 						Admins
 					</span>
 				</Box>
-				<Box padding='30px'>
+				<Box padding='30px' paddingBottom='0px'>
 					{admins.length > 0 ? (
 						<TableContainer component={Paper}>
 							<Table>
@@ -129,6 +171,7 @@ function ViewAdmins() {
 								backgroundColor: '#836E00',
 								borderRadius: 4,
 								width: '200px',
+								marginBlock: 20,
 							}}
 						>
 							Add new Admin

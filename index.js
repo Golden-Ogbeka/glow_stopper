@@ -49,5 +49,8 @@ server.use('/uploads', express.static('uploads'));
 // server.use(express.static(path.join(__dirname, 'client/build')));
 
 server.all('*', (req, res) => {
-	res.status(501).send('Not Implemented');
+	res.status(501).send({
+		status: 'FAILED',
+		message: 'Not Implemented',
+	});
 });

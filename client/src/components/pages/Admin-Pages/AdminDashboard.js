@@ -11,8 +11,36 @@ import {
 import { LocalMall, Lock, Security, ShoppingCart } from '@material-ui/icons';
 import AdminNavbar from '../../layout/Admin/AdminNavbar';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import CryptoJS from 'crypto-js';
+import { encrypt_key } from '../../../app.json';
 
 function AdminDashboard() {
+	const [products, setProducts] = React.useState([]);
+
+	React.useEffect(() => {
+		const getProducts = async () => {
+			try {
+				let storedSession = JSON.parse(
+					localStorage.getItem('sessionDetails_glowStopper'),
+				);
+				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+				const response = await axios.get('/admin/products', {
+					headers: {
+						token: storedSession.userToken,
+					},
+				});
+
+				if (response.data.status === 'PASSED') {
+					setProducts(response.data.products);
+				}
+			} catch (error) {
+				setProducts([]);
+			}
+		};
+		getProducts();
+	}, []);
 	return (
 		<>
 			<AdminNavbar />
@@ -104,7 +132,7 @@ function AdminDashboard() {
 											float: 'right',
 										}}
 									>
-										20
+										{products.length}
 									</h4>
 								</CardContent>
 								<CardActions>

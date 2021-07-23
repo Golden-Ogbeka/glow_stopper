@@ -87,9 +87,10 @@ function AdminVerifyAccount(props) {
 					...contextVariables.feedback,
 					open: true,
 					type: 'error',
-					message: error.response
-						? error.response.data
-						: 'Verification Unsuccessful',
+					message:
+						error.response.status === 500
+							? error.response.data
+							: error.response.data.message,
 				},
 			});
 		}

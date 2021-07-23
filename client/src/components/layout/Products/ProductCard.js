@@ -9,9 +9,56 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-
+import AppContext from '../../../utils/AppContext';
+import axios from 'axios';
+import CryptoJS from 'crypto-js';
+import { encrypt_key } from './../../../app.json';
 function ProductCard(props) {
 	const history = useHistory();
+	const { contextVariables, setContextVariables } = React.useContext(AppContext);
+
+	const deleteProduct = async (productID) => {
+		if (window.confirm('Are you sure you want to delete this product?')) {
+			try {
+				let storedSession = JSON.parse(
+					localStorage.getItem('sessionDetails_glowStopper'),
+				);
+				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+				const response = await axios.delete(`/admin/product/${productID}`, {
+					headers: {
+						token: storedSession.userToken,
+					},
+				});
+
+				if (response.data.status === 'PASSED') {
+					setContextVariables({
+						...contextVariables,
+						feedback: {
+							...contextVariables.feedback,
+							open: true,
+							type: 'success',
+							message: response.data.message,
+						},
+					});
+					window.location.reload();
+				}
+			} catch (error) {
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'error',
+						message:
+							error.response.status === 500
+								? error.response.data
+								: error.response.data.message,
+					},
+				});
+			}
+		}
+	};
 	return (
 		<Card
 			style={{
@@ -56,12 +103,16 @@ function ProductCard(props) {
 								textTransform: 'uppercase',
 							}}
 						>
-							&#8358;{props.productPrice}
+							&#8358;{new Intl.NumberFormat('en-US').format(props.productPrice)}
 						</span>
 					</Box>
 				</CardContent>
 			</CardActionArea>
-			<CardActions>
+			<CardActions
+				style={{
+					justifyContent: 'space-around',
+				}}
+			>
 				{props.adminAccess ? (
 					<>
 						<Link
@@ -104,6 +155,20 @@ function ProductCard(props) {
 								Edit
 							</Button>
 						</Link>
+
+						<Button
+							size='small'
+							style={{
+								color: '#d9534f',
+								fontFamily: 'Calibri',
+								fontWeight: '600',
+								fontSize: 16,
+								textTransform: 'uppercase',
+							}}
+							onClick={() => deleteProduct(props.productID)}
+						>
+							Delete
+						</Button>
 					</>
 				) : (
 					<>
@@ -145,5 +210,9 @@ function ProductCard(props) {
 		</Card>
 	);
 }
+
+ProductCard.defaultProps = {
+	adminAccess: false,
+};
 
 export default ProductCard;

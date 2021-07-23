@@ -1,5 +1,11 @@
-import { Box, Button, Grid, CircularProgress } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
+import {
+	Box,
+	Button,
+	Grid,
+	CircularProgress,
+	ButtonGroup,
+} from '@material-ui/core';
+import { Delete, Edit } from '@material-ui/icons';
 import axios from 'axios';
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
@@ -7,11 +13,12 @@ import CryptoJS from 'crypto-js';
 import { encrypt_key, base_url } from '../../../../app.json';
 import AppContext from '../../../../utils/AppContext';
 import AdminNavbar from '../../../layout/Admin/AdminNavbar';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function AdminProductDescription() {
 	const { productID } = useParams();
 	const { contextVariables, setContextVariables } = React.useContext(AppContext);
-
+	const history = useHistory();
 	const [productDetails, setProductDetails] = React.useState({});
 
 	const [loading, setLoading] = React.useState(true);
@@ -52,6 +59,49 @@ function AdminProductDescription() {
 		getProducts();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	const deleteProduct = async (productID) => {
+		if (window.confirm('Are you sure you want to delete this product?')) {
+			try {
+				let storedSession = JSON.parse(
+					localStorage.getItem('sessionDetails_glowStopper'),
+				);
+				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+				const response = await axios.delete(`/admin/product/${productID}`, {
+					headers: {
+						token: storedSession.userToken,
+					},
+				});
+
+				if (response.data.status === 'PASSED') {
+					setContextVariables({
+						...contextVariables,
+						feedback: {
+							...contextVariables.feedback,
+							open: true,
+							type: 'success',
+							message: response.data.message,
+						},
+					});
+					history.push('/admin/products');
+				}
+			} catch (error) {
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'error',
+						message:
+							error.response.status === 500
+								? error.response.data
+								: error.response.data.message,
+					},
+				});
+			}
+		}
+	};
 	return (
 		<>
 			<AdminNavbar />
@@ -139,26 +189,40 @@ function AdminProductDescription() {
 										&#8358;{productDetails.product_price}
 									</span>
 								</Box>
-								<Link
-									to={`/admin/product/edit/${productDetails.product_id}`}
-									style={{
-										textDecoration: 'none',
-									}}
-								>
+								<ButtonGroup>
 									<Button
 										variant='contained'
 										style={{
 											height: 50,
 											backgroundColor: '#5bc0de',
-											borderRadius: 4,
+											// borderRadius: 4,
 											marginTop: 20,
+											color: '#FFFFFF',
 										}}
 										fullWidth
 										startIcon={<Edit />}
+										onClick={() =>
+											history.push(`/admin/product/edit/${productDetails.product_id}`)
+										}
 									>
 										Edit Product
 									</Button>
-								</Link>
+
+									<Button
+										variant='contained'
+										style={{
+											height: 50,
+											backgroundColor: '#d9534f',
+											marginTop: 20,
+											color: '#FFFFFF',
+										}}
+										fullWidth
+										startIcon={<Delete />}
+										onClick={() => deleteProduct(productDetails.product_id)}
+									>
+										Delete Product
+									</Button>
+								</ButtonGroup>
 							</Grid>
 						</Grid>
 					</>

@@ -101,7 +101,10 @@ function AdminAddProduct() {
 					...contextVariables.feedback,
 					open: true,
 					type: 'error',
-					message: error.response.data,
+					message:
+						error.response.status === 500
+							? error.response.data
+							: error.response.data.message,
 				},
 			});
 		}

@@ -244,7 +244,7 @@ router.post('/api/admin/new', verifyAdmin, (req, res) => {
 		conn.query(sql, adminEmail, async (err, result) => {
 			if (err) throw err;
 			else if (result.length > 0) {
-				return res.status(401).send({
+				return res.status(400).send({
 					status: 'FAILED',
 					message: 'Admin already exists',
 				});
@@ -274,4 +274,64 @@ router.post('/api/admin/new', verifyAdmin, (req, res) => {
 		return res.status(500).send("Server Error. Couldn't add new admin");
 	}
 });
+
+// Remove admin
+router.delete('/api/admin/:adminEmail', verifyAdmin, async (req, res) => {
+	const { adminEmail } = req.params;
+	try {
+		const sql = `SELECT * FROM admin_details WHERE email= ?`;
+		conn.query(sql, adminEmail, async (err, result) => {
+			if (err) throw err;
+			else if (!result.length > 0) {
+				return res.status(400).send({
+					status: 'FAILED',
+					message: 'Admin not found',
+				});
+			} else {
+				const sql = `DELETE FROM admin_details WHERE email= ?`;
+				conn.query(sql, adminEmail, async (err) => {
+					if (err) throw err;
+					return res.send({
+						status: 'PASSED',
+						message: 'Admin Removed',
+					});
+				});
+			}
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't delete admin");
+	}
+});
+
+// Delete Product
+router.delete(
+	'/api/admin/product/:productID',
+	verifyAdmin,
+	async (req, res) => {
+		const { productID } = req.params;
+		try {
+			const sql = `SELECT * FROM products WHERE product_id= ?`;
+			conn.query(sql, productID, async (err, result) => {
+				if (err) throw err;
+				else if (!result.length > 0) {
+					return res.status(400).send({
+						status: 'FAILED',
+						message: 'Product not found',
+					});
+				} else {
+					const sql = `DELETE FROM products WHERE product_id= ?`;
+					conn.query(sql, productID, async (err) => {
+						if (err) throw err;
+						return res.send({
+							status: 'PASSED',
+							message: 'Product Deleted',
+						});
+					});
+				}
+			});
+		} catch (error) {
+			return res.status(500).send("Server Error. Couldn't delete product");
+		}
+	},
+);
 module.exports = router;
