@@ -157,6 +157,16 @@ function CustomerNavbar() {
 					>
 						<Link
 							onClick={closeMenu}
+							to='/cart'
+							style={{
+								color: '#000000',
+								textDecoration: 'none',
+							}}
+						>
+							<MenuItem onClick={closeMenu}>Cart</MenuItem>
+						</Link>
+						<Link
+							onClick={closeMenu}
 							to='/products'
 							style={{
 								color: '#000000',

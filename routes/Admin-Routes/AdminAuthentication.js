@@ -63,8 +63,8 @@ router.post('/api/admin/login', async (req, res) => {
 					await transporter.sendMail({
 						from: 'Glow Stopper Admin',
 						to: email,
-						subject: 'Verification Email',
-						text: `Your verification code is: ${token}`,
+						subject: 'Verification Email - Admin Login',
+						text: `Your verification token to login is: ${token}`,
 					});
 
 					return res.send({
@@ -87,18 +87,18 @@ router.post('/api/admin/verify', async (req, res) => {
 		const sql = `SELECT * FROM admin_details WHERE email= ? AND verification_token= ?`;
 
 		conn.query(sql, [userEmail, tokenValue], async (err, result) => {
-			const userData = result[0];
 			if (err) throw err;
 			//If user is not found in DB
 			if (!result.length > 0) {
 				return res.status(401).send({
 					status: 'FAILED',
-					message: 'Invalid token',
+					message: 'Invalid email or verification token',
 				});
 			}
+			const userData = result[0];
 
 			// Generate 6-digit token and update db
-			const token = await uuid.v4().substr(0, 5);
+			const token = uuid.v4().substr(0, 5);
 			const sql2 = `UPDATE admin_details SET verification_token='${token}' WHERE email='${result[0].email}' AND password= '${result[0].password}'`;
 			conn.query(sql2, async (err) => {
 				// Generate JWT

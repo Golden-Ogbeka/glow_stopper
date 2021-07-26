@@ -71,6 +71,30 @@ function ProductView() {
 		getProducts();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	const addToCart = async () => {
+		const productDetailsUpdated = {
+			productID: productDetails.product_id,
+			productImage: `${base_url}${productDetails.product_image}`,
+			productName: productDetails.product_name,
+			productPrice: productDetails.product_price,
+		};
+		if (JSON.parse(localStorage.getItem('cart_glowStopper'))) {
+			// If cart is not empty
+			localStorage.setItem(
+				'cart_glowStopper',
+				JSON.stringify([
+					...JSON.parse(localStorage.getItem('cart_glowStopper')),
+					productDetailsUpdated,
+				]),
+			);
+		} else {
+			localStorage.setItem(
+				'cart_glowStopper',
+				JSON.stringify([productDetailsUpdated]),
+			);
+		}
+	};
 	return (
 		<>
 			<CustomerNavbar />
@@ -169,6 +193,7 @@ function ProductView() {
 										color: '#FFFFFF',
 									}}
 									startIcon={<ShoppingCartOutlined />}
+									onClick={() => addToCart(productDetails)}
 								>
 									Add to cart
 								</Button>

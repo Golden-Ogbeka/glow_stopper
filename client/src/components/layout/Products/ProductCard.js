@@ -59,6 +59,22 @@ function ProductCard(props) {
 			}
 		}
 	};
+
+	const addToCart = async (productID) => {
+		const { adminAccess, ...productDetails } = props; //To exclude adminAccess when added to localStorage
+		if (JSON.parse(localStorage.getItem('cart_glowStopper'))) {
+			// If cart is not empty
+			localStorage.setItem(
+				'cart_glowStopper',
+				JSON.stringify([
+					...JSON.parse(localStorage.getItem('cart_glowStopper')),
+					productDetails,
+				]),
+			);
+		} else {
+			localStorage.setItem('cart_glowStopper', JSON.stringify([productDetails]));
+		}
+	};
 	return (
 		<Card
 			style={{
@@ -201,6 +217,7 @@ function ProductCard(props) {
 								fontSize: 16,
 								textTransform: 'uppercase',
 							}}
+							onClick={() => addToCart(props.productID)}
 						>
 							Add to Cart
 						</Button>
