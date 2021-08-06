@@ -3,8 +3,7 @@ import React from 'react';
 import ProductCard from '../../layout/Products/ProductCard';
 import { useParams } from 'react-router';
 import CustomerNavbar from '../../layout/CustomerNavbar';
-import CryptoJS from 'crypto-js';
-import { encrypt_key, base_url } from '../../../app.json';
+import { base_url } from '../../../app.json';
 import axios from 'axios';
 
 function ProductCategory() {
@@ -14,19 +13,7 @@ function ProductCategory() {
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
-				let storedSession = JSON.parse(
-					localStorage.getItem('sessionDetails_glowStopper'),
-				);
-				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
-				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.get(
-					`/admin/product?productCategory=${category}`,
-					{
-						headers: {
-							token: storedSession.userToken,
-						},
-					},
-				);
+				const response = await axios.get(`/product?productCategory=${category}`);
 
 				setProducts(response.data.products);
 				setLoading(false);

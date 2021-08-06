@@ -5,8 +5,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import CustomerNavbar from '../../layout/CustomerNavbar';
 import ProductCard from '../../layout/Products/ProductCard';
-import CryptoJS from 'crypto-js';
-import { encrypt_key, base_url } from '../../../app.json';
+import { base_url } from '../../../app.json';
 import AppContext from '../../../utils/AppContext';
 
 function ProductView() {
@@ -20,27 +19,13 @@ function ProductView() {
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
-				let storedSession = JSON.parse(
-					localStorage.getItem('sessionDetails_glowStopper'),
-				);
-				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
-				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+				const response = await axios.get(`/product?productID=${productID}`);
 
-				const response = await axios.get(`/admin/product?productID=${productID}`, {
-					headers: {
-						token: storedSession.userToken,
-					},
-				});
 				if (response.data.status === 'PASSED') {
 					setProductDetails(response.data.productDetails);
 					// Get similar products
 					const response2 = await axios.get(
-						`/admin/product?productCategory=${response.data.productDetails.product_category}`,
-						{
-							headers: {
-								token: storedSession.userToken,
-							},
-						},
+						`/product?productCategory=${response.data.productDetails.product_category}`,
 					);
 
 					// Filter products that aren't this product

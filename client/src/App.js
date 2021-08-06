@@ -31,6 +31,8 @@ import AdminProductDescription from './components/pages/Admin-Pages/Admin-Produc
 import AdminChangePassword from './components/pages/Admin-Pages/AdminChangePassword';
 import ViewAdmins from './components/pages/Admin-Pages/ViewAdmins';
 import NewAdmin from './components/pages/Admin-Pages/NewAdmin';
+import OrderPage from './components/pages/Order-Pages/OrderPage';
+import OrderSuccessful from './components/pages/Order-Pages/OrderSuccessful';
 
 const useStyles = makeStyles({
 	root: {
@@ -106,6 +108,12 @@ function App() {
 						<Route
 							path='/products/category/:category'
 							component={ProductCategory}
+							exact
+						/>
+						<Route path='/order' component={OrderPage} exact />
+						<Route
+							path='/order/successful/:orderReference'
+							component={OrderSuccessful}
 							exact
 						/>
 

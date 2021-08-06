@@ -15,6 +15,7 @@ import {
 	TableRow,
 	withStyles,
 	TableFooter,
+	Button,
 } from '@material-ui/core';
 import {
 	AddCircleOutline,
@@ -22,6 +23,7 @@ import {
 	RemoveCircleOutline,
 } from '@material-ui/icons';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import CustomerNavbar from '../layout/CustomerNavbar';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -68,6 +70,8 @@ function Cart() {
 					...new Map(cartItems.map((item) => [item.productID, item])).values(),
 				]; //Function to get unique objects in an array
 				setTrimmedCart(trimmedValues);
+			} else {
+				setLoading(false);
 			}
 		};
 		getCartDetails();
@@ -245,6 +249,31 @@ function Cart() {
 								</TableFooter>
 							</Table>
 						</TableContainer>
+						{cartDetails.length > 0 && (
+							<center>
+								<Link
+									to='/order'
+									style={{
+										textDecoration: 'none',
+									}}
+								>
+									<Button
+										variant='contained'
+										style={{
+											width: 173,
+											height: 57,
+											borderRadius: 4,
+											marginTop: '30px',
+											color: '#FFFFFF',
+											backgroundColor: '#836E00',
+										}}
+										type='submit'
+									>
+										Place order
+									</Button>
+								</Link>
+							</center>
+						)}
 					</Hidden>
 					<Hidden mdUp>
 						{loading ? (
@@ -279,6 +308,8 @@ function Cart() {
 														),
 													)}
 												</span>
+												<br />
+												<Link to='/order'>Place order</Link>
 											</center>
 										</Box>
 										{trimmedCart.map((item, index) => (
@@ -287,6 +318,7 @@ function Cart() {
 													style={{
 														marginBottom: 20,
 													}}
+													key={index}
 												>
 													<CardContent>
 														<Box
@@ -376,6 +408,51 @@ function Cart() {
 												</Card>
 											</>
 										))}
+										<Box
+											style={{
+												fontSize: 22,
+												fontFamily: 'Calibri',
+												paddingBlock: 20,
+											}}
+										>
+											<center>
+												Total Amount in Cart:{' '}
+												<span
+													style={{
+														fontWeight: 'bold',
+													}}
+												>
+													&#8358;{' '}
+													{new Intl.NumberFormat('en-US').format(
+														cartDetails.reduce(
+															(total, cartItem) => total + Number(cartItem.productPrice),
+															0,
+														),
+													)}
+												</span>
+												<Link
+													to='/order'
+													style={{
+														textDecoration: 'none',
+													}}
+												>
+													<Button
+														variant='contained'
+														style={{
+															width: 173,
+															height: 57,
+															borderRadius: 4,
+															marginTop: '30px',
+															color: '#FFFFFF',
+															backgroundColor: '#836E00',
+														}}
+														type='submit'
+													>
+														Place order
+													</Button>
+												</Link>
+											</center>
+										</Box>
 									</>
 								) : (
 									<>

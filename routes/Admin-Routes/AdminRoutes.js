@@ -26,7 +26,7 @@ router.get('/api/admin/products', verifyAdmin, async (req, res) => {
 	}
 });
 
-// Get particular product with other products that are similar (in the same category) with it
+// Get particular product or product Category
 router.get('/api/admin/product', verifyAdmin, (req, res) => {
 	try {
 		if (req.query.productID) {
@@ -136,7 +136,6 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 		const form = formidable({ multiples: false });
 		form.parse(req, (err, fields, files) => {
 			if (err) {
-				next(err);
 				return res.status(400).send({
 					status: 'FAILED',
 					message: "Couldn't upload image",
