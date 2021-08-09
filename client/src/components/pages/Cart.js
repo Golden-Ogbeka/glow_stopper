@@ -16,14 +16,12 @@ import {
 	withStyles,
 	TableFooter,
 	Button,
+	Divider,
 } from '@material-ui/core';
-import {
-	AddCircleOutline,
-	HighlightOff,
-	RemoveCircleOutline,
-} from '@material-ui/icons';
+import { Add, Delete, Remove } from '@material-ui/icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AppContext from '../../utils/AppContext';
 import CustomerNavbar from '../layout/CustomerNavbar';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -59,6 +57,7 @@ function Cart() {
 	const [cartDetails, setCartDetails] = React.useState([]);
 	const [trimmedCart, setTrimmedCart] = React.useState([]); //Only items with distinct values
 	const [loading, setLoading] = React.useState(true);
+	const { contextVariables, setContextVariables } = React.useContext(AppContext);
 
 	React.useEffect(() => {
 		const getCartDetails = () => {
@@ -89,9 +88,17 @@ function Cart() {
 			);
 			//Increase the quantity in front-end
 			setCartDetails([...cartDetails, productDetails]);
+			setContextVariables({
+				...contextVariables,
+				cartItems: [...contextVariables.cartItems, productDetails],
+			});
 		} else {
 			localStorage.setItem('cart_glowStopper', JSON.stringify([productDetails]));
 			setCartDetails([...cartDetails, productDetails]);
+			setContextVariables({
+				...contextVariables,
+				cartItems: productDetails,
+			});
 		}
 	};
 	const reduceQuantity = (productID) => {
@@ -105,6 +112,10 @@ function Cart() {
 			...cartDetails.slice(index + 1),
 		];
 		setCartDetails(newArray);
+		setContextVariables({
+			...contextVariables,
+			cartItems: newArray,
+		});
 		return localStorage.setItem('cart_glowStopper', JSON.stringify(newArray));
 	};
 
@@ -113,6 +124,11 @@ function Cart() {
 			//Remove all products with the stated ID
 			const newArray = cartDetails.filter((item) => item.productID !== productID);
 			setCartDetails(newArray);
+			// For cart badge
+			setContextVariables({
+				...contextVariables,
+				cartItems: newArray,
+			});
 			return localStorage.setItem('cart_glowStopper', JSON.stringify(newArray));
 		}
 	};
@@ -211,13 +227,13 @@ function Cart() {
 															<StyledTableCell align='center'>
 																<Box display='flex' justifyContent='space-evenly'>
 																	<IconButton onClick={() => addToCart(item)}>
-																		<AddCircleOutline htmlColor='#000000' />
+																		<Add htmlColor='#000000' />
 																	</IconButton>
 																	<IconButton onClick={() => reduceQuantity(item.productID)}>
-																		<RemoveCircleOutline htmlColor='#000000' />
+																		<Remove htmlColor='#000000' />
 																	</IconButton>
 																	<IconButton onClick={() => removeItem(item.productID)}>
-																		<HighlightOff htmlColor='#FB4E4E' />
+																		<Delete htmlColor='#FB4E4E' />
 																	</IconButton>
 																</Box>
 															</StyledTableCell>
@@ -316,50 +332,42 @@ function Cart() {
 											<>
 												<Card
 													style={{
-														marginBottom: 20,
+														marginBlock: 20,
 													}}
 													key={index}
 												>
 													<CardContent>
-														<Box
+														<img
+															src={item.productImage}
+															alt='Cart'
 															style={{
-																display: 'flex',
-																alignItems: 'center',
+																width: '100%',
+																height: 'auto',
+															}}
+														/>
+														<span
+															style={{
+																fontSize: 30,
+																fontWeight: 'bold',
 															}}
 														>
-															<img
-																src={item.productImage}
-																alt='Cart'
-																style={{
-																	width: 'auto',
-																	height: 60,
-																}}
-															/>
-															<Box paddingLeft='10px'>
-																<span
-																	style={{
-																		fontSize: 30,
-																		fontWeight: 'bold',
-																	}}
-																>
-																	{item.productName}
-																</span>
-																<br />
-																<span
-																	style={{
-																		fontSize: 22,
-																		fontWeight: 'normal',
-																	}}
-																>
-																	{cartDetails.reduce(
-																		(total, cartItem) =>
-																			total + (cartItem.productID === item.productID),
-																		0,
-																	)}{' '}
-																	pcs
-																</span>
-															</Box>
-														</Box>
+															{item.productName}
+														</span>
+														<br />
+														<span
+															style={{
+																fontSize: 22,
+																fontWeight: 'normal',
+															}}
+														>
+															{cartDetails.reduce(
+																(total, cartItem) =>
+																	total + (cartItem.productID === item.productID),
+																0,
+															)}{' '}
+															pcs
+														</span>
+
 														<Box
 															style={{
 																fontSize: 23,
@@ -389,6 +397,7 @@ function Cart() {
 															}
 														</Box>
 													</CardContent>
+													<Divider />
 													<CardActions
 														style={{
 															display: 'flex',
@@ -396,13 +405,13 @@ function Cart() {
 														}}
 													>
 														<IconButton onClick={() => addToCart(item)}>
-															<AddCircleOutline fontSize='large' htmlColor='#000000' />
+															<Add fontSize='large' htmlColor='#000000' />
 														</IconButton>
 														<IconButton onClick={() => reduceQuantity(item.productID)}>
-															<RemoveCircleOutline fontSize='large' htmlColor='#000000' />
+															<Remove fontSize='large' htmlColor='#000000' />
 														</IconButton>
 														<IconButton onClick={() => removeItem(item.productID)}>
-															<HighlightOff fontSize='large' htmlColor='#FB4E4E' />
+															<Delete fontSize='large' htmlColor='#FB4E4E' />
 														</IconButton>
 													</CardActions>
 												</Card>

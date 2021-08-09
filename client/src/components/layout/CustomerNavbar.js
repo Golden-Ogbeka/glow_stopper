@@ -8,6 +8,7 @@ import {
 	Hidden,
 	MenuItem,
 	Menu,
+	Badge,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
@@ -16,16 +17,18 @@ import {
 	ShoppingCartOutlined,
 	Menu as MenuIcon,
 } from '@material-ui/icons';
+import AppContext from '../../utils/AppContext';
 
 function CustomerNavbar() {
-	const [menuAnchor, setmenuAnchor] = React.useState(null);
+	const [menuAnchor, setMenuAnchor] = React.useState(null);
+	const { contextVariables } = React.useContext(AppContext);
 
 	const openMenu = (event) => {
-		setmenuAnchor(event.currentTarget);
+		setMenuAnchor(event.currentTarget);
 	};
 
 	const closeMenu = () => {
-		setmenuAnchor(null);
+		setMenuAnchor(null);
 	};
 
 	return (
@@ -80,9 +83,19 @@ function CustomerNavbar() {
 								color='inherit'
 								aria-label='menu'
 							>
-								<ShoppingCartOutlined htmlColor='#FFD700' />
+								<Badge
+									badgeContent={
+										contextVariables.cartItems.length > 0
+											? contextVariables.cartItems.length
+											: '0'
+									}
+									color='secondary'
+								>
+									<ShoppingCartOutlined htmlColor='#FFD700' />
+								</Badge>
 							</IconButton>
 						</Link>
+
 						<Link
 							to='/products'
 							style={{

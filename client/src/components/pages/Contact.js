@@ -1,8 +1,19 @@
-import { Box, Button, Grid, makeStyles, TextField } from '@material-ui/core';
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Grid,
+	makeStyles,
+	TextField,
+} from '@material-ui/core';
 import React from 'react';
 import { Facebook, Instagram, WhatsApp } from '@material-ui/icons';
 import LogoComponent from '../layout/LogoComponent';
 import CustomerNavbar from '../layout/CustomerNavbar';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import AppContext from '../../utils/AppContext';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -15,6 +26,81 @@ const useStyles = makeStyles((theme) => ({
 
 function Contact() {
 	const classes = useStyles();
+	const [loading, setLoading] = React.useState(false);
+	const { contextVariables, setContextVariables } = React.useContext(AppContext);
+	const formik = useFormik({
+		initialValues: {
+			fullName: '',
+			email: '',
+			phoneNumber: '',
+			message: '',
+		},
+		validationSchema: Yup.object({
+			fullName: Yup.string()
+				.required('Full name is required')
+				.min(5, 'Please input your full name'),
+			email: Yup.string()
+				.email('Enter a valid email')
+				.required('Email is required'),
+			phoneNumber: Yup.number()
+				.test(
+					'length',
+					'Enter a valid phone number',
+					(val) => val && val.toString().length >= 10 && val.toString().length <= 11,
+				)
+				.required('Phone number is required')
+				.typeError('Can only be numbers'),
+			message: Yup.string().required('Your message is required'),
+		}),
+		onSubmit: (values) => {
+			sendMessage(values);
+		},
+		enableReinitialize: true,
+	});
+
+	const sendMessage = async (values) => {
+		try {
+			setLoading(true);
+			const response = await axios.post('/contact', values);
+			if (response.data.status === 'PASSED') {
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'success',
+						message: response.data.message,
+					},
+				});
+				formik.resetForm();
+			} else {
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'error',
+						message: response.data.message,
+					},
+				});
+			}
+			setLoading(false);
+		} catch (error) {
+			setContextVariables({
+				...contextVariables,
+				feedback: {
+					...contextVariables.feedback,
+					open: true,
+					type: 'error',
+					message:
+						error.response.status === 500
+							? error.response.data
+							: error.response.data.message,
+				},
+			});
+			setLoading(false);
+		}
+	};
 	return (
 		<>
 			<CustomerNavbar />
@@ -77,22 +163,81 @@ function Contact() {
 									paddingBottom: 80,
 								}}
 								className={classes.root}
+								onSubmit={formik.handleSubmit}
 							>
-								<TextField label='Full name' variant='outlined' />
-								<TextField label='Email' variant='outlined' />
-								<TextField label='Phone number' variant='outlined' />
-								<br />
 								<TextField
-									label='Your message'
+									label='Full name'
 									variant='outlined'
-									style={{
-										width: '100%',
-										display: 'flex',
-										justifyContent: 'start',
-									}}
+									required
+									type='text'
+									id='fullName'
+									name='fullName'
+									placeholder='Enter your full name'
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.fullName || ''}
+									error={formik.touched.fullName && formik.errors.fullName}
+									helperText={
+										formik.touched.fullName &&
+										formik.errors.fullName &&
+										formik.errors.fullName
+									}
+								/>
+								<TextField
+									label='Email'
+									variant='outlined'
+									required
+									type='email'
+									id='email'
+									name='email'
+									placeholder='Enter your email'
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.email || ''}
+									error={formik.touched.email && formik.errors.email}
+									helperText={
+										formik.touched.email && formik.errors.email && formik.errors.email
+									}
+								/>
+								<TextField
+									label='Phone number'
+									variant='outlined'
+									required
+									type='text'
+									id='phoneNumber'
+									name='phoneNumber'
+									placeholder='Enter your phone number'
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.phoneNumber || ''}
+									error={formik.touched.phoneNumber && formik.errors.phoneNumber}
+									helperText={
+										formik.touched.phoneNumber &&
+										formik.errors.phoneNumber &&
+										formik.errors.phoneNumber
+									}
+								/>
+								<TextField
+									label='Message'
+									variant='outlined'
+									required
+									type='text'
+									id='message'
+									name='message'
+									placeholder='Enter your message'
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.message || ''}
+									error={formik.touched.message && formik.errors.message}
+									helperText={
+										formik.touched.message &&
+										formik.errors.message &&
+										formik.errors.message
+									}
 									multiline
 									rows={3}
 								/>
+
 								<Button
 									variant='contained'
 									style={{
@@ -102,8 +247,13 @@ function Contact() {
 										color: '#FFFFFF',
 										backgroundColor: '#836E00',
 									}}
+									type='submit'
 								>
-									Send Message
+									{loading ? (
+										<CircularProgress color='inherit' size={20} />
+									) : (
+										<>Send Message</>
+									)}
 								</Button>
 							</form>
 						</Box>

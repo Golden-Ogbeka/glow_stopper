@@ -17,6 +17,7 @@ function ProductCard(props) {
 	const history = useHistory();
 	const { contextVariables, setContextVariables } = React.useContext(AppContext);
 
+	//For Admin
 	const deleteProduct = async (productID) => {
 		if (window.confirm('Are you sure you want to delete this product?')) {
 			try {
@@ -71,8 +72,16 @@ function ProductCard(props) {
 					productDetails,
 				]),
 			);
+			setContextVariables({
+				...contextVariables,
+				cartItems: [...contextVariables.cartItems, productDetails],
+			});
 		} else {
 			localStorage.setItem('cart_glowStopper', JSON.stringify([productDetails]));
+			setContextVariables({
+				...contextVariables,
+				cartItems: productDetails,
+			});
 		}
 	};
 	return (
@@ -122,6 +131,21 @@ function ProductCard(props) {
 							&#8358;{new Intl.NumberFormat('en-US').format(props.productPrice)}
 						</span>
 					</Box>
+					{props.adminAccess && (
+						<Box marginTop='15px'>
+							<span
+								style={{
+									color: '#000000',
+									fontFamily: 'Calibri',
+									fontWeight: 'bold',
+									fontSize: 15,
+									textTransform: 'uppercase',
+								}}
+							>
+								Product ID: {props.productID}
+							</span>
+						</Box>
+					)}
 				</CardContent>
 			</CardActionArea>
 			<CardActions
@@ -207,20 +231,36 @@ function ProductCard(props) {
 								View
 							</Button>
 						</Link>
-
-						<Button
-							size='small'
-							style={{
-								color: '#CCAC00',
-								fontFamily: 'Calibri',
-								fontWeight: '600',
-								fontSize: 16,
-								textTransform: 'uppercase',
-							}}
-							onClick={() => addToCart(props.productID)}
-						>
-							Add to Cart
-						</Button>
+						{contextVariables.cartItems.find(
+							(item) => item.productID === props.productID,
+						) ? (
+							<span
+								style={{
+									fontFamily: 'Calibri',
+									fontWeight: '600',
+									fontSize: 16,
+									textTransform: 'uppercase',
+								}}
+							>
+								Added to cart
+							</span>
+						) : (
+							<>
+								<Button
+									size='small'
+									style={{
+										color: '#CCAC00',
+										fontFamily: 'Calibri',
+										fontWeight: '600',
+										fontSize: 16,
+										textTransform: 'uppercase',
+									}}
+									onClick={() => addToCart(props.productID)}
+								>
+									Add to Cart
+								</Button>
+							</>
+						)}
 					</>
 				)}
 			</CardActions>

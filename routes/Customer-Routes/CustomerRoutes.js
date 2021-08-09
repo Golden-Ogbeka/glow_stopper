@@ -46,7 +46,7 @@ router.get('/api/product', (req, res) => {
 						productDetails: result[0],
 					});
 				} else {
-					return res.send({
+					return res.status(400).send({
 						status: 'FAILED',
 						message: 'Product not found',
 					});
@@ -162,4 +162,35 @@ Phone: ${phoneNumber}`;
 	}
 });
 
+router.post('/api/contact', async (req, res) => {
+	try {
+		const { fullName, email, phoneNumber, message } = req.body;
+		if (!fullName || !email || !phoneNumber || !message) {
+			return res.status(400).send({
+				status: 'FAILED',
+				message: 'Please fill all fields',
+			});
+		}
+		const mailContent = `Sender Name: ${fullName}
+Sender Email: ${email}
+Sender Phone number: ${phoneNumber}
+
+Message:
+${message}`;
+		// Send mail to admin
+		await transporter.sendMail({
+			from: 'Glow Stopper Admin',
+			to: process.env.EMAIL_USER,
+			subject: 'New message on GlowStopper',
+			text: mailContent,
+		});
+		// Send Response
+		return res.send({
+			status: 'PASSED',
+			message: 'Message sent',
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't send message");
+	}
+});
 module.exports = router;

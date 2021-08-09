@@ -54,7 +54,27 @@ function App() {
 			message: '',
 			type: 'info',
 		},
+		cartItems: [],
 	});
+
+	React.useEffect(() => {
+		const getCartDetails = () => {
+			const cartItems = JSON.parse(localStorage.getItem('cart_glowStopper'));
+			if (cartItems) {
+				setContextVariables({
+					...contextVariables,
+					cartItems: cartItems,
+				});
+			} else {
+				setContextVariables({
+					...contextVariables,
+					cartItems: [],
+				});
+			}
+		};
+		getCartDetails();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const toggleSnackbar = () =>
 		setContextVariables({

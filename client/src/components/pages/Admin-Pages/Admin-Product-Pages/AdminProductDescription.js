@@ -175,7 +175,7 @@ function AdminProductDescription() {
 								</span>
 								<Box
 									style={{
-										paddingBlock: 40,
+										paddingTop: 20,
 									}}
 								>
 									<span
@@ -189,6 +189,23 @@ function AdminProductDescription() {
 										&#8358;{productDetails.product_price}
 									</span>
 								</Box>
+								<Box
+									style={{
+										paddingBlock: 20,
+									}}
+								>
+									<span
+										style={{
+											fontSize: 24,
+											fontWeight: 'bold',
+											fontFamily: 'Calibri',
+											color: '#000000',
+										}}
+									>
+										Product ID: {productDetails.product_id}
+									</span>
+								</Box>
+
 								<ButtonGroup>
 									<Button
 										variant='contained'
