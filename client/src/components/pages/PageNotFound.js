@@ -1,12 +1,18 @@
 import { Box, Button } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import MetaTags from '../../utils/MetaTags';
 import CustomerNavbar from '../layout/CustomerNavbar';
 
 function PageNotFound() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title='Glow Stopper - 404'
+				description='Page not found'
+				noIndex={true}
+			/>
 			<div style={{ minHeight: '100vh' }}>
 				<Box
 					style={{

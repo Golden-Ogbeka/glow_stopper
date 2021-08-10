@@ -4,6 +4,7 @@ import ProductCard from '../../layout/Products/ProductCard';
 import CustomerNavbar from '../../layout/CustomerNavbar';
 import { base_url } from '../../../app.json';
 import axios from 'axios';
+import MetaTags from '../../../utils/MetaTags';
 
 function NewProducts() {
 	const [products, setProducts] = React.useState([]);
@@ -27,6 +28,10 @@ function NewProducts() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title='Glow Stopper - New products'
+				description='Amazing and brand new products in out inventory'
+			/>
 			<div
 				style={{
 					minHeight: '100vh',

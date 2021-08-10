@@ -6,11 +6,16 @@ import Image2 from '../../../assets/images/2.jpg';
 import Image3 from '../../../assets/images/3.jpg';
 import Image4 from '../../../assets/images/4.jpg';
 import CustomerNavbar from '../../layout/CustomerNavbar';
+import MetaTags from '../../../utils/MetaTags';
 
 function Products() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title='Glow Stopper - Product Categories'
+				description='Buy quality and affordable products'
+			/>
 			<div
 				style={{
 					minHeight: '100vh',

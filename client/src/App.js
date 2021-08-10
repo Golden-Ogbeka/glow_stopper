@@ -33,6 +33,7 @@ import ViewAdmins from './components/pages/Admin-Pages/ViewAdmins';
 import NewAdmin from './components/pages/Admin-Pages/NewAdmin';
 import OrderPage from './components/pages/Order-Pages/OrderPage';
 import OrderSuccessful from './components/pages/Order-Pages/OrderSuccessful';
+import MetaTags from './utils/MetaTags';
 
 const useStyles = makeStyles({
 	root: {
@@ -88,6 +89,10 @@ function App() {
 		<AppContext.Provider value={{ contextVariables, setContextVariables }}>
 			<div className={classes.root}>
 				<BrowserRouter>
+					<MetaTags
+						title='Glow Stopper - Your one stop online store'
+						description='Buy quality and affordable products'
+					/>
 					<ScrollToTop />
 					<Snackbar
 						anchorOrigin={{

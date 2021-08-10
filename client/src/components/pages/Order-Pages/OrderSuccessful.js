@@ -2,6 +2,7 @@ import { Box } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import MetaTags from '../../../utils/MetaTags';
 import CustomerNavbar from '../../layout/CustomerNavbar';
 
 function OrderSuccessful() {
@@ -9,6 +10,11 @@ function OrderSuccessful() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title='Glow Stopper - Order Successful'
+				description='Order successful'
+				noIndex={true}
+			/>
 			<div
 				style={{
 					minHeight: '100vh',

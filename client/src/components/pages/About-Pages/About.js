@@ -5,11 +5,16 @@ import TabBar from '../../layout/TabBar';
 import AboutFocus from './AboutFocus';
 import AboutHistory from './AboutHistory';
 import CustomerNavbar from '../../layout/CustomerNavbar';
+import MetaTags from '../../../utils/MetaTags';
 
 function About() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title='Glow Stopper - About us'
+				description='Our mission, vision and what we stand for'
+			/>
 			<div
 				style={{
 					minHeight: '100vh',

@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import CustomerNavbar from '../../layout/CustomerNavbar';
 import { base_url } from '../../../app.json';
 import axios from 'axios';
+import MetaTags from '../../../utils/MetaTags';
 
 function ProductCategory() {
 	const { category } = useParams();
@@ -28,6 +29,10 @@ function ProductCategory() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title={`Glow Stopper - ${category} category`}
+				description='Buy quality and affordable products'
+			/>
 			<div
 				style={{
 					minHeight: '100vh',

@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { MoreVert, Menu as MenuIcon } from '@material-ui/icons';
 import AppContext from '../../../utils/AppContext';
 import LogoutModal from './LogoutModal';
+import MetaTags from '../../../utils/MetaTags';
 
 function AdminNavbar() {
 	const [menuAnchor, setMenuAnchor] = React.useState(null);
@@ -42,6 +43,11 @@ function AdminNavbar() {
 
 	return (
 		<>
+			<MetaTags
+				title='Glow Stopper - Admin Portal'
+				description='Admin Operations'
+				noIndex={true}
+			/>
 			<AppBar
 				position='static'
 				style={{

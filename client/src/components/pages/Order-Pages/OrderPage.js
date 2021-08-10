@@ -13,6 +13,7 @@ import CustomerNavbar from '../../layout/CustomerNavbar';
 import * as Yup from 'yup';
 import axios from 'axios';
 import AppContext from '../../../utils/AppContext';
+import MetaTags from '../../../utils/MetaTags';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -127,6 +128,11 @@ function OrderPage() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title='Glow Stopper - Your order'
+				description='Order Details'
+				noIndex={true}
+			/>
 			<div
 				style={{
 					minHeight: '100vh',

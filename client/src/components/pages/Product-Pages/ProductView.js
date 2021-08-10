@@ -7,6 +7,7 @@ import CustomerNavbar from '../../layout/CustomerNavbar';
 import ProductCard from '../../layout/Products/ProductCard';
 import { base_url } from '../../../app.json';
 import AppContext from '../../../utils/AppContext';
+import MetaTags from '../../../utils/MetaTags';
 
 function ProductView() {
 	const { productID } = useParams();
@@ -83,6 +84,11 @@ function ProductView() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title={`Glow Stopper - ${productDetails.product_name}`}
+				description='Buy quality and affordable products'
+				noIndex={true}
+			/>
 			<div
 				style={{
 					minHeight: '100vh',

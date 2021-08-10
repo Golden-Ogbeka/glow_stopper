@@ -14,6 +14,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import AppContext from '../../utils/AppContext';
 import axios from 'axios';
+import MetaTags from '../../utils/MetaTags';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -104,6 +105,10 @@ function Contact() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title='Glow Stopper - Contact us'
+				description='Send us a message or view our contact details. We look forward to hearing from you'
+			/>
 			<div
 				style={{
 					minHeight: '100vh',

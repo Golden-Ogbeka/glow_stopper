@@ -4,6 +4,7 @@ import ProductCard from '../../layout/Products/ProductCard';
 import CustomerNavbar from '../../layout/CustomerNavbar';
 import { base_url } from '../../../app.json';
 import axios from 'axios';
+import MetaTags from '../../../utils/MetaTags';
 
 function TrendingProducts() {
 	const [products, setProducts] = React.useState([]);
@@ -27,6 +28,10 @@ function TrendingProducts() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title='Glow Stopper - Trending products'
+				description='Most demanded products in our catalogue'
+			/>
 			<div
 				style={{
 					minHeight: '100vh',

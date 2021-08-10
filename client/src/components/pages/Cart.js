@@ -22,6 +22,7 @@ import { Add, Delete, Remove } from '@material-ui/icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '../../utils/AppContext';
+import MetaTags from '../../utils/MetaTags';
 import CustomerNavbar from '../layout/CustomerNavbar';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -135,6 +136,11 @@ function Cart() {
 	return (
 		<>
 			<CustomerNavbar />
+			<MetaTags
+				title='Glow Stopper - Cart'
+				description='Details of items in your cart'
+				noIndex={true}
+			/>
 			<div
 				style={{
 					minHeight: '100vh',
