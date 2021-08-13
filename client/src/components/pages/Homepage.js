@@ -8,19 +8,26 @@ import { base_url } from './../../app.json';
 import axios from 'axios';
 
 function Homepage() {
-	const [products, setProducts] = React.useState([]);
+	const [newProducts, setNewProducts] = React.useState([]);
+	const [trendingProducts, setTrendingProducts] = React.useState([]);
 	const [loading, setLoading] = React.useState(true);
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
-				const response = await axios.get('/products');
+				const response1 = await axios.get('/products/new');
+				const response2 = await axios.get('/products/trending');
 
-				if (response.data.status === 'PASSED') {
-					setProducts(response.data.products);
+				if (response1.data.status === 'PASSED') {
+					setNewProducts(response1.data.products);
 				}
+				if (response2.data.status === 'PASSED') {
+					setTrendingProducts(response2.data.products);
+				}
+
 				setLoading(false);
 			} catch (error) {
-				setProducts([]);
+				setNewProducts([]);
+				setTrendingProducts([]);
 				setLoading(false);
 			}
 		};
@@ -85,8 +92,8 @@ function Homepage() {
 						<Grid container justify='flex-start' spacing={1}>
 							{loading ? (
 								<CircularProgress />
-							) : products.length > 0 ? (
-								products.slice(0, 3).map((product) => (
+							) : trendingProducts.length > 0 ? (
+								trendingProducts.slice(0, 3).map((product) => (
 									<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
 										<ProductCard
 											productID={product.product_id}
@@ -105,7 +112,7 @@ function Homepage() {
 										padding: 20,
 									}}
 								>
-									No product found
+									No trending product
 								</Box>
 							)}
 						</Grid>
@@ -158,8 +165,8 @@ function Homepage() {
 						<Grid container justify='flex-start' spacing={1}>
 							{loading ? (
 								<CircularProgress />
-							) : products.length > 0 ? (
-								products.slice(0, 3).map((product) => (
+							) : newProducts.length > 0 ? (
+								newProducts.slice(0, 3).map((product) => (
 									<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
 										<ProductCard
 											productID={product.product_id}
@@ -177,7 +184,7 @@ function Homepage() {
 										fontFamily: 'Calibri',
 									}}
 								>
-									No product found
+									No new product
 								</span>
 							)}
 						</Grid>

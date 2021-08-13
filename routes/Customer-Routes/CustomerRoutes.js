@@ -3,6 +3,7 @@ const router = express.Router();
 const conn = require('../../utils/db');
 const nodemailer = require('nodemailer');
 const uuid = require('uuid');
+const util = require('util');
 
 // Nodemailer
 const transporter = nodemailer.createTransport({
@@ -17,7 +18,25 @@ const transporter = nodemailer.createTransport({
 // Get all products for customers
 router.get('/api/products', async (req, res) => {
 	try {
+		// using node's promisify to get direct results from sql
+		const query = util.promisify(conn.query).bind(conn);
 		const sql = `SELECT * FROM products`;
+		const products = await query(sql);
+		return res.send({
+			status: 'PASSED',
+			message: 'Products retrieved successfully',
+			products,
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't retrieve products");
+	}
+});
+
+// Get new products for customers
+router.get('/api/products/new', async (req, res) => {
+	try {
+		// Use ID to determine descending order - 12 products selected
+		const sql = `SELECT * FROM products ORDER BY product_id DESC LIMIT 12`;
 		conn.query(sql, async (err, result) => {
 			if (err) throw err;
 			const products = result;
@@ -28,7 +47,44 @@ router.get('/api/products', async (req, res) => {
 			});
 		});
 	} catch (error) {
-		return res.status(500).send("Server Error. Couldn't retrieve products");
+		return res.status(500).send("Server Error. Couldn't retrieve new products");
+	}
+});
+
+// Get trending products for customers
+router.get('/api/products/trending', async (req, res) => {
+	try {
+		// Use INNER JOIN to combine order and product tables and get product details - Limit to 12 products
+		const sql = `SELECT COUNT(orders.product_id), orders.product_id, products.product_name, products.product_desc, products.product_category, products.product_price, products.product_image, products.product_stock FROM orders INNER JOIN products ON orders.product_id = products.product_id GROUP BY products.product_id ORDER BY COUNT(products.product_id) DESC LIMIT 12`;
+		conn.query(sql, async (err, result) => {
+			if (err) throw err;
+			let products = result;
+
+			if (!result.length > 0) {
+				//if no trending product or orders haven't been made, return 12 general products
+				const sql = 'SELECT * FROM products LIMIT 12';
+				conn.query(sql, (err, result) => {
+					if (err) throw err;
+					products = result;
+					return res.send({
+						status: 'PASSED',
+						message: 'Products retrieved successfully',
+						products,
+					});
+				});
+			} else {
+				// If trending products were found
+				return res.send({
+					status: 'PASSED',
+					message: 'Products retrieved successfully',
+					products,
+				});
+			}
+		});
+	} catch (error) {
+		return res
+			.status(500)
+			.send("Server Error. Couldn't retrieve trending products");
 	}
 });
 
