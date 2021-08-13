@@ -118,7 +118,12 @@ function ProductCard(props) {
 							{props.productName}
 						</span>
 					</Box>
-					<Box marginTop='15px'>
+					<Box
+						marginTop='15px'
+						display='flex'
+						justifyContent='space-between'
+						alignItems='center'
+					>
 						<span
 							style={{
 								color: '#43A047',
@@ -129,6 +134,17 @@ function ProductCard(props) {
 							}}
 						>
 							&#8358;{new Intl.NumberFormat('en-US').format(props.productPrice)}
+						</span>
+						<span
+							style={{
+								color: '#000000',
+								fontFamily: 'Calibri',
+								fontWeight: 'lighter',
+								fontSize: 19,
+								textTransform: 'uppercase',
+							}}
+						>
+							Stock: {props.productStock}
 						</span>
 					</Box>
 					{props.adminAccess && (

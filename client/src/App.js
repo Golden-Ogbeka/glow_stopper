@@ -91,7 +91,7 @@ function App() {
 				<BrowserRouter>
 					<MetaTags
 						title='Glow Stopper - Your one stop online store'
-						description='Buy quality and affordable products'
+						description='The number one store for all fashion brands'
 					/>
 					<ScrollToTop />
 					<Snackbar

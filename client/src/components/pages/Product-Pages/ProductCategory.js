@@ -92,6 +92,7 @@ function ProductCategory() {
 										<ProductCard
 											productName={product.product_name}
 											productPrice={product.product_price}
+											productStock={product.product_stock}
 											productID={product.product_id}
 											productImage={`${base_url}${product.product_image}`}
 										/>

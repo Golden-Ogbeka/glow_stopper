@@ -80,6 +80,7 @@ function TrendingProducts() {
 										<ProductCard
 											productID={product.product_id}
 											productName={product.product_name}
+											productStock={product.product_stock}
 											productPrice={product.product_price}
 											productImage={`${base_url}${product.product_image}`}
 										/>

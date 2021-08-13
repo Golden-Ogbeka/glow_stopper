@@ -96,6 +96,7 @@ function AdminViewProducts() {
 										productName={product.product_name}
 										productPrice={product.product_price}
 										productImage={`${base_url}${product.product_image}`}
+										productStock={product.product_stock}
 									/>
 								</Grid>
 							))

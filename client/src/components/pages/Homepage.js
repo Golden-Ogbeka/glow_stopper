@@ -92,6 +92,7 @@ function Homepage() {
 											productID={product.product_id}
 											productName={product.product_name}
 											productPrice={product.product_price}
+											productStock={product.product_stock}
 											productImage={`${base_url}${product.product_image}`}
 										/>
 									</Grid>
@@ -163,6 +164,7 @@ function Homepage() {
 										<ProductCard
 											productID={product.product_id}
 											productName={product.product_name}
+											productStock={product.product_stock}
 											productPrice={product.product_price}
 											productImage={`${base_url}${product.product_image}`}
 										/>

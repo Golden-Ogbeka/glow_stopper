@@ -155,7 +155,18 @@ function AdminProductDescription() {
 								<br />
 								<span
 									style={{
-										fontSize: '4vh',
+										fontSize: '3vh',
+										fontWeight: 'lighter',
+										fontFamily: 'Calibri',
+									}}
+								>
+									Category: <b>{productDetails.product_category}</b>
+								</span>
+								<br />
+								<br />
+								<span
+									style={{
+										fontSize: '25px',
 										fontWeight: 'lighter',
 										fontFamily: 'Calibri',
 									}}
@@ -166,12 +177,12 @@ function AdminProductDescription() {
 								<br />
 								<span
 									style={{
-										fontSize: '3vh',
-										fontWeight: 'lighter',
+										fontSize: '23px',
+										fontWeight: 'normal',
 										fontFamily: 'Calibri',
 									}}
 								>
-									Category: <b>{productDetails.product_category}</b>
+									Stock: {productDetails.product_stock}
 								</span>
 								<Box
 									style={{

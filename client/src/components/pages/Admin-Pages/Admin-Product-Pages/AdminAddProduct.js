@@ -38,6 +38,7 @@ function AdminAddProduct() {
 			productPrice: '',
 			productDescription: '',
 			productImage: '',
+			productStock: '',
 		},
 		validationSchema: Yup.object({
 			productName: Yup.string().required('Product name is required'),
@@ -46,6 +47,9 @@ function AdminAddProduct() {
 				.required('Product Price is required')
 				.typeError('Product price must be a number'),
 			productDescription: Yup.string().required('Product Description is required'),
+			productStock: Yup.number()
+				.typeError('Product Stock must be a number')
+				.required('Please input product stock'),
 		}),
 		onSubmit: (values) => {
 			addProduct(values);
@@ -67,6 +71,8 @@ function AdminAddProduct() {
 			formData.append('productDescription', values.productDescription);
 			formData.append('productPrice', values.productPrice);
 			formData.append('productImage', values.productImage);
+			formData.append('productStock', values.productStock);
+
 			const response = await axios.post('/admin/product', formData, {
 				headers: {
 					token: storedSession.userToken,
@@ -250,6 +256,24 @@ function AdminAddProduct() {
 								formik.touched.productDescription &&
 								formik.errors.productDescription &&
 								formik.errors.productDescription
+							}
+						/>
+						<TextField
+							label='Product stock'
+							variant='outlined'
+							required
+							type='number'
+							id='productStock'
+							name='productStock'
+							placeholder="Enter product's stock"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.productStock || ''}
+							error={formik.touched.productStock && formik.errors.productStock}
+							helperText={
+								formik.touched.productStock &&
+								formik.errors.productStock &&
+								formik.errors.productStock
 							}
 						/>
 						<Box

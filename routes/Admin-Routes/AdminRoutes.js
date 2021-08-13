@@ -79,8 +79,13 @@ router.post('/api/admin/product', verifyAdmin, (req, res, next) => {
 					message: "Couldn't upload image",
 				});
 			}
-			const { productName, productCategory, productDescription, productPrice } =
-				fields;
+			const {
+				productName,
+				productCategory,
+				productDescription,
+				productPrice,
+				productStock,
+			} = fields;
 			const { productImage } = files;
 			const oldPath = productImage.path;
 			const primaryIdentifier = uuid.v4().substr(0, 3); //to distinguish images
@@ -96,7 +101,7 @@ router.post('/api/admin/product', verifyAdmin, (req, res, next) => {
 					const productImagePath = `/uploads/product_images/glow_stopper-${primaryIdentifier}-${productImage.name}`;
 
 					// Add the new product
-					const sql = `INSERT INTO products (product_name, product_desc, product_category, product_price, product_image) VALUES (?, ?, ?, ?, ?)`;
+					const sql = `INSERT INTO products (product_name, product_desc, product_category, product_price, product_image, product_stock) VALUES (?, ?, ?, ?, ?, ?)`;
 					conn.query(
 						sql,
 						[
@@ -105,6 +110,7 @@ router.post('/api/admin/product', verifyAdmin, (req, res, next) => {
 							productCategory,
 							productPrice,
 							productImagePath,
+							productStock,
 						],
 						async (err, result) => {
 							if (err) throw err;
@@ -148,6 +154,7 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 					productCategory,
 					productDescription,
 					productPrice,
+					productStock,
 					productID,
 				} = fields;
 				const { productImage } = files;
@@ -165,7 +172,7 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 						const productImagePath = `/uploads/product_images/glow_stopper-${primaryIdentifier}-${productImage.name}`;
 
 						// Add the new product
-						const sql = `UPDATE products SET product_name=?, product_desc=?, product_category=?, product_price=?, product_image=? WHERE product_id=${productID}`;
+						const sql = `UPDATE products SET product_name=?, product_desc=?, product_category=?, product_price=?, product_image=?, product_stock=? WHERE product_id=${productID}`;
 						conn.query(
 							sql,
 							[
@@ -174,6 +181,7 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 								productCategory,
 								productPrice,
 								productImagePath,
+								productStock,
 							],
 							async (err, result) => {
 								if (err) throw err;
@@ -192,14 +200,22 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 					productCategory,
 					productDescription,
 					productPrice,
+					productStock,
 					productID,
 				} = fields;
 
 				// Add the new product
-				const sql = `UPDATE products SET product_name=?, product_desc=?, product_category=?, product_price=? WHERE product_id=${productID}`;
+				const sql = `UPDATE products SET product_name=?, product_desc=?, product_category=?, product_price=?, product_stock=? WHERE product_id=${productID}`;
 				conn.query(
 					sql,
-					[productName, productDescription, productCategory, productPrice],
+					[
+						productName,
+						productDescription,
+						productCategory,
+						productPrice,
+						productStock,
+					],
+
 					async (err, result) => {
 						if (err) throw err;
 						return res.send({
@@ -212,7 +228,7 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 			}
 		});
 	} catch (error) {
-		return res.status(500).send("Server Error. Couldn't add product");
+		return res.status(500).send("Server Error. Couldn't update product");
 	}
 });
 
