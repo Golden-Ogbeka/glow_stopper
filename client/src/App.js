@@ -197,13 +197,14 @@ function App() {
 							component={AdminViewProductCategories}
 							exact
 						/>
+
 						<PrivateRoute
 							path='/admin/product/categories/new'
 							component={AdminNewProductCategory}
 							exact
 						/>
 						<PrivateRoute
-							path='/admin/product/categories/edit'
+							path='/admin/product/categories/edit/:categoryID'
 							component={AdminEditProductCategory}
 							exact
 						/>

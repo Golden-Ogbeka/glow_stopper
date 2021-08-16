@@ -219,7 +219,7 @@ function ProductCard(props) {
 							<Button
 								size='small'
 								style={{
-									color: '#5bc0de',
+									color: '#CCAC00',
 									fontFamily: 'Calibri',
 									fontWeight: '600',
 									fontSize: 16,
@@ -233,7 +233,7 @@ function ProductCard(props) {
 						<Button
 							size='small'
 							style={{
-								color: '#d9534f',
+								color: '#CCAC00',
 								fontFamily: 'Calibri',
 								fontWeight: '600',
 								fontSize: 16,

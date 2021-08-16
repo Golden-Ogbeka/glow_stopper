@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-	Box,
-	TextField,
-	Button,
-	makeStyles,
-	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
-} from '@material-ui/core';
+import { Box, TextField, Button, makeStyles } from '@material-ui/core';
 import AdminNavbar from '../../../layout/Admin/AdminNavbar';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -62,15 +53,11 @@ function AdminNewProductCategory() {
 			formData.append('categoryDescription', values.categoryDescription);
 			formData.append('categoryImage', values.categoryImage);
 
-			const response = await axios.post(
-				'/admin/product/categories/new',
-				formData,
-				{
-					headers: {
-						token: storedSession.userToken,
-					},
+			const response = await axios.post('/admin/product/categories', formData, {
+				headers: {
+					token: storedSession.userToken,
 				},
-			);
+			});
 			if (response.data.status === 'PASSED') {
 				setContextVariables({
 					...contextVariables,
@@ -81,7 +68,7 @@ function AdminNewProductCategory() {
 						message: response.data.message,
 					},
 				});
-				history.push(`/admin/product/categories/${response.data.categoryID}`);
+				history.push('/admin/product/categories');
 			} else {
 				setContextVariables({
 					...contextVariables,
@@ -177,98 +164,43 @@ function AdminNewProductCategory() {
 							variant='outlined'
 							required
 							type='text'
-							id='productName'
-							name='productName'
-							placeholder="Enter product's name"
+							id='categoryName'
+							name='categoryName'
+							placeholder="Enter category's name"
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
-							value={formik.values.productName || ''}
-							error={formik.touched.productName && formik.errors.productName}
+							value={formik.values.categoryName || ''}
+							error={formik.touched.categoryName && formik.errors.categoryName}
 							helperText={
-								formik.touched.productName &&
-								formik.errors.productName &&
-								formik.errors.productName
+								formik.touched.categoryName &&
+								formik.errors.categoryName &&
+								formik.errors.categoryName
 							}
 						/>
-						<FormControl variant='standard'>
-							<InputLabel>Product category</InputLabel>
-							<Select
-								id='productCategory'
-								name='productCategory'
-								placeholder="Select product's category"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.productCategory || ''}
-								error={formik.touched.productCategory && formik.errors.productCategory}
-								helperText={
-									formik.touched.productCategory &&
-									formik.errors.productCategory &&
-									formik.errors.productCategory
-								}
-							>
-								<MenuItem value='DRESSES'>DRESSES</MenuItem>
-								<MenuItem value='JEANS'>JEANS</MenuItem>
-								<MenuItem value='SHOES'>SHOES</MenuItem>
-							</Select>
-						</FormControl>
+
 						<TextField
-							label='Product price'
-							variant='outlined'
-							required
-							type='text'
-							id='productPrice'
-							name='productPrice'
-							placeholder="Enter product's price"
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.productPrice || ''}
-							error={formik.touched.productPrice && formik.errors.productPrice}
-							helperText={
-								formik.touched.productPrice &&
-								formik.errors.productPrice &&
-								formik.errors.productPrice
-							}
-						/>
-						<TextField
-							label='Product description'
+							label='Category description'
 							variant='outlined'
 							required
 							type='text'
 							multiline
 							rows='3'
-							id='productDescription'
-							name='productDescription'
-							placeholder="Enter product's description"
+							id='categoryDescription'
+							name='categoryDescription'
+							placeholder="Enter category's description"
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
-							value={formik.values.productDescription || ''}
+							value={formik.values.categoryDescription || ''}
 							error={
-								formik.touched.productDescription && formik.errors.productDescription
+								formik.touched.categoryDescription && formik.errors.categoryDescription
 							}
 							helperText={
-								formik.touched.productDescription &&
-								formik.errors.productDescription &&
-								formik.errors.productDescription
+								formik.touched.categoryDescription &&
+								formik.errors.categoryDescription &&
+								formik.errors.categoryDescription
 							}
 						/>
-						<TextField
-							label='Product stock'
-							variant='outlined'
-							required
-							type='number'
-							id='productStock'
-							name='productStock'
-							placeholder="Enter product's stock"
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.productStock || ''}
-							error={formik.touched.productStock && formik.errors.productStock}
-							helperText={
-								formik.touched.productStock &&
-								formik.errors.productStock &&
-								formik.errors.productStock
-							}
-						/>
+
 						<Box
 							style={{
 								borderStyle: 'solid',
@@ -280,12 +212,12 @@ function AdminNewProductCategory() {
 							}}
 						>
 							<label
-								htmlFor='productImage'
+								htmlFor='categoryImage'
 								style={{
 									padding: 10,
 								}}
 							>
-								Select a product image
+								Select the category's image
 							</label>
 
 							<input
@@ -293,15 +225,15 @@ function AdminNewProductCategory() {
 									paddingInline: 10,
 									paddingBottom: 10,
 								}}
-								id='productImage'
+								id='categoryImage'
 								type='file'
 								accept='image/*'
 								multiple={false}
 								required
-								name='productImage'
+								name='categoryImage'
 								onChange={(e) => {
 									const file = e.currentTarget.files[0];
-									formik.setFieldValue('productImage', file);
+									formik.setFieldValue('categoryImage', file);
 									// formik.handleChange
 								}}
 								onBlur={formik.handleBlur}
@@ -321,7 +253,7 @@ function AdminNewProductCategory() {
 								}}
 								type='submit'
 							>
-								Add Product
+								Add Category
 							</Button>
 						</center>
 					</form>

@@ -21,7 +21,11 @@ function ProductCategoryCard(props) {
 				}}
 			>
 				<CardActionArea
-					onClick={() => history.push(`/products/category/${props.category}`)}
+					onClick={() =>
+						// For only clients
+						props.adminAccess === false &&
+						history.push(`/products/category/${props.category}`)
+					}
 				>
 					<CardMedia
 						image={props.categoryImage}
@@ -59,32 +63,79 @@ function ProductCategoryCard(props) {
 				</CardActionArea>
 				<CardActions
 					style={{
-						justifyContent: 'center',
+						justifyContent: 'space-around',
 					}}
 				>
-					<Link
-						to={`/products/category/${props.category}`}
-						style={{
-							textDecoration: 'none',
-						}}
-					>
-						<Button
-							size='small'
+					{props.adminAccess === false && (
+						<Link
+							to={`/products/category/${props.category}`}
 							style={{
-								color: '#CCAC00',
-								fontFamily: 'Calibri',
-								fontWeight: '600',
-								fontSize: 16,
-								textTransform: 'uppercase',
+								textDecoration: 'none',
 							}}
 						>
-							View category
-						</Button>
-					</Link>
+							<Button
+								size='small'
+								style={{
+									color: '#CCAC00',
+									fontFamily: 'Calibri',
+									fontWeight: '600',
+									fontSize: 16,
+									textTransform: 'uppercase',
+								}}
+							>
+								View
+							</Button>
+						</Link>
+					)}
+					{props.adminAccess && (
+						<>
+							<Link
+								to={`/admin/product/categories/edit/${props.categoryID}`}
+								style={{
+									textDecoration: 'none',
+								}}
+							>
+								<Button
+									size='small'
+									style={{
+										color: '#CCAC00',
+										fontFamily: 'Calibri',
+										fontWeight: '600',
+										fontSize: 16,
+										textTransform: 'uppercase',
+									}}
+								>
+									Edit
+								</Button>
+							</Link>
+							<Link
+								to={`/products/category/${props.category}`}
+								style={{
+									textDecoration: 'none',
+								}}
+							>
+								<Button
+									size='small'
+									style={{
+										color: '#CCAC00',
+										fontFamily: 'Calibri',
+										fontWeight: '600',
+										fontSize: 16,
+										textTransform: 'uppercase',
+									}}
+								>
+									Delete
+								</Button>
+							</Link>
+						</>
+					)}
 				</CardActions>
 			</Card>
 		</>
 	);
 }
 
+ProductCategoryCard.defaultProps = {
+	adminAccess: false,
+};
 export default ProductCategoryCard;

@@ -100,7 +100,6 @@ router.post('/api/admin/product', verifyAdmin, (req, res, next) => {
 				else {
 					const productImagePath = `/uploads/product_images/glow_stopper-${primaryIdentifier}-${productImage.name}`;
 
-					// Add the new product
 					const sql = `INSERT INTO products (product_name, product_desc, product_category, product_price, product_image, product_stock) VALUES (?, ?, ?, ?, ?, ?)`;
 					conn.query(
 						sql,
@@ -171,7 +170,6 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 					else {
 						const productImagePath = `/uploads/product_images/glow_stopper-${primaryIdentifier}-${productImage.name}`;
 
-						// Add the new product
 						const sql = `UPDATE products SET product_name=?, product_desc=?, product_category=?, product_price=?, product_image=?, product_stock=? WHERE product_id=${productID}`;
 						conn.query(
 							sql,
@@ -204,7 +202,6 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 					productID,
 				} = fields;
 
-				// Add the new product
 				const sql = `UPDATE products SET product_name=?, product_desc=?, product_category=?, product_price=?, product_stock=? WHERE product_id=${productID}`;
 				conn.query(
 					sql,
@@ -371,30 +368,176 @@ router.get('/api/admin/orders', verifyAdmin, (req, res) => {
 
 // Get all orders for a particular reference
 router.get('/api/admin/orders/reference', verifyAdmin, (req, res) => {
-	const { orderReference } = req.query;
-	if (!orderReference) {
-		return res.status(400).send({
-			status: 'FAILED',
-			message: 'Order Reference is required',
-		});
-	}
-	const sql = 'SELECT * FROM orders WHERE order_reference=?';
-	conn.query(sql, orderReference, (err, result) => {
-		if (err) throw err;
-		else if (!result.length > 0) {
+	try {
+		const { orderReference } = req.query;
+		if (!orderReference) {
 			return res.status(400).send({
 				status: 'FAILED',
-				message: 'Order Reference not found',
-			});
-		} else {
-			return res.send({
-				status: 'PASSED',
-				message: 'Orders retrieved successfully',
-				orders: result,
+				message: 'Order Reference is required',
 			});
 		}
-	});
+		const sql = 'SELECT * FROM orders WHERE order_reference=?';
+		conn.query(sql, orderReference, (err, result) => {
+			if (err) throw err;
+			else if (!result.length > 0) {
+				return res.status(400).send({
+					status: 'FAILED',
+					message: 'Order Reference not found',
+				});
+			} else {
+				return res.send({
+					status: 'PASSED',
+					message: 'Orders retrieved successfully',
+					orders: result,
+				});
+			}
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't get order reference");
+	}
 });
+
+// Product Categories
+
+// Get all product categories for admin
+router.get('/api/admin/product/categories', verifyAdmin, (req, res) => {
+	try {
+		const sql = `SELECT * FROM product_categories`;
+		conn.query(sql, async (err, result) => {
+			if (err) throw err;
+			const productCategories = result;
+			return res.send({
+				status: 'PASSED',
+				message: 'Product categories retrieved successfully',
+				productCategories,
+			});
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't get order reference");
+	}
+});
+
+// Add new product category
+router.post('/api/admin/product/categories', verifyAdmin, (req, res, next) => {
+	try {
+		const form = formidable({ multiples: false });
+		form.parse(req, (err, fields, files) => {
+			if (err) {
+				next(err);
+				return res.status(400).send({
+					status: 'FAILED',
+					message: "Couldn't upload image",
+				});
+			}
+			const { categoryName, categoryDescription } = fields;
+			const { categoryImage } = files;
+			const oldPath = categoryImage.path;
+			const primaryIdentifier = uuid.v4().substr(0, 3); //to distinguish images
+			const newPath =
+				path.resolve(__dirname, '../../', 'uploads/product_category_images') +
+				`/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+
+			// Move the image
+			// Using file rename strategy
+			fs.rename(oldPath, `${newPath}`, (err) => {
+				if (err) throw err;
+				else {
+					const categoryImagePath = `/uploads/product_category_images/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+
+					const sql = `INSERT INTO product_categories (category_name, category_description, category_image) VALUES (?, ?, ?)`;
+					conn.query(
+						sql,
+						[categoryName, categoryDescription, categoryImagePath],
+						async (err, result) => {
+							if (err) throw err;
+							return res.send({
+								status: 'PASSED',
+								message: 'Product category added successfully',
+								categoryID: result.insertId,
+							});
+						},
+					);
+				}
+			});
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't add product category");
+	}
+});
+
+//Update product category
+router.put(
+	'/api/admin/product/categories',
+	verifyAdmin,
+	async (req, res, next) => {
+		try {
+			const form = formidable({ multiples: false });
+			form.parse(req, (err, fields, files) => {
+				if (err) {
+					return res.status(400).send({
+						status: 'FAILED',
+						message: "Couldn't upload image",
+					});
+				}
+				if (Object.keys(files).length > 0) {
+					//Product image was changed
+					const { categoryName, categoryDescription, categoryID } = fields;
+					const { categoryImage } = files;
+					const oldPath = categoryImage.path;
+					const primaryIdentifier = uuid.v4().substr(0, 3); //to distinguish images
+					const newPath =
+						path.resolve(__dirname, '../../', 'uploads/product_category_images') +
+						`/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+
+					// Move the image
+					// Using file rename strategy
+					fs.rename(oldPath, `${newPath}`, (err) => {
+						if (err) throw err;
+						else {
+							const categoryImagePath = `/uploads/product_category_images/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+
+							const sql = `UPDATE product_categories SET category_name=?, category_desc=?, category_image=? WHERE category_id=${categoryID}`;
+							conn.query(
+								sql,
+								[categoryName, categoryDescription, categoryImagePath],
+								async (err, result) => {
+									if (err) throw err;
+									return res.send({
+										status: 'PASSED',
+										message: 'Product category updated successfully',
+										categoryID: result.insertId,
+									});
+								},
+							);
+						}
+					});
+				} else {
+					// No category Image
+					const { categoryName, categoryDescription, categoryID } = fields;
+
+					const sql = `UPDATE product_categories SET category_name=?, category_desc=? WHERE category_id=${categoryID}`;
+					conn.query(
+						sql,
+						[productName, productDescription],
+
+						async (err, result) => {
+							if (err) throw err;
+							return res.send({
+								status: 'PASSED',
+								message: 'Product category updated successfully',
+								categoryID: result.insertId,
+							});
+						},
+					);
+				}
+			});
+		} catch (error) {
+			return res
+				.status(500)
+				.send("Server Error. Couldn't update product category");
+		}
+	},
+);
 
 // Get Details for dashboard
 router.get('/api/admin/dashboard', verifyAdmin, (req, res) => {

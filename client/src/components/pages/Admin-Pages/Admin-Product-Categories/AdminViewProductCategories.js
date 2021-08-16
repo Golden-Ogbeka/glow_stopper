@@ -87,6 +87,7 @@ function AdminViewProductCategories() {
 										<Grid item lg={4} md={4} sm={12} xs={12} key={category.category_id}>
 											<ProductCategoryCard
 												category={category.category_name}
+												categoryID={category.category_id}
 												categoryDescription={category.category_description}
 												categoryImage={`${base_url}${category.category_image}`}
 												adminAccess={true}
