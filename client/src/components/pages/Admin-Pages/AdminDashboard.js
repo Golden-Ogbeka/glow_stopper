@@ -8,7 +8,13 @@ import {
 	CardActions,
 	Grid,
 } from '@material-ui/core';
-import { LocalMall, Lock, Security, ShoppingCart } from '@material-ui/icons';
+import {
+	Category,
+	LocalMall,
+	Lock,
+	Security,
+	ShoppingCart,
+} from '@material-ui/icons';
 import AdminNavbar from '../../layout/Admin/AdminNavbar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -16,31 +22,45 @@ import CryptoJS from 'crypto-js';
 import { encrypt_key } from '../../../app.json';
 
 function AdminDashboard() {
-	const [products, setProducts] = React.useState([]);
+	const [details, setDetails] = React.useState({
+		products: [],
+		orders: [],
+		productCategories: [],
+	});
 
 	React.useEffect(() => {
-		const getProducts = async () => {
+		const getProductsAndOrders = async () => {
 			try {
 				let storedSession = JSON.parse(
 					localStorage.getItem('sessionDetails_glowStopper'),
 				);
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.get('/admin/products', {
+				const response = await axios.get('/admin/dashboard', {
 					headers: {
 						token: storedSession.userToken,
 					},
 				});
 
 				if (response.data.status === 'PASSED') {
-					setProducts(response.data.products);
+					setDetails({
+						...details,
+						products: response.data.products,
+						orders: response.data.orders,
+						productCategories: response.data.productCategories,
+					});
 				}
 			} catch (error) {
-				setProducts([]);
+				setDetails({
+					products: [],
+					orders: [],
+				});
 			}
 		};
-		getProducts();
+		getProductsAndOrders();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
 	return (
 		<>
 			<AdminNavbar />
@@ -132,7 +152,7 @@ function AdminDashboard() {
 											float: 'right',
 										}}
 									>
-										{products.length}
+										{details.products?.length}
 									</h4>
 								</CardContent>
 								<CardActions>
@@ -158,6 +178,97 @@ function AdminDashboard() {
 										</Link>
 										<Link
 											to='/admin/product/new'
+											style={{
+												width: '100%',
+												textDecoration: 'none',
+											}}
+										>
+											<Button
+												variant='contained'
+												style={{
+													color: '#FFFFFF',
+													width: '100%',
+													backgroundColor: '#FB4E4E',
+													borderRadius: 0,
+												}}
+											>
+												Add
+											</Button>
+										</Link>
+									</ButtonGroup>
+								</CardActions>
+							</Card>
+						</Grid>
+						<Grid item lg={4} md={6} sm={12} xs={12}>
+							<Card>
+								<CardContent style={{ display: 'flex', alignItems: 'center' }}>
+									<Box
+										style={{
+											marginRight: 10,
+											backgroundColor: '#000000',
+											color: '#FFD700',
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+											width: 50,
+											height: 50,
+										}}
+									>
+										<Category
+											style={{
+												width: 30,
+												height: 30,
+											}}
+										/>
+									</Box>
+									<h4
+										style={{
+											margin: 0,
+											// marginRight: '55px',
+											fontFamily: 'Calibri',
+											fontWeight: 'normal',
+											fontSize: 30,
+											flexGrow: 1,
+										}}
+									>
+										Product Categories
+									</h4>
+
+									<h4
+										style={{
+											margin: 0,
+											fontFamily: 'Calibri',
+											fontWeight: 'bold',
+											fontSize: 30,
+											float: 'right',
+										}}
+									>
+										{details.productCategories?.length}
+									</h4>
+								</CardContent>
+								<CardActions>
+									<ButtonGroup fullWidth>
+										<Link
+											to='/admin/product/categories'
+											style={{
+												textDecoration: 'none',
+												width: '100%',
+											}}
+										>
+											<Button
+												variant='contained'
+												style={{
+													color: '#FFFFFF',
+													backgroundColor: '#836E00',
+													borderRadius: 0,
+													width: '100%',
+												}}
+											>
+												View
+											</Button>
+										</Link>
+										<Link
+											to='/admin/product/categories/new'
 											style={{
 												width: '100%',
 												textDecoration: 'none',
@@ -223,20 +334,28 @@ function AdminDashboard() {
 											float: 'right',
 										}}
 									>
-										20
+										{details.orders?.length}
 									</h4>
 								</CardContent>
 								<CardActions>
-									<Button
-										variant='contained'
+									<Link
+										to='/admin/orders/view'
 										style={{
-											color: '#FFFFFF',
-											backgroundColor: '#836E00',
+											width: '100%',
+											textDecoration: 'none',
 										}}
-										fullWidth
 									>
-										View
-									</Button>
+										<Button
+											variant='contained'
+											style={{
+												color: '#FFFFFF',
+												backgroundColor: '#836E00',
+											}}
+											fullWidth
+										>
+											View
+										</Button>
+									</Link>
 								</CardActions>
 							</Card>
 						</Grid>

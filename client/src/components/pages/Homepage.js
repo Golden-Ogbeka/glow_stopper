@@ -93,17 +93,20 @@ function Homepage() {
 							{loading ? (
 								<CircularProgress />
 							) : trendingProducts.length > 0 ? (
-								trendingProducts.slice(0, 3).map((product) => (
-									<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
-										<ProductCard
-											productID={product.product_id}
-											productName={product.product_name}
-											productPrice={product.product_price}
-											productStock={product.product_stock}
-											productImage={`${base_url}${product.product_image}`}
-										/>
-									</Grid>
-								))
+								trendingProducts.slice(0, 3).map(
+									(product) =>
+										product.product_stock > 0 && (
+											<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
+												<ProductCard
+													productID={product.product_id}
+													productName={product.product_name}
+													productPrice={product.product_price}
+													productStock={product.product_stock}
+													productImage={`${base_url}${product.product_image}`}
+												/>
+											</Grid>
+										),
+								)
 							) : (
 								<Box
 									style={{

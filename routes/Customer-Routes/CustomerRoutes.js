@@ -135,7 +135,31 @@ router.post('/api/order', async (req, res) => {
 		const { cartDetails, trimmedCart } = req.body;
 		const orderReference = `GSO-${uuid.v4().slice(0, 7)}`;
 
-		const sql = `INSERT INTO orders (order_reference, product_id, product_name,product_image, product_price,customer_name,customer_email,customer_phone_number,customer_address) VALUES (?,?,?,?,?,?,?,?,?)`;
+		// Reduce product inventory based on order
+		for (let i = 0; i < trimmedCart.length; i++) {
+			const itemQuantity = cartDetails.reduce(
+				(total, cartItem) =>
+					total + (cartItem.productID === trimmedCart[i].productID),
+				0,
+			);
+			// Get the product
+			const sql = `SELECT * FROM products WHERE product_id=${trimmedCart[i].productID}`;
+			conn.query(sql, (err, result) => {
+				if (err) throw err;
+				const product = result[0];
+
+				// Update the product stock
+				const sql = `UPDATE products SET product_stock=${
+					product.product_stock - itemQuantity
+				} WHERE product_id=${trimmedCart[i].productID}`;
+				conn.query(sql, (err) => {
+					if (err) throw err;
+				});
+			});
+		}
+
+		//Insert order into DB
+		const sql = `INSERT INTO orders (order_reference, product_id, product_name,product_image, product_price,product_quantity,customer_name,customer_email,customer_phone_number,customer_address) VALUES (?,?,?,?,?,?,?,?,?,?)`;
 		trimmedCart.map((item) =>
 			conn.query(
 				sql,
@@ -145,6 +169,10 @@ router.post('/api/order', async (req, res) => {
 					item.productName,
 					item.productImage,
 					item.productPrice,
+					cartDetails.reduce(
+						(total, cartItem) => total + (cartItem.productID === item.productID),
+						0,
+					), //For Quantity
 					firstName + ' ' + lastName,
 					email,
 					phoneNumber,
@@ -178,6 +206,7 @@ ${trimmedCart
 			)} naira`,
 	)
 	.join('\n')}
+
 Total: ${new Intl.NumberFormat('en-US').format(
 			cartDetails.reduce(
 				(total, cartItem) => total + Number(cartItem.productPrice),

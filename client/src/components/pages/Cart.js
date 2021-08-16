@@ -17,6 +17,7 @@ import {
 	TableFooter,
 	Button,
 	Divider,
+	Tooltip,
 } from '@material-ui/core';
 import { Add, Delete, Remove } from '@material-ui/icons';
 import React from 'react';
@@ -77,29 +78,52 @@ function Cart() {
 		getCartDetails();
 	}, []);
 
-	const addToCart = async (productDetails) => {
-		if (JSON.parse(localStorage.getItem('cart_glowStopper'))) {
-			// If cart is not empty
-			localStorage.setItem(
-				'cart_glowStopper',
-				JSON.stringify([
-					...JSON.parse(localStorage.getItem('cart_glowStopper')),
-					productDetails,
-				]),
-			);
-			//Increase the quantity in front-end
-			setCartDetails([...cartDetails, productDetails]);
-			setContextVariables({
+	const increaseQuantity = async (productDetails) => {
+		const itemQuantity = cartDetails.reduce(
+			(total, cartItem) =>
+				total + (cartItem.productID === productDetails.productID),
+			0,
+		);
+		// Check if item's stock is larger than quantity
+		if (itemQuantity >= productDetails.productStock) {
+			return setContextVariables({
 				...contextVariables,
-				cartItems: [...contextVariables.cartItems, productDetails],
+				feedback: {
+					...contextVariables.feedback,
+					open: true,
+					type: 'error',
+					message: 'Item stock limit reached',
+				},
 			});
 		} else {
-			localStorage.setItem('cart_glowStopper', JSON.stringify([productDetails]));
-			setCartDetails([...cartDetails, productDetails]);
-			setContextVariables({
-				...contextVariables,
-				cartItems: productDetails,
-			});
+			if (JSON.parse(localStorage.getItem('cart_glowStopper'))) {
+				// If cart is not empty
+				localStorage.setItem(
+					'cart_glowStopper',
+					JSON.stringify([
+						...JSON.parse(localStorage.getItem('cart_glowStopper')),
+						productDetails,
+					]),
+				);
+				//Increase the quantity in front-end
+				setCartDetails([...cartDetails, productDetails]);
+				setContextVariables({
+					...contextVariables,
+					cartItems: [...contextVariables.cartItems, productDetails],
+				});
+			} else {
+				localStorage.setItem('cart_glowStopper', JSON.stringify([productDetails]));
+				// Set timeout for cart
+				localStorage.setItem(
+					'cart_glowStopper_timeout',
+					JSON.stringify(Date.now() + 86400000),
+				);
+				setCartDetails([...cartDetails, productDetails]);
+				setContextVariables({
+					...contextVariables,
+					cartItems: productDetails,
+				});
+			}
 		}
 	};
 	const reduceQuantity = (productID) => {
@@ -176,9 +200,12 @@ function Cart() {
 									<TableRow>
 										<StyledTableCell align='center'></StyledTableCell>
 										<StyledTableCell align='center'>Item</StyledTableCell>
-										<StyledTableCell align='center'>Quantity</StyledTableCell>
+										<Tooltip title='Product Inventory. This is only valid while stocks last'>
+											<StyledTableCell align='center'>Current Stock</StyledTableCell>
+										</Tooltip>
 										<StyledTableCell align='center'>Unit Price</StyledTableCell>
 										<StyledTableCell align='center'>Total Price</StyledTableCell>
+										<StyledTableCell align='center'>Quantity</StyledTableCell>
 										<StyledTableCell align='center'></StyledTableCell>
 									</TableRow>
 								</TableHead>
@@ -208,13 +235,11 @@ function Cart() {
 															<StyledTableCell align='center'>
 																{item.productName}
 															</StyledTableCell>
-															<StyledTableCell align='center'>
-																{cartDetails.reduce(
-																	(total, cartItem) =>
-																		total + (cartItem.productID === item.productID),
-																	0,
-																)}
-															</StyledTableCell>
+															<Tooltip title='Product Inventory. This is only valid while stocks last'>
+																<StyledTableCell align='center'>
+																	{item.productStock}
+																</StyledTableCell>
+															</Tooltip>
 															<StyledTableCell align='center'>
 																{new Intl.NumberFormat('en-US').format(item.productPrice)}
 															</StyledTableCell>
@@ -231,8 +256,16 @@ function Cart() {
 																}
 															</StyledTableCell>
 															<StyledTableCell align='center'>
+																{cartDetails.reduce(
+																	(total, cartItem) =>
+																		total + (cartItem.productID === item.productID),
+																	0,
+																)}
+															</StyledTableCell>
+
+															<StyledTableCell align='center'>
 																<Box display='flex' justifyContent='space-evenly'>
-																	<IconButton onClick={() => addToCart(item)}>
+																	<IconButton onClick={() => increaseQuantity(item)}>
 																		<Add htmlColor='#000000' />
 																	</IconButton>
 																	<IconButton onClick={() => reduceQuantity(item.productID)}>
@@ -248,7 +281,7 @@ function Cart() {
 												</>
 											) : (
 												<StyledTableRow>
-													<StyledTableCell colSpan='6'>Cart is empty</StyledTableCell>
+													<StyledTableCell colSpan='7'>Cart is empty</StyledTableCell>
 												</StyledTableRow>
 											)}
 										</>
@@ -256,7 +289,7 @@ function Cart() {
 								</TableBody>
 								<TableFooter>
 									<StyledTableRow>
-										<StyledTableCell colSpan='6'>
+										<StyledTableCell colSpan='7'>
 											<center>
 												Total Amount in Cart: &#8358;{' '}
 												{new Intl.NumberFormat('en-US').format(
@@ -351,28 +384,24 @@ function Cart() {
 																height: 'auto',
 															}}
 														/>
-														<span
+														<Box
 															style={{
 																fontSize: 30,
 																fontWeight: 'bold',
+																paddingBlock: 10,
 															}}
 														>
 															{item.productName}
-														</span>
-														<br />
-														<span
+														</Box>
+														<Box
 															style={{
 																fontSize: 22,
 																fontWeight: 'normal',
+																marginBlock: 10,
 															}}
 														>
-															{cartDetails.reduce(
-																(total, cartItem) =>
-																	total + (cartItem.productID === item.productID),
-																0,
-															)}{' '}
-															pcs
-														</span>
+															Current Stock: {item.productStock}
+														</Box>
 
 														<Box
 															style={{
@@ -382,6 +411,20 @@ function Cart() {
 															}}
 														>
 															Price: {new Intl.NumberFormat('en-US').format(item.productPrice)}
+														</Box>
+														<Box
+															style={{
+																fontSize: 23,
+																fontWeight: 'normal',
+															}}
+														>
+															Quantity:{' '}
+															{cartDetails.reduce(
+																(total, cartItem) =>
+																	total + (cartItem.productID === item.productID),
+																0,
+															)}{' '}
+															pc(s)
 														</Box>
 														<Box
 															style={{
@@ -410,7 +453,7 @@ function Cart() {
 															justifyContent: 'center',
 														}}
 													>
-														<IconButton onClick={() => addToCart(item)}>
+														<IconButton onClick={() => increaseQuantity(item)}>
 															<Add fontSize='large' htmlColor='#000000' />
 														</IconButton>
 														<IconButton onClick={() => reduceQuantity(item.productID)}>

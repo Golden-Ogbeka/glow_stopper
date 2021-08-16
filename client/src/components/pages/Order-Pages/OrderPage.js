@@ -94,8 +94,10 @@ function OrderPage() {
 						type: 'success',
 						message: response.data.message,
 					},
+					cartItems: [],
 				});
 				localStorage.removeItem('cart_glowStopper');
+				localStorage.removeItem('cart_glowStopper_timeout');
 				history.push(`/order/successful/${response.data.orderReference}`);
 			} else {
 				setContextVariables({

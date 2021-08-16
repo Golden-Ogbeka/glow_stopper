@@ -59,26 +59,52 @@ function ProductView() {
 	}, []);
 
 	const addToCart = async () => {
-		const productDetailsUpdated = {
-			productID: productDetails.product_id,
-			productImage: `${base_url}${productDetails.product_image}`,
-			productName: productDetails.product_name,
-			productPrice: productDetails.product_price,
-		};
-		if (JSON.parse(localStorage.getItem('cart_glowStopper'))) {
-			// If cart is not empty
-			localStorage.setItem(
-				'cart_glowStopper',
-				JSON.stringify([
-					...JSON.parse(localStorage.getItem('cart_glowStopper')),
-					productDetailsUpdated,
-				]),
-			);
+		if (productDetails.product_stock <= 0) {
+			return setContextVariables({
+				...contextVariables,
+				feedback: {
+					...contextVariables.feedback,
+					open: true,
+					type: 'error',
+					message: 'Item stock limit reached',
+				},
+			});
 		} else {
-			localStorage.setItem(
-				'cart_glowStopper',
-				JSON.stringify([productDetailsUpdated]),
-			);
+			const productDetailsUpdated = {
+				productID: productDetails.product_id,
+				productImage: `${base_url}${productDetails.product_image}`,
+				productName: productDetails.product_name,
+				productPrice: productDetails.product_price,
+				productStock: productDetails.product_stock,
+			};
+			if (JSON.parse(localStorage.getItem('cart_glowStopper'))) {
+				// If cart is not empty
+				localStorage.setItem(
+					'cart_glowStopper',
+					JSON.stringify([
+						...JSON.parse(localStorage.getItem('cart_glowStopper')),
+						productDetailsUpdated,
+					]),
+				);
+				setContextVariables({
+					...contextVariables,
+					cartItems: [...contextVariables.cartItems, productDetailsUpdated],
+				});
+			} else {
+				localStorage.setItem(
+					'cart_glowStopper',
+					JSON.stringify([productDetailsUpdated]),
+				);
+				// Set timeout for cart
+				localStorage.setItem(
+					'cart_glowStopper_timeout',
+					JSON.stringify(Date.now() + 86400000),
+				);
+				setContextVariables({
+					...contextVariables,
+					cartItems: [...contextVariables.cartItems, productDetailsUpdated],
+				});
+			}
 		}
 	};
 	return (
@@ -184,33 +210,52 @@ function ProductView() {
 										&#8358;{productDetails.product_price}
 									</span>
 								</Box>
-								<Button
-									variant='contained'
-									style={{
-										marginRight: '24px',
-										height: 50,
-										width: 'auto',
-										backgroundColor: '#836E00',
-										borderRadius: 4,
-										color: '#FFFFFF',
-									}}
-									startIcon={<ShoppingCartOutlined />}
-									onClick={() => addToCart(productDetails)}
-								>
-									Add to cart
-								</Button>
-								<Button
-									variant='contained'
-									style={{
-										height: 50,
-										width: 'auto',
-										backgroundColor: '#C4C4C4',
-										borderRadius: 4,
-									}}
-									startIcon={<Share />}
-								>
-									Share
-								</Button>
+								<Box display='flex' justifyContent='center' alignItems='center'>
+									{contextVariables.cartItems?.find(
+										(item) => item.productID === productDetails.product_id,
+									) ? (
+										<Box
+											style={{
+												fontFamily: 'Calibri',
+												fontWeight: '600',
+												fontSize: 16,
+												textTransform: 'uppercase',
+												paddingRight: 20,
+											}}
+										>
+											Added to cart
+										</Box>
+									) : (
+										<Button
+											variant='contained'
+											style={{
+												marginRight: '24px',
+												height: 50,
+												width: 'auto',
+												backgroundColor: '#836E00',
+												borderRadius: 4,
+												color: '#FFFFFF',
+											}}
+											startIcon={<ShoppingCartOutlined />}
+											onClick={() => addToCart(productDetails)}
+										>
+											Add to cart
+										</Button>
+									)}
+
+									<Button
+										variant='contained'
+										style={{
+											height: 50,
+											width: 'auto',
+											backgroundColor: '#C4C4C4',
+											borderRadius: 4,
+										}}
+										startIcon={<Share />}
+									>
+										Share
+									</Button>
+								</Box>
 							</Grid>
 						</Grid>
 						<Box
@@ -242,6 +287,7 @@ function ProductView() {
 												productID={product.product_id}
 												productName={product.product_name}
 												productPrice={product.product_price}
+												productStock={product.product_stock}
 												productImage={`${base_url}${product.product_image}`}
 											/>
 										</Grid>

@@ -61,27 +61,45 @@ function ProductCard(props) {
 		}
 	};
 
-	const addToCart = async (productID) => {
+	const addToCart = async () => {
 		const { adminAccess, ...productDetails } = props; //To exclude adminAccess when added to localStorage
-		if (JSON.parse(localStorage.getItem('cart_glowStopper'))) {
-			// If cart is not empty
-			localStorage.setItem(
-				'cart_glowStopper',
-				JSON.stringify([
-					...JSON.parse(localStorage.getItem('cart_glowStopper')),
-					productDetails,
-				]),
-			);
-			setContextVariables({
+		if (productDetails.productStock <= 0) {
+			return setContextVariables({
 				...contextVariables,
-				cartItems: [...contextVariables.cartItems, productDetails],
+				feedback: {
+					...contextVariables.feedback,
+					open: true,
+					type: 'error',
+					message: 'Item stock limit reached',
+				},
 			});
 		} else {
-			localStorage.setItem('cart_glowStopper', JSON.stringify([productDetails]));
-			setContextVariables({
-				...contextVariables,
-				cartItems: productDetails,
-			});
+			if (JSON.parse(localStorage.getItem('cart_glowStopper'))) {
+				// If cart is not empty
+				localStorage.setItem(
+					'cart_glowStopper',
+					JSON.stringify([
+						...JSON.parse(localStorage.getItem('cart_glowStopper')),
+						productDetails,
+					]),
+				);
+				setContextVariables({
+					...contextVariables,
+					cartItems: [...contextVariables.cartItems, productDetails],
+				});
+			} else {
+				localStorage.setItem('cart_glowStopper', JSON.stringify([productDetails]));
+				// Set timeout for cart
+				localStorage.setItem(
+					'cart_glowStopper_timeout',
+					JSON.stringify(Date.now() + 86400000),
+				);
+
+				setContextVariables({
+					...contextVariables,
+					cartItems: [...contextVariables.cartItems, productDetails],
+				});
+			}
 		}
 	};
 	return (
@@ -247,7 +265,7 @@ function ProductCard(props) {
 								View
 							</Button>
 						</Link>
-						{contextVariables.cartItems.find(
+						{contextVariables.cartItems?.find(
 							(item) => item.productID === props.productID,
 						) ? (
 							<span

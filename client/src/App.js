@@ -34,6 +34,11 @@ import NewAdmin from './components/pages/Admin-Pages/NewAdmin';
 import OrderPage from './components/pages/Order-Pages/OrderPage';
 import OrderSuccessful from './components/pages/Order-Pages/OrderSuccessful';
 import MetaTags from './utils/MetaTags';
+import AdminViewOrders from './components/pages/Admin-Pages/Admin-Orders/AdminViewOrders';
+import AdminViewOrderReference from './components/pages/Admin-Pages/Admin-Orders/AdminViewOrderReference';
+import AdminViewProductCategories from './components/pages/Admin-Pages/Admin-Product-Categories/AdminViewProductCategories';
+import AdminNewProductCategory from './components/pages/Admin-Pages/Admin-Product-Categories/AdminNewProductCategory';
+import AdminEditProductCategory from './components/pages/Admin-Pages/Admin-Product-Categories/AdminEditProductCategory';
 
 const useStyles = makeStyles({
 	root: {
@@ -61,16 +66,26 @@ function App() {
 	React.useEffect(() => {
 		const getCartDetails = () => {
 			const cartItems = JSON.parse(localStorage.getItem('cart_glowStopper'));
-			if (cartItems) {
-				setContextVariables({
-					...contextVariables,
-					cartItems: cartItems,
-				});
+			const cartTimeout = JSON.parse(
+				localStorage.getItem('cart_glowStopper_timeout'),
+			);
+			if (Date.now() > cartTimeout) {
+				//Clear cart after 24 hours
+				localStorage.removeItem('cart_glowStopper');
+				localStorage.removeItem('cart_glowStopper_timeout');
 			} else {
-				setContextVariables({
-					...contextVariables,
-					cartItems: [],
-				});
+				// Cart is still less than a day old
+				if (cartItems) {
+					setContextVariables({
+						...contextVariables,
+						cartItems,
+					});
+				} else {
+					setContextVariables({
+						...contextVariables,
+						cartItems: [],
+					});
+				}
 			}
 		};
 		getCartDetails();
@@ -176,9 +191,37 @@ function App() {
 							component={AdminProductDescription}
 							exact
 						/>
+						{/*Admin Product categories */}
+						<PrivateRoute
+							path='/admin/product/categories'
+							component={AdminViewProductCategories}
+							exact
+						/>
+						<PrivateRoute
+							path='/admin/product/categories/new'
+							component={AdminNewProductCategory}
+							exact
+						/>
+						<PrivateRoute
+							path='/admin/product/categories/edit'
+							component={AdminEditProductCategory}
+							exact
+						/>
+
 						<PrivateRoute
 							path='/admin/changePassword'
 							component={AdminChangePassword}
+							exact
+						/>
+						<PrivateRoute
+							path='/admin/orders/view'
+							component={AdminViewOrders}
+							exact
+						/>
+						{/* View a particular order reference */}
+						<PrivateRoute
+							path='/admin/order/details/:orderReference'
+							component={AdminViewOrderReference}
 							exact
 						/>
 						<PrivateRoute path='/admins/view' component={ViewAdmins} exact />

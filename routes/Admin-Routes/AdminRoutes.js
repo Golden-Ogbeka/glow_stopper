@@ -349,4 +349,87 @@ router.delete(
 		}
 	},
 );
+
+// Get Orders
+router.get('/api/admin/orders', verifyAdmin, (req, res) => {
+	try {
+		// Get orders
+		const sql = `SELECT * FROM orders`;
+		conn.query(sql, async (err, result) => {
+			if (err) throw err;
+			const orders = result;
+			return res.send({
+				status: 'PASSED',
+				message: 'Details retrieved successfully',
+				orders,
+			});
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't get orders");
+	}
+});
+
+// Get all orders for a particular reference
+router.get('/api/admin/orders/reference', verifyAdmin, (req, res) => {
+	const { orderReference } = req.query;
+	if (!orderReference) {
+		return res.status(400).send({
+			status: 'FAILED',
+			message: 'Order Reference is required',
+		});
+	}
+	const sql = 'SELECT * FROM orders WHERE order_reference=?';
+	conn.query(sql, orderReference, (err, result) => {
+		if (err) throw err;
+		else if (!result.length > 0) {
+			return res.status(400).send({
+				status: 'FAILED',
+				message: 'Order Reference not found',
+			});
+		} else {
+			return res.send({
+				status: 'PASSED',
+				message: 'Orders retrieved successfully',
+				orders: result,
+			});
+		}
+	});
+});
+
+// Get Details for dashboard
+router.get('/api/admin/dashboard', verifyAdmin, (req, res) => {
+	try {
+		// Get orders
+		const sql = `SELECT * FROM orders`;
+		conn.query(sql, async (err, result) => {
+			if (err) throw err;
+			const orders = result;
+
+			// Get products
+			const sql = `SELECT * FROM products`;
+			conn.query(sql, async (err, result) => {
+				if (err) throw err;
+				const products = result;
+
+				// Get product categories
+
+				const sql = 'SELECT * FROM product_categories';
+				conn.query(sql, (err, result) => {
+					if (err) throw err;
+					const productCategories = result;
+
+					return res.send({
+						status: 'PASSED',
+						message: 'Details retrieved successfully',
+						orders,
+						products,
+						productCategories,
+					});
+				});
+			});
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't get details");
+	}
+});
 module.exports = router;
