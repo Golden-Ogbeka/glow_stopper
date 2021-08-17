@@ -53,6 +53,7 @@ function NewProducts() {
 							fontWeight: 'normal',
 							fontSize: '10vh',
 							color: '#FFD700',
+							textAlign: 'center',
 							textTransform: 'capitalize',
 						}}
 					>

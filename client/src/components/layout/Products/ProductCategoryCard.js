@@ -9,9 +9,71 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-
+import axios from 'axios';
+import CryptoJS from 'crypto-js';
+import { encrypt_key } from '../../../app.json';
+import AppContext from '../../../utils/AppContext';
 function ProductCategoryCard(props) {
 	const history = useHistory();
+	const { contextVariables, setContextVariables } = React.useContext(AppContext);
+
+	const deleteProduct = async (categoryID) => {
+		if (
+			window.confirm('Are you sure you want to delete this product category?')
+		) {
+			try {
+				let storedSession = JSON.parse(
+					localStorage.getItem('sessionDetails_glowStopper'),
+				);
+				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+
+				const response = await axios.delete(
+					`/admin/product/category?categoryID=${categoryID}`,
+					{
+						headers: {
+							token: storedSession.userToken,
+						},
+					},
+				);
+				if (response.data.status === 'PASSED') {
+					setContextVariables({
+						...contextVariables,
+						feedback: {
+							...contextVariables.feedback,
+							open: true,
+							type: 'success',
+							message: response.data.message,
+						},
+					});
+					window.location.reload();
+				} else {
+					setContextVariables({
+						...contextVariables,
+						feedback: {
+							...contextVariables.feedback,
+							open: true,
+							type: 'error',
+							message: response.data.message,
+						},
+					});
+				}
+			} catch (error) {
+				setContextVariables({
+					...contextVariables,
+					feedback: {
+						...contextVariables.feedback,
+						open: true,
+						type: 'error',
+						message:
+							error.response.status === 500
+								? error.response.data
+								: error.response.data.message,
+					},
+				});
+			}
+		}
+	};
 	return (
 		<>
 			<Card
@@ -108,25 +170,20 @@ function ProductCategoryCard(props) {
 									Edit
 								</Button>
 							</Link>
-							<Link
-								to={`/products/category/${props.category}`}
+
+							<Button
+								size='small'
 								style={{
-									textDecoration: 'none',
+									color: '#CCAC00',
+									fontFamily: 'Calibri',
+									fontWeight: '600',
+									fontSize: 16,
+									textTransform: 'uppercase',
 								}}
+								onClick={() => deleteProduct(props.categoryID)}
 							>
-								<Button
-									size='small'
-									style={{
-										color: '#CCAC00',
-										fontFamily: 'Calibri',
-										fontWeight: '600',
-										fontSize: 16,
-										textTransform: 'uppercase',
-									}}
-								>
-									Delete
-								</Button>
-							</Link>
+								Delete
+							</Button>
 						</>
 					)}
 				</CardActions>

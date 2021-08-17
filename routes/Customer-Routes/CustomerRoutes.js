@@ -15,6 +15,25 @@ const transporter = nodemailer.createTransport({
 		pass: process.env.EMAIL_PASSWORD,
 	},
 });
+
+// Get all product categories for customer
+router.get('/api/product/categories', (req, res) => {
+	try {
+		const sql = `SELECT * FROM product_categories`;
+		conn.query(sql, async (err, result) => {
+			if (err) throw err;
+			const productCategories = result;
+			return res.send({
+				status: 'PASSED',
+				message: 'Product categories retrieved successfully',
+				productCategories,
+			});
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't get product categories");
+	}
+});
+
 // Get all products for customers
 router.get('/api/products', async (req, res) => {
 	try {

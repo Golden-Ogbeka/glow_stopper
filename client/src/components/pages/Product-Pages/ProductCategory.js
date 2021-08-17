@@ -54,6 +54,7 @@ function ProductCategory() {
 							fontWeight: 'normal',
 							fontSize: '10vh',
 							color: '#FFD700',
+							textAlign: 'center',
 							textTransform: 'capitalize',
 						}}
 					>
@@ -65,6 +66,7 @@ function ProductCategory() {
 							fontFamily: 'Calibri',
 							fontWeight: 'lighter',
 							fontSize: 48,
+							textAlign: 'center',
 							color: '#FFFFFF',
 						}}
 					>

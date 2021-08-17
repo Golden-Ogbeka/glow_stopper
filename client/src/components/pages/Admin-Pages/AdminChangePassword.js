@@ -148,6 +148,7 @@ function AdminChangePassword() {
 							fontFamily: 'Calibri',
 							fontWeight: 'bold',
 							fontSize: 48,
+							textAlign: 'center',
 							color: '#FFFFFF',
 						}}
 					>

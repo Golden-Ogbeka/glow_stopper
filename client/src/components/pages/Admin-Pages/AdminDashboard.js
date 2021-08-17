@@ -95,6 +95,7 @@ function AdminDashboard() {
 							fontFamily: 'Calibri',
 							fontWeight: 'bold',
 							fontSize: 48,
+							textAlign: 'center',
 							color: '#FFFFFF',
 						}}
 					>
@@ -103,7 +104,7 @@ function AdminDashboard() {
 				</Box>
 				<Box
 					style={{
-						paddingTop: '40px',
+						paddingBlock: '40px',
 						paddingInline: '5vw',
 					}}
 				>

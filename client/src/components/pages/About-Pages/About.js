@@ -38,6 +38,7 @@ function About() {
 								fontWeight: 'lighter',
 								fontSize: 48,
 								color: '#FFFFFF',
+								textAlign: 'center',
 							}}
 						>
 							About us

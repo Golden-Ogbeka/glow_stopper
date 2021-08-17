@@ -68,11 +68,14 @@ function AdminProductDescription() {
 				);
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.delete(`/admin/product/${productID}`, {
-					headers: {
-						token: storedSession.userToken,
+				const response = await axios.delete(
+					`/admin/product?productID=${productID}`,
+					{
+						headers: {
+							token: storedSession.userToken,
+						},
 					},
-				});
+				);
 
 				if (response.data.status === 'PASSED') {
 					setContextVariables({

@@ -131,6 +131,7 @@ function Contact() {
 								fontFamily: 'Calibri',
 								fontWeight: 'lighter',
 								fontSize: 48,
+								textAlign: 'center',
 								color: '#FFFFFF',
 							}}
 						>

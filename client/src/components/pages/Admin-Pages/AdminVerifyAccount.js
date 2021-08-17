@@ -151,6 +151,7 @@ function AdminVerifyAccount(props) {
 							margin: 0,
 							fontFamily: 'Calibri',
 							fontWeight: 'normal',
+							textAlign: 'center',
 							fontSize: 38,
 						}}
 					>

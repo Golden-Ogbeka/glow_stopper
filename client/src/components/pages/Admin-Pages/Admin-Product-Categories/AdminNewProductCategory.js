@@ -49,7 +49,7 @@ function AdminNewProductCategory() {
 			storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 
 			const formData = new FormData();
-			formData.append('categoryName', values.categoryName);
+			formData.append('categoryName', values.categoryName.toUpperCase());
 			formData.append('categoryDescription', values.categoryDescription);
 			formData.append('categoryImage', values.categoryImage);
 
@@ -130,6 +130,7 @@ function AdminNewProductCategory() {
 							fontFamily: 'Calibri',
 							fontWeight: 'bold',
 							fontSize: 48,
+							textAlign: 'center',
 							color: '#FFFFFF',
 						}}
 					>

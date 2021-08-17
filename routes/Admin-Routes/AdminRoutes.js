@@ -316,36 +316,32 @@ router.delete('/api/admin/:adminEmail', verifyAdmin, async (req, res) => {
 });
 
 // Delete Product
-router.delete(
-	'/api/admin/product/:productID',
-	verifyAdmin,
-	async (req, res) => {
-		const { productID } = req.params;
-		try {
-			const sql = `SELECT * FROM products WHERE product_id= ?`;
-			conn.query(sql, productID, async (err, result) => {
-				if (err) throw err;
-				else if (!result.length > 0) {
-					return res.status(400).send({
-						status: 'FAILED',
-						message: 'Product not found',
+router.delete('/api/admin/product', verifyAdmin, async (req, res) => {
+	const { productID } = req.query;
+	try {
+		const sql = `SELECT * FROM products WHERE product_id= ?`;
+		conn.query(sql, productID, async (err, result) => {
+			if (err) throw err;
+			else if (!result.length > 0) {
+				return res.status(400).send({
+					status: 'FAILED',
+					message: 'Product not found',
+				});
+			} else {
+				const sql = `DELETE FROM products WHERE product_id= ?`;
+				conn.query(sql, productID, async (err) => {
+					if (err) throw err;
+					return res.send({
+						status: 'PASSED',
+						message: 'Product Deleted',
 					});
-				} else {
-					const sql = `DELETE FROM products WHERE product_id= ?`;
-					conn.query(sql, productID, async (err) => {
-						if (err) throw err;
-						return res.send({
-							status: 'PASSED',
-							message: 'Product Deleted',
-						});
-					});
-				}
-			});
-		} catch (error) {
-			return res.status(500).send("Server Error. Couldn't delete product");
-		}
-	},
-);
+				});
+			}
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't delete product");
+	}
+});
 
 // Get Orders
 router.get('/api/admin/orders', verifyAdmin, (req, res) => {
@@ -399,6 +395,25 @@ router.get('/api/admin/orders/reference', verifyAdmin, (req, res) => {
 
 // Product Categories
 
+// Get a product category
+router.get('/api/admin/product/category', verifyAdmin, (req, res) => {
+	const { categoryID } = req.query;
+	try {
+		const sql = `SELECT * FROM product_categories WHERE category_id=${categoryID}`;
+		conn.query(sql, async (err, result) => {
+			if (err) throw err;
+			const productCategory = result[0];
+			return res.send({
+				status: 'PASSED',
+				message: 'Product category retrieved successfully',
+				productCategory,
+			});
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't get product category");
+	}
+});
+
 // Get all product categories for admin
 router.get('/api/admin/product/categories', verifyAdmin, (req, res) => {
 	try {
@@ -413,7 +428,7 @@ router.get('/api/admin/product/categories', verifyAdmin, (req, res) => {
 			});
 		});
 	} catch (error) {
-		return res.status(500).send("Server Error. Couldn't get order reference");
+		return res.status(500).send("Server Error. Couldn't get product categories");
 	}
 });
 
@@ -466,78 +481,95 @@ router.post('/api/admin/product/categories', verifyAdmin, (req, res, next) => {
 });
 
 //Update product category
-router.put(
-	'/api/admin/product/categories',
-	verifyAdmin,
-	async (req, res, next) => {
-		try {
-			const form = formidable({ multiples: false });
-			form.parse(req, (err, fields, files) => {
-				if (err) {
-					return res.status(400).send({
-						status: 'FAILED',
-						message: "Couldn't upload image",
-					});
-				}
-				if (Object.keys(files).length > 0) {
-					//Product image was changed
-					const { categoryName, categoryDescription, categoryID } = fields;
-					const { categoryImage } = files;
-					const oldPath = categoryImage.path;
-					const primaryIdentifier = uuid.v4().substr(0, 3); //to distinguish images
-					const newPath =
-						path.resolve(__dirname, '../../', 'uploads/product_category_images') +
-						`/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+router.put('/api/admin/product/category', verifyAdmin, async (req, res) => {
+	try {
+		const form = formidable({ multiples: false });
+		form.parse(req, (err, fields, files) => {
+			if (err) {
+				return res.status(400).send({
+					status: 'FAILED',
+					message: "Couldn't upload image",
+				});
+			}
+			if (Object.keys(files).length > 0) {
+				//Product image was changed
+				const { categoryName, categoryDescription, categoryID } = fields;
+				const { categoryImage } = files;
+				const oldPath = categoryImage.path;
+				const primaryIdentifier = uuid.v4().substr(0, 3); //to distinguish images
+				const newPath =
+					path.resolve(__dirname, '../../', 'uploads/product_category_images') +
+					`/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
 
-					// Move the image
-					// Using file rename strategy
-					fs.rename(oldPath, `${newPath}`, (err) => {
+				// Move the image
+				// Using file rename strategy
+				fs.rename(oldPath, `${newPath}`, (err) => {
+					if (err) throw err;
+					else {
+						const categoryImagePath = `/uploads/product_category_images/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+
+						const sql = `UPDATE product_categories SET category_name=?, category_description=?, category_image=? WHERE category_id=${categoryID}`;
+						conn.query(
+							sql,
+							[categoryName, categoryDescription, categoryImagePath],
+							async (err, result) => {
+								if (err) throw err;
+								return res.send({
+									status: 'PASSED',
+									message: 'Product category updated successfully',
+									categoryID: result.insertId,
+								});
+							},
+						);
+					}
+				});
+			} else {
+				// No category Image
+				const { categoryName, categoryDescription, categoryID } = fields;
+
+				const sql = `UPDATE product_categories SET category_name=?, category_description=? WHERE category_id=${categoryID}`;
+				conn.query(
+					sql,
+					[categoryName, categoryDescription],
+
+					async (err, result) => {
 						if (err) throw err;
-						else {
-							const categoryImagePath = `/uploads/product_category_images/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+						return res.send({
+							status: 'PASSED',
+							message: 'Product category updated successfully',
+							categoryID: result.insertId,
+						});
+					},
+				);
+			}
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't update product category");
+	}
+});
 
-							const sql = `UPDATE product_categories SET category_name=?, category_desc=?, category_image=? WHERE category_id=${categoryID}`;
-							conn.query(
-								sql,
-								[categoryName, categoryDescription, categoryImagePath],
-								async (err, result) => {
-									if (err) throw err;
-									return res.send({
-										status: 'PASSED',
-										message: 'Product category updated successfully',
-										categoryID: result.insertId,
-									});
-								},
-							);
-						}
-					});
-				} else {
-					// No category Image
-					const { categoryName, categoryDescription, categoryID } = fields;
-
-					const sql = `UPDATE product_categories SET category_name=?, category_desc=? WHERE category_id=${categoryID}`;
-					conn.query(
-						sql,
-						[productName, productDescription],
-
-						async (err, result) => {
-							if (err) throw err;
-							return res.send({
-								status: 'PASSED',
-								message: 'Product category updated successfully',
-								categoryID: result.insertId,
-							});
-						},
-					);
-				}
+// Delete product Category
+router.delete('/api/admin/product/category', verifyAdmin, (req, res) => {
+	try {
+		const { categoryID } = req.query;
+		if (!categoryID) {
+			return res.status(400).send({
+				status: 'FAILED',
+				message: 'Category ID is required',
 			});
-		} catch (error) {
-			return res
-				.status(500)
-				.send("Server Error. Couldn't update product category");
 		}
-	},
-);
+		const sql = `DELETE FROM product_categories WHERE category_id=${categoryID}`;
+		conn.query(sql, (err) => {
+			if (err) throw err;
+			return res.send({
+				status: 'PASSED',
+				message: 'Product category deleted successfully',
+			});
+		});
+	} catch (error) {
+		return res.status(500).send("Server Error. Couldn't delete product category");
+	}
+});
 
 // Get Details for dashboard
 router.get('/api/admin/dashboard', verifyAdmin, (req, res) => {

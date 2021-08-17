@@ -129,6 +129,7 @@ function NewAdmin() {
 							fontFamily: 'Elsie',
 							fontWeight: 'lighter',
 							fontSize: '10vh',
+							textAlign: 'center',
 							color: '#FFD700',
 						}}
 					>

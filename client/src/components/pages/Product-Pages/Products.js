@@ -1,14 +1,42 @@
-import { Box, Grid } from '@material-ui/core';
+import { Box, CircularProgress, Grid } from '@material-ui/core';
 import React from 'react';
 import ProductCategoryCard from '../../layout/Products/ProductCategoryCard';
-import Image1 from '../../../assets/images/1.jpg';
-import Image2 from '../../../assets/images/2.jpg';
-import Image3 from '../../../assets/images/3.jpg';
-import Image4 from '../../../assets/images/4.jpg';
 import CustomerNavbar from '../../layout/CustomerNavbar';
 import MetaTags from '../../../utils/MetaTags';
+import axios from 'axios';
+import CryptoJS from 'crypto-js';
+import { encrypt_key, base_url } from '../../../app.json';
 
 function Products() {
+	const [categories, setCategories] = React.useState([]);
+
+	const [loading, setLoading] = React.useState(true);
+
+	React.useEffect(() => {
+		const getProductCategories = async () => {
+			try {
+				let storedSession = JSON.parse(
+					localStorage.getItem('sessionDetails_glowStopper'),
+				);
+				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
+				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
+				const response = await axios.get('/product/categories', {
+					headers: {
+						token: storedSession.userToken,
+					},
+				});
+
+				if (response.data.status === 'PASSED') {
+					setCategories(response.data.productCategories);
+				}
+				setLoading(false);
+			} catch (error) {
+				setCategories([]);
+				setLoading(false);
+			}
+		};
+		getProductCategories();
+	}, []);
 	return (
 		<>
 			<CustomerNavbar />
@@ -65,50 +93,33 @@ function Products() {
 							paddingInline: '3vw',
 						}}
 					>
-						<Grid container justify='center' spacing={1}>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCategoryCard
-									category='Dresses'
-									categoryDescription='Male, female and unisex turtlenecks (long and short sleeves), etc'
-									categoryImage={Image1}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCategoryCard
-									category='JEANS'
-									categoryDescription='Jean shirts, trousers, shorts and even shoes'
-									categoryImage={Image2}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCategoryCard
-									category='SHOES'
-									categoryDescription='Corporate shoes, canvas, etc'
-									categoryImage={Image3}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCategoryCard
-									category='BODYSUIT'
-									categoryDescription='Unisex bodysuits'
-									categoryImage={Image4}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCategoryCard
-									category='PLAYSUIT'
-									categoryDescription='Unisex Playsuits'
-									categoryImage={Image3}
-								/>
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<ProductCategoryCard
-									category='ETC'
-									categoryDescription='Any category'
-									categoryImage={Image1}
-								/>
-							</Grid>
-						</Grid>
+						{loading ? (
+							<CircularProgress />
+						) : (
+							<>
+								{categories.length > 0 ? (
+									<Grid container justify='center' spacing={1}>
+										{categories.map((category) => (
+											<Grid item lg={4} md={4} sm={12} xs={12}>
+												<ProductCategoryCard
+													category={category.category_name}
+													categoryDescription={category.category_description}
+													categoryImage={`${base_url}${category.category_image}`}
+												/>
+											</Grid>
+										))}
+									</Grid>
+								) : (
+									<span
+										style={{
+											fontSize: 20,
+										}}
+									>
+										No product category found
+									</span>
+								)}
+							</>
+						)}
 					</Box>
 				</Box>
 			</div>

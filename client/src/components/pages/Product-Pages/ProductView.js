@@ -8,6 +8,7 @@ import ProductCard from '../../layout/Products/ProductCard';
 import { base_url } from '../../../app.json';
 import AppContext from '../../../utils/AppContext';
 import MetaTags from '../../../utils/MetaTags';
+import ShareProductModal from '../../layout/ShareProductModal';
 
 function ProductView() {
 	const { productID } = useParams();
@@ -16,6 +17,26 @@ function ProductView() {
 	const [productDetails, setProductDetails] = React.useState({});
 	const [similarProducts, setSimilarProducts] = React.useState([]);
 	const [loading, setLoading] = React.useState(true);
+
+	const [shareDialogState, setShareDialogState] = React.useState({
+		state: false,
+		url: '',
+	});
+
+	const openShareDialog = (url) => {
+		setShareDialogState({
+			...shareDialogState,
+			state: true,
+			url: url,
+		});
+	};
+
+	const closeShareDialog = () => {
+		setShareDialogState({
+			...shareDialogState,
+			state: false,
+		});
+	};
 
 	React.useEffect(() => {
 		const getProducts = async () => {
@@ -252,6 +273,11 @@ function ProductView() {
 											borderRadius: 4,
 										}}
 										startIcon={<Share />}
+										onClick={() =>
+											openShareDialog(
+												`${base_url}/product/view/${productDetails.product_id}`,
+											)
+										}
 									>
 										Share
 									</Button>
@@ -369,6 +395,13 @@ function ProductView() {
 					</Box>
 				)}
 			</div>
+			<ShareProductModal
+				openShareDialog={openShareDialog}
+				closeShareDialog={closeShareDialog}
+				shareDialogState={shareDialogState.state}
+				url={shareDialogState.url}
+				setShareDialogState={setShareDialogState}
+			/>
 		</>
 	);
 }

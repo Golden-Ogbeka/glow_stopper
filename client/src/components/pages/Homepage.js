@@ -58,6 +58,7 @@ function Homepage() {
 								fontFamily: 'Calibri',
 								fontWeight: 'lighter',
 								fontSize: 30,
+								textAlign: 'center',
 								color: '#FFFFFF',
 							}}
 						>
