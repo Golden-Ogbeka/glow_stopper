@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon"
+    "start": "node index"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/Golden-Ogbeka/glow_stopper/issues"
   },
-  "homepage": "https://github.com/Golden-Ogbeka/glow_stopper#readme",
+  "homepage": "https://glowstopper.com",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

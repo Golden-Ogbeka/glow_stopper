@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import AppContext from '../../../utils/AppContext';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { encrypt_key } from '../../../app.json';
+import { encrypt_key, base_url } from '../../../app.json';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +62,7 @@ function AdminChangePassword() {
 			storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 			storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 			const response = await axios.post(
-				'/admin/changePassword',
+				base_url + '/api/admin/changePassword',
 				{
 					oldPassword: values.oldPassword,
 					newPassword: values.newPassword,

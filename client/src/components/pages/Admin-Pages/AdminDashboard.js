@@ -19,7 +19,7 @@ import AdminNavbar from '../../layout/Admin/AdminNavbar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { encrypt_key } from '../../../app.json';
+import { encrypt_key, base_url } from '../../../app.json';
 
 function AdminDashboard() {
 	const [details, setDetails] = React.useState({
@@ -36,7 +36,7 @@ function AdminDashboard() {
 				);
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.get('/admin/dashboard', {
+				const response = await axios.get(base_url + '/api/admin/dashboard', {
 					headers: {
 						token: storedSession.userToken,
 					},

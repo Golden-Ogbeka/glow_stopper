@@ -13,7 +13,7 @@ import {
 import AdminNavbar from '../../../layout/Admin/AdminNavbar';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { encrypt_key } from '../../../../app.json';
+import { encrypt_key, base_url } from '../../../../app.json';
 import { useFormik } from 'formik';
 import AppContext from '../../../../utils/AppContext';
 import * as Yup from 'yup';
@@ -44,7 +44,7 @@ function AdminEditProductCategory() {
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 				const response = await axios.get(
-					`/admin/product/category?categoryID=${categoryID}`,
+					`${base_url}/api/admin/product/category?categoryID=${categoryID}`,
 					{
 						headers: {
 							token: storedSession.userToken,
@@ -97,11 +97,15 @@ function AdminEditProductCategory() {
 			formData.append('categoryDescription', values.categoryDescription);
 			formData.append('categoryImage', values.categoryImage);
 
-			const response = await axios.put('/admin/product/category', formData, {
-				headers: {
-					token: storedSession.userToken,
+			const response = await axios.put(
+				base_url + '/api/admin/product/category',
+				formData,
+				{
+					headers: {
+						token: storedSession.userToken,
+					},
 				},
-			});
+			);
 			if (response.data.status === 'PASSED') {
 				setContextVariables({
 					...contextVariables,

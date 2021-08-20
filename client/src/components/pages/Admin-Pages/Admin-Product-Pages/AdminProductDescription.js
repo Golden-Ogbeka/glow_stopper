@@ -31,11 +31,14 @@ function AdminProductDescription() {
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 
-				const response = await axios.get(`/admin/product?productID=${productID}`, {
-					headers: {
-						token: storedSession.userToken,
+				const response = await axios.get(
+					`${base_url}/api/admin/product?productID=${productID}`,
+					{
+						headers: {
+							token: storedSession.userToken,
+						},
 					},
-				});
+				);
 				if (response.data.status === 'PASSED') {
 					setProductDetails(response.data.productDetails);
 				} else {
@@ -69,7 +72,7 @@ function AdminProductDescription() {
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 				const response = await axios.delete(
-					`/admin/product?productID=${productID}`,
+					`${base_url}/api/admin/product?productID=${productID}`,
 					{
 						headers: {
 							token: storedSession.userToken,

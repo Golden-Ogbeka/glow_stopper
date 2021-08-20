@@ -14,7 +14,9 @@ function ProductCategory() {
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
-				const response = await axios.get(`/product?productCategory=${category}`);
+				const response = await axios.get(
+					`${base_url}/api/product?productCategory=${category}`,
+				);
 
 				setProducts(response.data.products);
 				setLoading(false);

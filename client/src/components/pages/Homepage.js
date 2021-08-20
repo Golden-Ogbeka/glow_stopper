@@ -14,8 +14,8 @@ function Homepage() {
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
-				const response1 = await axios.get('/products/new');
-				const response2 = await axios.get('/products/trending');
+				const response1 = await axios.get(base_url + '/api/products/new');
+				const response2 = await axios.get(base_url + '/api/products/trending');
 
 				if (response1.data.status === 'PASSED') {
 					setNewProducts(response1.data.products);

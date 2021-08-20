@@ -41,13 +41,15 @@ function ProductView() {
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
-				const response = await axios.get(`/product?productID=${productID}`);
+				const response = await axios.get(
+					`${base_url}/api/product?productID=${productID}`,
+				);
 
 				if (response.data.status === 'PASSED') {
 					setProductDetails(response.data.productDetails);
 					// Get similar products
 					const response2 = await axios.get(
-						`/product?productCategory=${response.data.productDetails.product_category}`,
+						`${base_url}/api/product?productCategory=${response.data.productDetails.product_category}`,
 					);
 
 					// Filter products that aren't this product

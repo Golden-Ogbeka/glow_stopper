@@ -57,7 +57,7 @@ function AdminNavbar() {
 				}}
 			>
 				<Toolbar>
-					<IconButton
+					{/* <IconButton
 						edge='start'
 						style={{
 							marginRight: 20,
@@ -69,7 +69,7 @@ function AdminNavbar() {
 						aria-label='menu'
 					>
 						<MenuIcon />
-					</IconButton>
+					</IconButton> */}
 					<Box
 						style={{
 							flexGrow: 1,

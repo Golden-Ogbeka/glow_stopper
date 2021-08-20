@@ -11,7 +11,7 @@ import React from 'react';
 import AdminNavbar from '../../../layout/Admin/AdminNavbar';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { encrypt_key } from '../../../../app.json';
+import { encrypt_key, base_url } from '../../../../app.json';
 import { Link } from 'react-router-dom';
 
 export default function AdminViewOrders() {
@@ -25,7 +25,7 @@ export default function AdminViewOrders() {
 				);
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.get('/admin/orders', {
+				const response = await axios.get(base_url + '/api/admin/orders', {
 					headers: {
 						token: storedSession.userToken,
 					},

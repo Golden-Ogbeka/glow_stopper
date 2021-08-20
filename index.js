@@ -19,16 +19,8 @@ const server = express();
 // Helmet
 server.use(helmet());
 
-// Client
-server.use(express.static('build'));
-// server.get('/*', (req, res) => {
-// 	res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
-
-const port = 5000;
-server.listen(port, () => {
-	console.log(`Server listening on port: ${port}`);
-});
+// Enable cors
+server.use(cors());
 
 //For accepting form input
 server.use(express.json());
@@ -38,19 +30,22 @@ server.use(
 	}),
 );
 
-// Enable cors
-server.use(cors());
+// Static files
+server.use('/uploads', express.static('uploads'));
 
 // Routing
 server.use('/', [AdminAuthentication, AdminRoutes, CustomerRoutes]);
 
-// Static files
-server.use('/uploads', express.static('uploads'));
-// server.use(express.static(path.join(__dirname, 'client/build')));
-
-server.all('*', (req, res) => {
-	res.status(501).send({
+// For all routes that aren't implemented
+server.all((err, req, res, next) => {
+	console.log(err.stack);
+	return res.status(501).send({
 		status: 'FAILED',
 		message: 'Not Implemented',
 	});
+});
+
+const port = 5000;
+server.listen(port || process.env.PORT, () => {
+	console.log(`Server listening on port: ${port} at ${new Date()}`);
 });

@@ -1,0 +1,113 @@
+App 28181 output: Server listening on port: 5000
+App 28181 output: Database connected
+App 1814 output: Server listening on port: 5000
+App 1814 output: Database connected
+App 23601 output: internal/modules/cjs/loader.js:818
+App 23601 output:   throw err;
+App 23601 output:   ^
+App 23601 output: Error: Cannot find module 'dotenv'
+App 23601 output: Require stack:
+App 23601 output: - /home/glowstop/public_html/api/index.js
+App 23601 output: - /opt/cpanel/ea-ruby27/root/usr/share/passenger/helper-scripts/node-loader.js
+App 23601 output:     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
+App 23601 output:     at Function.Module._load (internal/modules/cjs/loader.js:667:27)
+App 23601 output:     at Module.require (internal/modules/cjs/loader.js:887:19)
+App 23601 output:     at Module.require (/opt/cpanel/ea-ruby27/root/usr/share/passenger/helper-scripts/node-loader.js:80:25)
+App 23601 output:     at require (internal/modules/cjs/helpers.js:74:18)
+App 23601 output:     at Object.<anonymous> (/home/glowstop/public_html/api/index.js:2:1)
+App 23601 output:     at Module._compile (internal/modules/cjs/loader.js:999:30)
+App 23601 output:     at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
+App 23601 output:     at Module.load (internal/modules/cjs/loader.js:863:32)
+App 23601 output:     at Function.Module._load (internal/modules/cjs/loader.js:708:14) {
+App 23601 output:   code: 'MODULE_NOT_FOUND',
+App 23601 output:   requireStack: [
+App 23601 output:     '/home/glowstop/public_html/api/index.js',
+App 23601 output:     '/opt/cpanel/ea-ruby27/root/usr/share/passenger/helper-scripts/node-loader.js'
+App 23601 output:   ]
+App 23601 output: }
+App 24136 output: Server listening on port: 5000
+App 24136 output: Database connected
+App 27041 output: Server listening on port: 5000
+App 27041 output: Database connected
+App 30851 output: Server listening on port: 5000
+App 30851 output: Database connected
+App 634 output: Server listening on port: 5000
+App 634 output: Database connected
+App 7892 output: Server listening on port: 5000
+App 7892 output: Database connected
+App 15775 output: Server listening on port: 5000
+App 15775 output: Database connected
+App 21307 output: Server listening on port: 5000
+App 21307 output: Database connected
+App 24626 output: Server listening on port: 5000
+App 24626 output: Database connected
+App 26392 output: Server listening on port: 5000
+App 26392 output: Database connected
+App 31753 output: Server listening on port: 5000
+App 31753 output: Database connected
+App 32161 output: Server listening on port: 5000
+App 32161 output: Database connected
+App 1863 output: Server listening on port: 5000
+App 1863 output: Database connected
+App 6494 output: Server listening on port: 5000
+App 6494 output: Database connected
+App 13230 output: Server listening on port: 5000
+App 13230 output: Database connected
+App 16403 output: Server listening on port: 5000
+App 16403 output: Database connected
+App 29482 output: Server listening on port: 5000 at Fri Aug 20 2021 14:19:24 GMT+0100 (West Africa Standard Time)
+App 29482 output: Database connected
+App 29482 output: ReferenceError: res is not defined
+App 29482 output:     at /home/glowstop/public_html/api/index.js:40:2
+App 29482 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 29482 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:137:13)
+App 29482 output:     at Route.dispatch (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:112:3)
+App 29482 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 29482 output:     at /home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:281:22
+App 29482 output:     at Function.process_params (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:335:12)
+App 29482 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:275:10)
+App 29482 output:     at urlencodedParser (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/body-parser/lib/types/urlencoded.js:82:7)
+App 29482 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 31937 output: Server listening on port: 5000 at Fri Aug 20 2021 14:20:50 GMT+0100 (West Africa Standard Time)
+App 31937 output: Database connected
+App 31937 output: ReferenceError: res is not defined
+App 31937 output:     at /home/glowstop/public_html/api/index.js:40:2
+App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:137:13)
+App 31937 output:     at Route.dispatch (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:112:3)
+App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 31937 output:     at /home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:281:22
+App 31937 output:     at Function.process_params (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:335:12)
+App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:275:10)
+App 31937 output:     at urlencodedParser (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/body-parser/lib/types/urlencoded.js:82:7)
+App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 31937 output: ReferenceError: res is not defined
+App 31937 output:     at /home/glowstop/public_html/api/index.js:40:2
+App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:137:13)
+App 31937 output:     at Route.dispatch (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:112:3)
+App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 31937 output:     at /home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:281:22
+App 31937 output:     at Function.process_params (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:335:12)
+App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:275:10)
+App 31937 output:     at urlencodedParser (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/body-parser/lib/types/urlencoded.js:82:7)
+App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 31937 output: ReferenceError: res is not defined
+App 31937 output:     at /home/glowstop/public_html/api/index.js:40:2
+App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:137:13)
+App 31937 output:     at Route.dispatch (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:112:3)
+App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 31937 output:     at /home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:281:22
+App 31937 output:     at Function.process_params (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:335:12)
+App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:275:10)
+App 31937 output:     at urlencodedParser (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/body-parser/lib/types/urlencoded.js:82:7)
+App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
+App 1038 output: Server listening on port: 5000 at Fri Aug 20 2021 14:22:15 GMT+0100 (West Africa Standard Time)
+App 1038 output: Database connected
+App 6543 output: Server listening on port: 5000 at Fri Aug 20 2021 14:26:51 GMT+0100 (West Africa Standard Time)
+App 6543 output: Database connected
+App 9990 output: Server listening on port: 5000 at Fri Aug 20 2021 14:29:21 GMT+0100 (West Africa Standard Time)
+App 9990 output: Database connected
+App 16693 output: Server listening on port: 5000 at Fri Aug 20 2021 14:34:37 GMT+0100 (West Africa Standard Time)
+App 16693 output: Database connected

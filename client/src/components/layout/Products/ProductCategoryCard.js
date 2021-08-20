@@ -11,7 +11,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { encrypt_key } from '../../../app.json';
+import { encrypt_key, base_url } from '../../../app.json';
 import AppContext from '../../../utils/AppContext';
 function ProductCategoryCard(props) {
 	const history = useHistory();
@@ -29,7 +29,7 @@ function ProductCategoryCard(props) {
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 
 				const response = await axios.delete(
-					`/admin/product/category?categoryID=${categoryID}`,
+					`${base_url}/api/admin/product/category?categoryID=${categoryID}`,
 					{
 						headers: {
 							token: storedSession.userToken,

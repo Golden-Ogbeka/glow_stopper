@@ -17,7 +17,7 @@ function AdminViewProducts() {
 				);
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.get('/admin/products', {
+				const response = await axios.get(base_url + '/api/admin/products', {
 					headers: {
 						token: storedSession.userToken,
 					},

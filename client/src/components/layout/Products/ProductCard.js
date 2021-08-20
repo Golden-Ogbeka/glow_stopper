@@ -12,7 +12,7 @@ import { Link, useHistory } from 'react-router-dom';
 import AppContext from '../../../utils/AppContext';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { encrypt_key } from './../../../app.json';
+import { encrypt_key, base_url } from './../../../app.json';
 function ProductCard(props) {
 	const history = useHistory();
 	const { contextVariables, setContextVariables } = React.useContext(AppContext);
@@ -27,7 +27,7 @@ function ProductCard(props) {
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 				const response = await axios.delete(
-					`/admin/product?productID=${productID}`,
+					`${base_url}/api/admin/product?productID=${productID}`,
 					{
 						headers: {
 							token: storedSession.userToken,

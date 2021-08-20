@@ -41,7 +41,7 @@ function CustomerNavbar() {
 			}}
 		>
 			<Toolbar>
-				<IconButton
+				{/* <IconButton
 					edge='start'
 					style={{
 						marginRight: 20,
@@ -53,7 +53,7 @@ function CustomerNavbar() {
 					aria-label='menu'
 				>
 					<MenuIcon />
-				</IconButton>
+				</IconButton> */}
 				<Box
 					style={{
 						flexGrow: 1,

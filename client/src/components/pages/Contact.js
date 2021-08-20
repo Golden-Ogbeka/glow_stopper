@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import AppContext from '../../utils/AppContext';
 import axios from 'axios';
 import MetaTags from '../../utils/MetaTags';
+import { base_url } from '../../app.json';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -62,7 +63,7 @@ function Contact() {
 	const sendMessage = async (values) => {
 		try {
 			setLoading(true);
-			const response = await axios.post('/contact', values);
+			const response = await axios.post(base_url + '/api/contact', values);
 			if (response.data.status === 'PASSED') {
 				setContextVariables({
 					...contextVariables,

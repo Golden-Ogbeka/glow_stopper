@@ -14,6 +14,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import AppContext from '../../../utils/AppContext';
 import MetaTags from '../../../utils/MetaTags';
+import { base_url } from '../../../app.json';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -80,7 +81,7 @@ function OrderPage() {
 	const placeOrder = async (values) => {
 		try {
 			setLoading(true);
-			const response = await axios.post('/order', {
+			const response = await axios.post(base_url + '/api/order', {
 				values,
 				cartDetails,
 				trimmedCart,

@@ -14,7 +14,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { encrypt_key } from '../../../../app.json';
+import { encrypt_key, base_url } from '../../../../app.json';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import AppContext from '../../../../utils/AppContext';
 
@@ -73,11 +73,15 @@ function AdminAddProduct() {
 			formData.append('productImage', values.productImage);
 			formData.append('productStock', values.productStock);
 
-			const response = await axios.post('/admin/product', formData, {
-				headers: {
-					token: storedSession.userToken,
+			const response = await axios.post(
+				base_url + '/api/admin/product',
+				formData,
+				{
+					headers: {
+						token: storedSession.userToken,
+					},
 				},
-			});
+			);
 			if (response.data.status === 'PASSED') {
 				setContextVariables({
 					...contextVariables,

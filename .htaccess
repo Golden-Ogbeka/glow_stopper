@@ -1,0 +1,22 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/glowstop/public_html/api"
+PassengerBaseURI "/"
+PassengerNodejs "/home/glowstop/nodevenv/public_html/api/12/bin/node"
+PassengerAppType node
+PassengerStartupFile /home/glowstop/public_html/api/index.js
+PassengerAppLogFile "/home/glowstop/public_html/api/errorLog.txt"
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php70” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php70 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/glowstop/public_html/api"
+PassengerBaseURI "/"
+PassengerNodejs "/home/glowstop/nodevenv/public_html/api/12/bin/node"
+PassengerAppType node
+PassengerStartupFile /home/glowstop/public_html/api/index.js
+PassengerAppLogFile "/home/glowstop/public_html/api/errorLog.txt"
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END

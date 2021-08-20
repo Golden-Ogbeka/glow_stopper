@@ -12,7 +12,7 @@ function TrendingProducts() {
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
-				const response = await axios.get('/products/trending');
+				const response = await axios.get(base_url + '/api/products/trending');
 
 				if (response.data.status === 'PASSED') {
 					setProducts(response.data.products);

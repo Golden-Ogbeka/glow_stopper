@@ -13,7 +13,7 @@ import React from 'react';
 import AdminNavbar from '../../layout/Admin/AdminNavbar';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { encrypt_key } from './../../../app.json';
+import { encrypt_key, base_url } from './../../../app.json';
 import { Link } from 'react-router-dom';
 import AppContext from '../../../utils/AppContext';
 
@@ -29,7 +29,7 @@ function ViewAdmins() {
 				);
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.get('/admins', {
+				const response = await axios.get(base_url + '/api/admins', {
 					headers: {
 						token: storedSession.userToken,
 					},
@@ -53,7 +53,7 @@ function ViewAdmins() {
 				);
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.delete(`/admin/${email}`, {
+				const response = await axios.delete(`${base_url}/api/admin/${email}`, {
 					headers: {
 						token: storedSession.userToken,
 					},

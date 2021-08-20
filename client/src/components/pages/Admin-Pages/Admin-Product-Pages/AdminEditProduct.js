@@ -15,7 +15,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { encrypt_key } from '../../../../app.json';
+import { encrypt_key, base_url } from '../../../../app.json';
 import {
 	useHistory,
 	useParams,
@@ -49,11 +49,14 @@ function AdminEditProduct() {
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 
-				const response = await axios.get(`/admin/product?productID=${productID}`, {
-					headers: {
-						token: storedSession.userToken,
+				const response = await axios.get(
+					`${base_url}/api/admin/product?productID=${productID}`,
+					{
+						headers: {
+							token: storedSession.userToken,
+						},
 					},
-				});
+				);
 				if (response.data.status === 'PASSED') {
 					setProductDetails(response.data.productDetails);
 				} else {
@@ -120,7 +123,7 @@ function AdminEditProduct() {
 			formData.append('productImage', values.productImage);
 			formData.append('productStock', values.productStock);
 
-			const response = await axios.put('/admin/product', formData, {
+			const response = await axios.put(base_url + '/api/admin/product', formData, {
 				headers: {
 					token: storedSession.userToken,
 				},

@@ -12,7 +12,7 @@ function NewProducts() {
 	React.useEffect(() => {
 		const getProducts = async () => {
 			try {
-				const response = await axios.get('/products/new');
+				const response = await axios.get(base_url + '/api/products/new');
 
 				if (response.data.status === 'PASSED') {
 					setProducts(response.data.products);

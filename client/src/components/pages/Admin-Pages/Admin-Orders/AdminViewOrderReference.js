@@ -16,7 +16,7 @@ import {
 } from 'react-router-dom/cjs/react-router-dom.min';
 import AdminNavbar from '../../../layout/Admin/AdminNavbar';
 import CryptoJS from 'crypto-js';
-import { encrypt_key } from '../../../../app.json';
+import { encrypt_key, base_url } from '../../../../app.json';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AppContext from '../../../../utils/AppContext';
@@ -36,7 +36,7 @@ function AdminViewOrderReference() {
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 				const response = await axios.get(
-					`/admin/orders/reference?orderReference=${orderReference}`,
+					`${base_url}/api/admin/orders/reference?orderReference=${orderReference}`,
 					{
 						headers: {
 							token: storedSession.userToken,
