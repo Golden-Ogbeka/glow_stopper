@@ -11,7 +11,10 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import { MoreVert, Menu as MenuIcon } from '@material-ui/icons';
+import {
+	MoreVert,
+	// Menu as MenuIcon
+} from '@material-ui/icons';
 import AppContext from '../../../utils/AppContext';
 import LogoutModal from './LogoutModal';
 import MetaTags from '../../../utils/MetaTags';

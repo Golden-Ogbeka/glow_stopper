@@ -1,8 +1,8 @@
 import { Box, Button, Grid, CircularProgress } from '@material-ui/core';
-import { Share, ShoppingCartOutlined } from '@material-ui/icons';
+import { ArrowBack, Share, ShoppingCartOutlined } from '@material-ui/icons';
 import axios from 'axios';
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useHistory } from 'react-router-dom';
 import CustomerNavbar from '../../layout/CustomerNavbar';
 import ProductCard from '../../layout/Products/ProductCard';
 import { base_url } from '../../../app.json';
@@ -13,6 +13,8 @@ import ShareProductModal from '../../layout/ShareProductModal';
 function ProductView() {
 	const { productID } = useParams();
 	const { contextVariables, setContextVariables } = React.useContext(AppContext);
+
+	const history = useHistory();
 
 	const [productDetails, setProductDetails] = React.useState({});
 	const [similarProducts, setSimilarProducts] = React.useState([]);
@@ -153,144 +155,189 @@ function ProductView() {
 					</>
 				) : Object.keys(productDetails).length > 0 ? (
 					<>
-						<Grid container style={{ padding: '3vw' }}>
-							<Grid item lg={6} sm={12} xs={12}>
-								<img
-									src={`${base_url}${productDetails.product_image}`}
-									alt='Product'
+						<Box
+							display='flex'
+							justifyContent='space-between'
+							alignItems='center'
+							paddingTop='30px'
+							paddingLeft='5vw'
+							paddingRight='5vw'
+							paddingBottom='30px'
+						>
+							<Link
+								style={{
+									alignItems: 'center',
+									display: 'flex',
+									textDecoration: 'none',
+								}}
+								onClick={() => history.goBack()}
+								// to='#/'
+							>
+								<ArrowBack
 									style={{
-										objectFit: 'cover',
-										width: '100%',
-										height: '60vh',
-										// paddingBottom: 20,
+										paddingRight: 10,
 									}}
 								/>
-							</Grid>
-							<Grid
-								item
-								lg={6}
-								sm={12}
-								xs={12}
-								style={{
-									paddingInline: 20,
-									paddingTop: 20,
-								}}
-							>
 								<span
 									style={{
-										fontSize: '5vh',
-										fontWeight: 'bold',
-										fontFamily: 'Calibri',
-									}}
-								>
-									{productDetails.product_name}
-								</span>
-								<br />
-								<span
-									style={{
-										fontSize: '3vh',
-										fontWeight: 'lighter',
-										fontFamily: 'Calibri',
-									}}
-								>
-									Category: <b>{productDetails.product_category}</b>
-								</span>
-								<br />
-								<br />
-								<span
-									style={{
-										fontSize: '25px',
-										fontWeight: 'lighter',
-										fontFamily: 'Calibri',
-									}}
-								>
-									{productDetails.product_desc}
-								</span>
-								<br />
-								<br />
-								<span
-									style={{
-										fontSize: '23px',
+										paddingRight: 10,
+										fontSize: 20,
 										fontWeight: 'normal',
 										fontFamily: 'Calibri',
 									}}
 								>
-									Stock: {productDetails.product_stock}
+									back
 								</span>
+							</Link>
+
+							{contextVariables.cartItems?.find(
+								(item) => item.productID === productDetails.product_id,
+							) ? (
 								<Box
 									style={{
-										paddingBlock: 20,
+										fontFamily: 'Calibri',
+										fontWeight: '600',
+										fontSize: 16,
+										textTransform: 'uppercase',
+										paddingRight: 20,
 									}}
 								>
-									<span
-										style={{
-											fontSize: 48,
-											fontWeight: 'bold',
-											fontFamily: 'Calibri',
-											color: '#43A047',
-										}}
-									>
-										&#8358;{productDetails.product_price}
-									</span>
+									Added to cart
 								</Box>
-								<Box display='flex' justifyContent='center' alignItems='center'>
-									{contextVariables.cartItems?.find(
-										(item) => item.productID === productDetails.product_id,
-									) ? (
-										<Box
-											style={{
-												fontFamily: 'Calibri',
-												fontWeight: '600',
-												fontSize: 16,
-												textTransform: 'uppercase',
-												paddingRight: 20,
-											}}
-										>
-											Added to cart
-										</Box>
-									) : (
-										<Button
-											variant='contained'
-											style={{
-												marginRight: '24px',
-												height: 50,
-												width: 'auto',
-												backgroundColor: '#836E00',
-												borderRadius: 4,
-												color: '#FFFFFF',
-											}}
-											startIcon={<ShoppingCartOutlined />}
-											onClick={() => addToCart(productDetails)}
-										>
-											Add to cart
-										</Button>
-									)}
+							) : (
+								<Button
+									variant='contained'
+									style={{
+										backgroundColor: '#836E00',
+										color: '#FFFFFF',
+									}}
+									onClick={() => addToCart(productDetails)}
+								>
+									Add to Cart
+								</Button>
+							)}
+						</Box>
+						<Box paddingLeft='5vw' paddingRight='5vw'>
+							<img
+								src={`${base_url}${productDetails.product_image}`}
+								alt='Product'
+								style={{
+									objectFit: 'cover',
+									width: '100%',
+									height: '600px',
+									paddingBottom: 30,
+								}}
+							/>
+						</Box>
+						<Box paddingLeft='5vw' paddingRight='5vw'>
+							<Box display='flex' justifyContent='space-between' alignItems='center'>
+								<Box
+									style={{
+										fontSize: '36px',
+										fontWeight: 'bold',
+										fontFamily: 'Calibri',
+										textTransform: 'capitalize',
+									}}
+								>
+									{productDetails.product_name}
+								</Box>
+								<Button
+									variant='outlined'
+									style={{
+										height: 48,
+										width: '178px',
+										borderRadius: 4,
+									}}
+									startIcon={<Share />}
+									onClick={() =>
+										openShareDialog(
+											`${base_url}/product/view/${productDetails.product_id}`,
+										)
+									}
+								>
+									share product
+								</Button>
+							</Box>
 
-									<Button
-										variant='contained'
-										style={{
-											height: 50,
-											width: 'auto',
-											backgroundColor: '#C4C4C4',
-											borderRadius: 4,
-										}}
-										startIcon={<Share />}
-										onClick={() =>
-											openShareDialog(
-												`${base_url}/product/view/${productDetails.product_id}`,
-											)
-										}
-									>
-										Share
-									</Button>
+							<Box
+								style={{
+									fontSize: '18px',
+									fontWeight: 'normal',
+									fontFamily: 'Calibri',
+									textTransform: 'uppercase',
+								}}
+							>
+								CATEGORY: {productDetails.product_category}
+							</Box>
+							<Box
+								style={{
+									fontSize: '18px',
+									fontWeight: 'normal',
+									fontFamily: 'Calibri',
+									textTransform: 'uppercase',
+									paddingBottom: 20,
+								}}
+							>
+								STOCK: {productDetails.product_stock}
+							</Box>
+							<Box
+								style={{
+									fontSize: '24px',
+									fontWeight: 'normal',
+									fontFamily: 'Calibri',
+									paddingBottom: 20,
+								}}
+							>
+								{productDetails.product_desc}
+							</Box>
+							<Box
+								style={{
+									fontSize: '24px',
+									fontWeight: 'bold',
+									fontFamily: 'Calibri',
+									paddingBottom: 30,
+								}}
+							>
+								PRICE: &#8358;{productDetails.product_price}
+							</Box>
+							{contextVariables.cartItems?.find(
+								(item) => item.productID === productDetails.product_id,
+							) ? (
+								<Box
+									style={{
+										fontFamily: 'Calibri',
+										fontWeight: '600',
+										fontSize: 16,
+										textTransform: 'uppercase',
+										paddingRight: 20,
+									}}
+								>
+									Added to cart
 								</Box>
-							</Grid>
-						</Grid>
+							) : (
+								<Button
+									variant='contained'
+									style={{
+										marginRight: '24px',
+										height: 50,
+										width: 'auto',
+										backgroundColor: '#836E00',
+										borderRadius: 4,
+										color: '#FFFFFF',
+										paddingInline: 30,
+									}}
+									startIcon={<ShoppingCartOutlined />}
+									onClick={() => addToCart(productDetails)}
+								>
+									Add to cart
+								</Button>
+							)}
+						</Box>
+
 						<Box
 							style={{
-								paddingTop: 77,
-								paddingBottom: '3vw',
-								paddingInline: '3vw',
+								paddingBlock: 66,
+								paddingInline: '5vw',
 							}}
 						>
 							<span
@@ -325,7 +372,7 @@ function ProductView() {
 										style={{
 											fontSize: 20,
 											padding: 20,
-											fontWeight: 'bold',
+											fontWeight: 'normal',
 											fontFamily: 'Calibri',
 										}}
 									>

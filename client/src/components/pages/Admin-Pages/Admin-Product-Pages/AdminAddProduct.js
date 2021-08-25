@@ -8,6 +8,7 @@ import {
 	InputLabel,
 	Select,
 	MenuItem,
+	CircularProgress,
 } from '@material-ui/core';
 import AdminNavbar from '../../../layout/Admin/AdminNavbar';
 import { useFormik } from 'formik';
@@ -31,6 +32,28 @@ function AdminAddProduct() {
 	const classes = useStyles();
 	const { contextVariables, setContextVariables } = React.useContext(AppContext);
 	const history = useHistory();
+
+	const [categories, setCategories] = React.useState([]);
+
+	const [loading, setLoading] = React.useState(true);
+
+	React.useEffect(() => {
+		const getProductCategories = async () => {
+			try {
+				const response = await axios.get(base_url + '/api/product/categories');
+
+				if (response.data.status === 'PASSED') {
+					setCategories(response.data.productCategories);
+				}
+				setLoading(false);
+			} catch (error) {
+				setCategories([]);
+				setLoading(false);
+			}
+		};
+		getProductCategories();
+	}, []);
+
 	const formik = useFormik({
 		initialValues: {
 			productName: '',
@@ -161,183 +184,208 @@ function AdminAddProduct() {
 						Add product
 					</span>
 				</Box>
-				<Box
-					minHeight='70vh'
-					style={{
-						paddingTop: '40px',
-						paddingInline: '10vw',
-						// justifyContent: 'center',
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-					}}
-				>
-					<h2
+				{loading ? (
+					<CircularProgress
 						style={{
-							margin: 0,
-							fontSize: 30,
-							fontWeight: 'normal',
-							fontFamily: 'Calibri',
-							marginBottom: '40px',
+							margin: 20,
 						}}
-					>
-						Enter the product details below
-					</h2>
-					<form className={classes.root} onSubmit={formik.handleSubmit}>
-						<TextField
-							label='Product name'
-							variant='outlined'
-							required
-							type='text'
-							id='productName'
-							name='productName'
-							placeholder="Enter product's name"
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.productName || ''}
-							error={formik.touched.productName && formik.errors.productName}
-							helperText={
-								formik.touched.productName &&
-								formik.errors.productName &&
-								formik.errors.productName
-							}
-						/>
-						<FormControl variant='standard'>
-							<InputLabel>Product category</InputLabel>
-							<Select
-								id='productCategory'
-								name='productCategory'
-								placeholder="Select product's category"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.productCategory || ''}
-								error={formik.touched.productCategory && formik.errors.productCategory}
-								helperText={
-									formik.touched.productCategory &&
-									formik.errors.productCategory &&
-									formik.errors.productCategory
-								}
-							>
-								<MenuItem value='DRESSES'>DRESSES</MenuItem>
-								<MenuItem value='JEANS'>JEANS</MenuItem>
-								<MenuItem value='SHOES'>SHOES</MenuItem>
-							</Select>
-						</FormControl>
-						<TextField
-							label='Product price'
-							variant='outlined'
-							required
-							type='text'
-							id='productPrice'
-							name='productPrice'
-							placeholder="Enter product's price"
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.productPrice || ''}
-							error={formik.touched.productPrice && formik.errors.productPrice}
-							helperText={
-								formik.touched.productPrice &&
-								formik.errors.productPrice &&
-								formik.errors.productPrice
-							}
-						/>
-						<TextField
-							label='Product description'
-							variant='outlined'
-							required
-							type='text'
-							multiline
-							rows='3'
-							id='productDescription'
-							name='productDescription'
-							placeholder="Enter product's description"
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.productDescription || ''}
-							error={
-								formik.touched.productDescription && formik.errors.productDescription
-							}
-							helperText={
-								formik.touched.productDescription &&
-								formik.errors.productDescription &&
-								formik.errors.productDescription
-							}
-						/>
-						<TextField
-							label='Product stock'
-							variant='outlined'
-							required
-							type='number'
-							id='productStock'
-							name='productStock'
-							placeholder="Enter product's stock"
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.productStock || ''}
-							error={formik.touched.productStock && formik.errors.productStock}
-							helperText={
-								formik.touched.productStock &&
-								formik.errors.productStock &&
-								formik.errors.productStock
-							}
-						/>
+					/>
+				) : (
+					<>
 						<Box
+							minHeight='70vh'
 							style={{
-								borderStyle: 'solid',
-								borderWidth: '0.1px',
+								paddingTop: '40px',
+								paddingInline: '10vw',
+								// justifyContent: 'center',
 								display: 'flex',
 								flexDirection: 'column',
-								borderRadius: 4,
-								borderColor: '#C4C4C4',
+								alignItems: 'center',
 							}}
 						>
-							<label
-								htmlFor='productImage'
+							<h2
 								style={{
-									padding: 10,
+									margin: 0,
+									fontSize: 30,
+									fontWeight: 'normal',
+									fontFamily: 'Calibri',
+									marginBottom: '40px',
 								}}
 							>
-								Select a product image
-							</label>
+								Enter the product details below
+							</h2>
+							<form className={classes.root} onSubmit={formik.handleSubmit}>
+								<TextField
+									label='Product name'
+									variant='outlined'
+									required
+									type='text'
+									id='productName'
+									name='productName'
+									placeholder="Enter product's name"
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.productName || ''}
+									error={formik.touched.productName && formik.errors.productName}
+									helperText={
+										formik.touched.productName &&
+										formik.errors.productName &&
+										formik.errors.productName
+									}
+								/>
+								<FormControl variant='outlined'>
+									<InputLabel>Product category</InputLabel>
+									<Select
+										id='productCategory'
+										label='Product category'
+										name='productCategory'
+										placeholder="Select product's category"
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
+										value={formik.values.productCategory || ''}
+										error={
+											formik.touched.productCategory && formik.errors.productCategory
+										}
+										helperText={
+											formik.touched.productCategory &&
+											formik.errors.productCategory &&
+											formik.errors.productCategory
+										}
+									>
+										{categories.length > 0 ? (
+											categories.map((category) => (
+												<MenuItem value={`${category.category_name}`}>
+													{category.category_name}
+												</MenuItem>
+											))
+										) : (
+											<Box
+												style={{
+													paddingInline: 20,
+												}}
+											>
+												No category registered
+											</Box>
+										)}
+									</Select>
+								</FormControl>
+								<TextField
+									label='Product price'
+									variant='outlined'
+									required
+									type='text'
+									id='productPrice'
+									name='productPrice'
+									placeholder="Enter product's price"
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.productPrice || ''}
+									error={formik.touched.productPrice && formik.errors.productPrice}
+									helperText={
+										formik.touched.productPrice &&
+										formik.errors.productPrice &&
+										formik.errors.productPrice
+									}
+								/>
+								<TextField
+									label='Product description'
+									variant='outlined'
+									required
+									type='text'
+									multiline
+									rows='3'
+									id='productDescription'
+									name='productDescription'
+									placeholder="Enter product's description"
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.productDescription || ''}
+									error={
+										formik.touched.productDescription && formik.errors.productDescription
+									}
+									helperText={
+										formik.touched.productDescription &&
+										formik.errors.productDescription &&
+										formik.errors.productDescription
+									}
+								/>
+								<TextField
+									label='Product stock'
+									variant='outlined'
+									required
+									type='number'
+									id='productStock'
+									name='productStock'
+									placeholder="Enter product's stock"
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.productStock || ''}
+									error={formik.touched.productStock && formik.errors.productStock}
+									helperText={
+										formik.touched.productStock &&
+										formik.errors.productStock &&
+										formik.errors.productStock
+									}
+								/>
+								<Box
+									style={{
+										borderStyle: 'solid',
+										borderWidth: '0.1px',
+										display: 'flex',
+										flexDirection: 'column',
+										borderRadius: 4,
+										borderColor: '#C4C4C4',
+									}}
+								>
+									<label
+										htmlFor='productImage'
+										style={{
+											padding: 10,
+										}}
+									>
+										Select a product image
+									</label>
 
-							<input
-								style={{
-									paddingInline: 10,
-									paddingBottom: 10,
-								}}
-								id='productImage'
-								type='file'
-								accept='image/*'
-								multiple={false}
-								required
-								name='productImage'
-								onChange={(e) => {
-									const file = e.currentTarget.files[0];
-									formik.setFieldValue('productImage', file);
-									// formik.handleChange
-								}}
-								onBlur={formik.handleBlur}
-							/>
+									<input
+										style={{
+											paddingInline: 10,
+											paddingBottom: 10,
+										}}
+										id='productImage'
+										type='file'
+										accept='image/*'
+										multiple={false}
+										required
+										name='productImage'
+										onChange={(e) => {
+											const file = e.currentTarget.files[0];
+											formik.setFieldValue('productImage', file);
+											// formik.handleChange
+										}}
+										onBlur={formik.handleBlur}
+									/>
+								</Box>
+
+								<center>
+									<Button
+										variant='contained'
+										style={{
+											width: 173,
+											height: 57,
+											borderRadius: 4,
+											marginBlock: '50px',
+											color: '#FFFFFF',
+											backgroundColor: '#836E00',
+										}}
+										type='submit'
+									>
+										Add Product
+									</Button>
+								</center>
+							</form>
 						</Box>
-
-						<center>
-							<Button
-								variant='contained'
-								style={{
-									width: 173,
-									height: 57,
-									borderRadius: 4,
-									marginBlock: '50px',
-									color: '#FFFFFF',
-									backgroundColor: '#836E00',
-								}}
-								type='submit'
-							>
-								Add Product
-							</Button>
-						</center>
-					</form>
-				</Box>
+					</>
+				)}
 			</div>
 		</>
 	);

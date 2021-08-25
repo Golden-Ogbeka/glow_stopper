@@ -76,20 +76,17 @@ function TrendingProducts() {
 							{loading ? (
 								<CircularProgress />
 							) : products.length > 0 ? (
-								products.map(
-									(product) =>
-										product.product_stock > 0 && (
-											<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
-												<ProductCard
-													productID={product.product_id}
-													productName={product.product_name}
-													productStock={product.product_stock}
-													productPrice={product.product_price}
-													productImage={`${base_url}${product.product_image}`}
-												/>
-											</Grid>
-										),
-								)
+								products.map((product) => (
+									<Grid item lg={4} md={4} sm={12} xs={12} key={product.product_id}>
+										<ProductCard
+											productID={product.product_id}
+											productName={product.product_name}
+											productStock={product.product_stock}
+											productPrice={product.product_price}
+											productImage={`${base_url}${product.product_image}`}
+										/>
+									</Grid>
+								))
 							) : (
 								<span
 									style={{

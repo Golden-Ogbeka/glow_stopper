@@ -38,6 +38,7 @@ function AdminEditProduct() {
 	const { contextVariables, setContextVariables } = React.useContext(AppContext);
 
 	const [productDetails, setProductDetails] = React.useState({});
+	const [categories, setCategories] = React.useState([]);
 
 	const [loading, setLoading] = React.useState(true);
 	React.useEffect(() => {
@@ -49,7 +50,7 @@ function AdminEditProduct() {
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
 
-				const response = await axios.get(
+				let response = await axios.get(
 					`${base_url}/api/admin/product?productID=${productID}`,
 					{
 						headers: {
@@ -70,6 +71,13 @@ function AdminEditProduct() {
 							message: response.data.message,
 						},
 					});
+				}
+
+				// Get product categories
+				response = await axios.get(base_url + '/api/product/categories');
+
+				if (response.data.status === 'PASSED') {
+					setCategories(response.data.productCategories);
 				}
 				setLoading(false);
 			} catch (error) {
@@ -266,9 +274,24 @@ function AdminEditProduct() {
 										formik.errors.productCategory
 									}
 								>
-									<MenuItem value='DRESSES'>DRESSES</MenuItem>
-									<MenuItem value='JEANS'>JEANS</MenuItem>
-									<MenuItem value='SHOES'>SHOES</MenuItem>
+									<MenuItem value={formik.values.productCategory}>
+										{formik.values.productCategory}
+									</MenuItem>
+									{categories.length > 0 ? (
+										categories.map((category) => (
+											<MenuItem value={`${category.category_name}`}>
+												{category.category_name}
+											</MenuItem>
+										))
+									) : (
+										<Box
+											style={{
+												paddingInline: 20,
+											}}
+										>
+											No category registered
+										</Box>
+									)}
 								</Select>
 							</FormControl>
 							<TextField

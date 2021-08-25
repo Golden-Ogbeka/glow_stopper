@@ -116,7 +116,7 @@ function ProductCard(props) {
 				onClick={
 					props.adminAccess
 						? () => history.push(`/admin/product/description/${props.productID}`)
-						: () => history.push(`/product/view/${props.productID}`)
+						: () => (window.location.href = `/product/view/${props.productID}`)
 				}
 			>
 				<CardMedia
@@ -250,7 +250,11 @@ function ProductCard(props) {
 				) : (
 					<>
 						<Link
-							to={`/product/view/${props.productID}`}
+							onClick={
+								() => (window.location.href = `/product/view/${props.productID}`)
+								// This was used because Link wouldn't refresh the page. Therefore preventing automatic state update
+								// when going to similar products
+							}
 							style={{
 								textDecoration: 'none',
 							}}
@@ -307,6 +311,7 @@ function ProductCard(props) {
 
 ProductCard.defaultProps = {
 	adminAccess: false,
+	similar: false,
 };
 
 export default ProductCard;

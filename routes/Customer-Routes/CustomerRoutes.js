@@ -7,9 +7,9 @@ const util = require('util');
 
 // Nodemailer
 const transporter = nodemailer.createTransport({
-	host: 'smtp.gmail.com',
-	port: 587,
-	secure: false,
+	host: process.env.EMAIL_HOST,
+	port: 465,
+	secure: true,
 	auth: {
 		user: process.env.EMAIL_USER,
 		pass: process.env.EMAIL_PASSWORD,
@@ -39,7 +39,7 @@ router.get('/api/products', async (req, res) => {
 	try {
 		// using node's promisify to get direct results from sql
 		const query = util.promisify(conn.query).bind(conn);
-		const sql = `SELECT * FROM products`;
+		const sql = `SELECT * FROM products WHERE product_stock > 0`;
 		const products = await query(sql);
 		return res.send({
 			status: 'PASSED',
@@ -55,7 +55,7 @@ router.get('/api/products', async (req, res) => {
 router.get('/api/products/new', async (req, res) => {
 	try {
 		// Use ID to determine descending order - 12 products selected
-		const sql = `SELECT * FROM products ORDER BY product_id DESC LIMIT 12`;
+		const sql = `SELECT * FROM products WHERE product_stock > 0 ORDER BY product_id DESC LIMIT 12`;
 		conn.query(sql, async (err, result) => {
 			if (err) throw err;
 			const products = result;
@@ -74,7 +74,7 @@ router.get('/api/products/new', async (req, res) => {
 router.get('/api/products/trending', async (req, res) => {
 	try {
 		// Use INNER JOIN to combine order and product tables and get product details - Limit to 12 products
-		const sql = `SELECT COUNT(orders.product_id), orders.product_id, products.product_name, products.product_desc, products.product_category, products.product_price, products.product_image, products.product_stock FROM orders INNER JOIN products ON orders.product_id = products.product_id GROUP BY products.product_id ORDER BY COUNT(products.product_id) DESC LIMIT 12`;
+		const sql = `SELECT COUNT(orders.product_id), orders.product_id, products.product_name, products.product_desc, products.product_category, products.product_price, products.product_image, products.product_stock FROM orders INNER JOIN products ON orders.product_id = products.product_id WHERE products.product_stock > 0 GROUP BY products.product_id ORDER BY COUNT(products.product_id) DESC LIMIT 12`;
 		conn.query(sql, async (err, result) => {
 			if (err) throw err;
 			let products = result;
@@ -111,7 +111,7 @@ router.get('/api/products/trending', async (req, res) => {
 router.get('/api/product', (req, res) => {
 	try {
 		if (req.query.productID) {
-			const sql = `SELECT * FROM products WHERE product_id=?`;
+			const sql = `SELECT * FROM products WHERE product_id=? AND product_stock > 0`;
 			conn.query(sql, req.query.productID, async (err, result) => {
 				if (err) throw err;
 				if (result.length > 0) {
@@ -128,7 +128,7 @@ router.get('/api/product', (req, res) => {
 				}
 			});
 		} else if (req.query.productCategory) {
-			const sql = `SELECT * FROM products WHERE product_category=?`;
+			const sql = `SELECT * FROM products WHERE product_category=? AND product_stock > 0`;
 			conn.query(sql, req.query.productCategory, async (err, result) => {
 				if (err) throw err;
 				return res.send({
@@ -241,7 +241,7 @@ Phone: ${phoneNumber}`;
 
 		// Send mail to admin
 		await transporter.sendMail({
-			from: 'Glow Stopper Admin',
+			from: process.env.EMAIL_USER,
 			to: process.env.EMAIL_USER,
 			subject: 'New order on GlowStopper',
 			text: mailContent,
@@ -249,7 +249,7 @@ Phone: ${phoneNumber}`;
 
 		// Send mail to customer
 		await transporter.sendMail({
-			from: 'Glow Stopper Admin',
+			from: process.env.EMAIL_USER,
 			to: email,
 			subject: 'New order on GlowStopper',
 			text: mailContent,
@@ -283,17 +283,19 @@ Message:
 ${message}`;
 		// Send mail to admin
 		await transporter.sendMail({
-			from: 'Glow Stopper Admin',
+			from: process.env.EMAIL_USER,
 			to: process.env.EMAIL_USER,
 			subject: 'New message on GlowStopper',
 			text: mailContent,
 		});
+
 		// Send Response
 		return res.send({
 			status: 'PASSED',
 			message: 'Message sent',
 		});
 	} catch (error) {
+		console.log(error);
 		return res.status(500).send("Server Error. Couldn't send message");
 	}
 });

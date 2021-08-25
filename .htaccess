@@ -1,22 +1,29 @@
 # DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
-PassengerAppRoot "/home/glowstop/public_html/api"
+PassengerAppRoot "/home/glowstop/public_html/API"
 PassengerBaseURI "/"
-PassengerNodejs "/home/glowstop/nodevenv/public_html/api/12/bin/node"
+PassengerNodejs "/home/glowstop/nodevenv/public_html/API/12/bin/node"
 PassengerAppType node
-PassengerStartupFile /home/glowstop/public_html/api/index.js
-PassengerAppLogFile "/home/glowstop/public_html/api/errorLog.txt"
+PassengerStartupFile /home/glowstop/public_html/API/index.js
+PassengerAppLogFile "/home/glowstop/public_html/API/errorLog.txt"
 # DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
-# php -- BEGIN cPanel-generated handler, do not edit
-# Set the “ea-php70” package as the default “PHP” programming language.
-<IfModule mime_module>
-  AddHandler application/x-httpd-ea-php70 .php .php7 .phtml
+RewriteEngine off
+#To prevent Apache from redirecting
+# htaccess protection
+<Files ~ "^.*\.([Hh][Tt][Aa])">
+	Order allow,deny
+	Deny from all
+	Satisfy all
+</Files>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+<IfModule Litespeed>
+SetEnv DB glowstop_glowstopper
+SetEnv DB_HOST localhost
+SetEnv DB_PASS #UNequiv0cal
+SetEnv DB_USER glowstop_admin
+SetEnv JWT_SECRET baf66fb2-0c36-455a-9dde-3a6926eb03d1
+SetEnv PORT 3000
+SetEnv EMAIL_HOST mail.glowstopper.com
+SetEnv EMAIL_USER admin@glowstopper.com
+SetEnv EMAIL_PASSWORD #UNequiv0cal
 </IfModule>
-# php -- END cPanel-generated handler, do not edit
-# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
-PassengerAppRoot "/home/glowstop/public_html/api"
-PassengerBaseURI "/"
-PassengerNodejs "/home/glowstop/nodevenv/public_html/api/12/bin/node"
-PassengerAppType node
-PassengerStartupFile /home/glowstop/public_html/api/index.js
-PassengerAppLogFile "/home/glowstop/public_html/api/errorLog.txt"
-# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END

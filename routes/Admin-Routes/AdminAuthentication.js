@@ -8,9 +8,9 @@ const bcryptjs = require('bcryptjs');
 
 // Nodemailer
 const transporter = nodemailer.createTransport({
-	host: 'smtp.gmail.com',
-	port: 587,
-	secure: false,
+	host: process.env.EMAIL_HOST,
+	port: 465,
+	secure: true,
 	auth: {
 		user: process.env.EMAIL_USER,
 		pass: process.env.EMAIL_PASSWORD,
@@ -61,7 +61,7 @@ router.post('/api/admin/login', async (req, res) => {
 				conn.query(sql2, async (err, result) => {
 					// Send mail for verification
 					await transporter.sendMail({
-						from: 'Glow Stopper Admin',
+						from: process.env.EMAIL_USER,
 						to: email,
 						subject: 'Verification Email - Admin Login',
 						text: `Your verification token to login is: ${token}`,

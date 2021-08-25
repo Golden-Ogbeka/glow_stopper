@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import {
 	MoreVert,
 	ShoppingCartOutlined,
-	Menu as MenuIcon,
+	// Menu as MenuIcon,
 } from '@material-ui/icons';
 import AppContext from '../../utils/AppContext';
 

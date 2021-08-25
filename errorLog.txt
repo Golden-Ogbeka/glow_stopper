@@ -1,113 +1,243 @@
-App 28181 output: Server listening on port: 5000
-App 28181 output: Database connected
-App 1814 output: Server listening on port: 5000
-App 1814 output: Database connected
-App 23601 output: internal/modules/cjs/loader.js:818
-App 23601 output:   throw err;
-App 23601 output:   ^
-App 23601 output: Error: Cannot find module 'dotenv'
-App 23601 output: Require stack:
-App 23601 output: - /home/glowstop/public_html/api/index.js
-App 23601 output: - /opt/cpanel/ea-ruby27/root/usr/share/passenger/helper-scripts/node-loader.js
-App 23601 output:     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
-App 23601 output:     at Function.Module._load (internal/modules/cjs/loader.js:667:27)
-App 23601 output:     at Module.require (internal/modules/cjs/loader.js:887:19)
-App 23601 output:     at Module.require (/opt/cpanel/ea-ruby27/root/usr/share/passenger/helper-scripts/node-loader.js:80:25)
-App 23601 output:     at require (internal/modules/cjs/helpers.js:74:18)
-App 23601 output:     at Object.<anonymous> (/home/glowstop/public_html/api/index.js:2:1)
-App 23601 output:     at Module._compile (internal/modules/cjs/loader.js:999:30)
-App 23601 output:     at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
-App 23601 output:     at Module.load (internal/modules/cjs/loader.js:863:32)
-App 23601 output:     at Function.Module._load (internal/modules/cjs/loader.js:708:14) {
-App 23601 output:   code: 'MODULE_NOT_FOUND',
-App 23601 output:   requireStack: [
-App 23601 output:     '/home/glowstop/public_html/api/index.js',
-App 23601 output:     '/opt/cpanel/ea-ruby27/root/usr/share/passenger/helper-scripts/node-loader.js'
-App 23601 output:   ]
-App 23601 output: }
-App 24136 output: Server listening on port: 5000
-App 24136 output: Database connected
-App 27041 output: Server listening on port: 5000
-App 27041 output: Database connected
-App 30851 output: Server listening on port: 5000
-App 30851 output: Database connected
-App 634 output: Server listening on port: 5000
-App 634 output: Database connected
-App 7892 output: Server listening on port: 5000
-App 7892 output: Database connected
-App 15775 output: Server listening on port: 5000
-App 15775 output: Database connected
-App 21307 output: Server listening on port: 5000
-App 21307 output: Database connected
-App 24626 output: Server listening on port: 5000
-App 24626 output: Database connected
-App 26392 output: Server listening on port: 5000
-App 26392 output: Database connected
-App 31753 output: Server listening on port: 5000
-App 31753 output: Database connected
-App 32161 output: Server listening on port: 5000
-App 32161 output: Database connected
-App 1863 output: Server listening on port: 5000
-App 1863 output: Database connected
-App 6494 output: Server listening on port: 5000
-App 6494 output: Database connected
-App 13230 output: Server listening on port: 5000
-App 13230 output: Database connected
-App 16403 output: Server listening on port: 5000
-App 16403 output: Database connected
-App 29482 output: Server listening on port: 5000 at Fri Aug 20 2021 14:19:24 GMT+0100 (West Africa Standard Time)
-App 29482 output: Database connected
-App 29482 output: ReferenceError: res is not defined
-App 29482 output:     at /home/glowstop/public_html/api/index.js:40:2
-App 29482 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 29482 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:137:13)
-App 29482 output:     at Route.dispatch (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:112:3)
-App 29482 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 29482 output:     at /home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:281:22
-App 29482 output:     at Function.process_params (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:335:12)
-App 29482 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:275:10)
-App 29482 output:     at urlencodedParser (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/body-parser/lib/types/urlencoded.js:82:7)
-App 29482 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 31937 output: Server listening on port: 5000 at Fri Aug 20 2021 14:20:50 GMT+0100 (West Africa Standard Time)
-App 31937 output: Database connected
-App 31937 output: ReferenceError: res is not defined
-App 31937 output:     at /home/glowstop/public_html/api/index.js:40:2
-App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:137:13)
-App 31937 output:     at Route.dispatch (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:112:3)
-App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 31937 output:     at /home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:281:22
-App 31937 output:     at Function.process_params (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:335:12)
-App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:275:10)
-App 31937 output:     at urlencodedParser (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/body-parser/lib/types/urlencoded.js:82:7)
-App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 31937 output: ReferenceError: res is not defined
-App 31937 output:     at /home/glowstop/public_html/api/index.js:40:2
-App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:137:13)
-App 31937 output:     at Route.dispatch (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:112:3)
-App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 31937 output:     at /home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:281:22
-App 31937 output:     at Function.process_params (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:335:12)
-App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:275:10)
-App 31937 output:     at urlencodedParser (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/body-parser/lib/types/urlencoded.js:82:7)
-App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 31937 output: ReferenceError: res is not defined
-App 31937 output:     at /home/glowstop/public_html/api/index.js:40:2
-App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:137:13)
-App 31937 output:     at Route.dispatch (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/route.js:112:3)
-App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 31937 output:     at /home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:281:22
-App 31937 output:     at Function.process_params (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:335:12)
-App 31937 output:     at next (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/index.js:275:10)
-App 31937 output:     at urlencodedParser (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/body-parser/lib/types/urlencoded.js:82:7)
-App 31937 output:     at Layer.handle [as handle_request] (/home/glowstop/nodevenv/public_html/api/12/lib/node_modules/express/lib/router/layer.js:95:5)
-App 1038 output: Server listening on port: 5000 at Fri Aug 20 2021 14:22:15 GMT+0100 (West Africa Standard Time)
-App 1038 output: Database connected
-App 6543 output: Server listening on port: 5000 at Fri Aug 20 2021 14:26:51 GMT+0100 (West Africa Standard Time)
-App 6543 output: Database connected
-App 9990 output: Server listening on port: 5000 at Fri Aug 20 2021 14:29:21 GMT+0100 (West Africa Standard Time)
-App 9990 output: Database connected
-App 16693 output: Server listening on port: 5000 at Fri Aug 20 2021 14:34:37 GMT+0100 (West Africa Standard Time)
-App 16693 output: Database connected
+App 24451 output: Server listening on port: 5000 at Mon Aug 23 2021 09:38:05 GMT+0100 (West Africa Standard Time)
+App 24451 output: Database connected
+App 25770 output: Server listening on port: 5000 at Mon Aug 23 2021 09:38:50 GMT+0100 (West Africa Standard Time)
+App 25770 output: Database connected
+App 22915 output: Server listening on port: 5000 at Mon Aug 23 2021 10:01:14 GMT+0100 (West Africa Standard Time)
+App 22915 output: Database connected
+App 32084 output: Server listening on port: 5000 at Mon Aug 23 2021 10:08:19 GMT+0100 (West Africa Standard Time)
+App 32084 output: Database connected
+App 20931 output: Server listening on port: 5000 at Mon Aug 23 2021 10:24:29 GMT+0100 (West Africa Standard Time)
+App 20931 output: Database connected
+App 23849 output: Server listening on port: 5000 at Mon Aug 23 2021 10:26:21 GMT+0100 (West Africa Standard Time)
+App 23849 output: Database connected
+App 655 output: Server listening on port: 5000 at Mon Aug 23 2021 10:33:19 GMT+0100 (West Africa Standard Time)
+App 655 output: Database connected
+App 7721 output: Server listening on port: 5000 at Mon Aug 23 2021 10:38:45 GMT+0100 (West Africa Standard Time)
+App 7721 output: Database connected
+App 8774 output: Server listening on port: 5000 at Mon Aug 23 2021 10:39:32 GMT+0100 (West Africa Standard Time)
+App 8774 output: Database connected
+App 31817 output: Server listening on port: 5000 at Mon Aug 23 2021 11:26:25 GMT+0100 (West Africa Standard Time)
+App 31817 output: Database connected
+App 31817 output: Error: connect ECONNREFUSED 74.125.193.109:465
+App 31817 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 31817 output:   errno: 'ECONNREFUSED',
+App 31817 output:   code: 'ESOCKET',
+App 31817 output:   syscall: 'connect',
+App 31817 output:   address: '74.125.193.109',
+App 31817 output:   port: 465,
+App 31817 output:   command: 'CONN'
+App 31817 output: }
+App 16163 output: Server listening on port: 5000 at Mon Aug 23 2021 12:07:18 GMT+0100 (West Africa Standard Time)
+App 16163 output: Database connected
+App 16163 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 16163 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 16163 output:   errno: 'ECONNREFUSED',
+App 16163 output:   code: 'ESOCKET',
+App 16163 output:   syscall: 'connect',
+App 16163 output:   address: '52.49.171.158',
+App 16163 output:   port: 465,
+App 16163 output:   command: 'CONN'
+App 16163 output: }
+App 16811 output: Server listening on port: 5000 at Mon Aug 23 2021 12:07:46 GMT+0100 (West Africa Standard Time)
+App 16811 output: Database connected
+App 16811 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 16811 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 16811 output:   errno: 'ECONNREFUSED',
+App 16811 output:   code: 'ESOCKET',
+App 16811 output:   syscall: 'connect',
+App 16811 output:   address: '52.49.171.158',
+App 16811 output:   port: 465,
+App 16811 output:   command: 'CONN'
+App 16811 output: }
+App 19624 output: Server listening on port: 5000 at Mon Aug 23 2021 12:09:51 GMT+0100 (West Africa Standard Time)
+App 19624 output: Database connected
+App 19624 output: Error [ERR_TLS_CERT_ALTNAME_INVALID]: Hostname/IP does not match certificate's altnames: Host: localhost. is not in the cert's altnames: DNS:eel.wghservers.com, DNS:www.eel.wghservers.com
+App 19624 output:     at Object.checkServerIdentity (tls.js:287:12)
+App 19624 output:     at TLSSocket.onConnectSecure (_tls_wrap.js:1512:27)
+App 19624 output:     at TLSSocket.emit (events.js:314:20)
+App 19624 output:     at TLSSocket._finishInit (_tls_wrap.js:937:8)
+App 19624 output:     at TLSWrap.ssl.onhandshakedone (_tls_wrap.js:711:12) {
+App 19624 output:   reason: "Host: localhost. is not in the cert's altnames: DNS:eel.wghservers.com, DNS:www.eel.wghservers.com",
+App 19624 output:   host: 'localhost',
+App 19624 output:   cert: {
+App 19624 output:     subject: [Object: null prototype] { CN: 'eel.wghservers.com' },
+App 19624 output:     issuer: [Object: null prototype] {
+App 19624 output:       C: 'US',
+App 19624 output:       ST: 'TX',
+App 19624 output:       L: 'Houston',
+App 19624 output:       O: 'cPanel, Inc.',
+App 19624 output:       CN: 'cPanel, Inc. Certification Authority'
+App 19624 output:     },
+App 19624 output:     subjectaltname: 'DNS:eel.wghservers.com, DNS:www.eel.wghservers.com',
+App 19624 output:     infoAccess: [Object: null prototype] {
+App 19624 output:       'CA Issuers - URI': [Array],
+App 19624 output:       'OCSP - URI': [Array]
+App 19624 output:     },
+App 19624 output:     modulus: 'A4A4F0BD936794D55CFCCB33616401C37378B5A4DCC381E12E0737CF38558145C7123D1DF91FDDAAE2E04BED012D6A641DF52B72158E3015794F974FD8727C62DAB9EDAFDC4274F8BE73323735819EC3CED8F27BEF58B1B46FA0100107832411E5BEFD4E700B358DCFCCCC0395B2A5E070B8A757C2CF5433DA46E576855BBCCCD57791CA5E3FF0A3D0979336F34026E2570D940C7538254A1F2F6A447CD9A99B6BD3862E7ACD90AFCFEF32F57D78C75A45E57CC6BC0CCFA014A4B899686DAA1F26F1133555AEFBDB6484277C63CC5FD80E5EADC8AE866AC4DF936C410E3ABAEABF523FD20033A3A9E0721A4A3247E1484D3DFE58D5E9E79BAB397F088F928E4D',
+App 19624 output:     bits: 2048,
+App 19624 output:     exponent: '0x10001',
+App 19624 output:     pubkey: <Buffer 30 82 01 22 30 0d 06 09 2a 86 48 86 f7 0d 01 01 01 05 00 03 82 01 0f 00 30 82 01 0a 02 82 01 01 00 a4 a4 f0 bd 93 67 94 d5 5c fc cb 33 61 64 01 c3 73 ... 244 more bytes>,
+App 19624 output:     valid_from: 'Jun 29 00:00:00 2021 GMT',
+App 19624 output:     valid_to: 'Jun 29 23:59:59 2022 GMT',
+App 19624 output:     fingerprint: 'CF:2B:82:DD:5B:92:86:67:D0:EC:50:DB:E6:29:5E:FA:3D:0A:62:B0',
+App 19624 output:     fingerprint256: '51:20:50:8D:B1:1B:4B:4E:BD:24:08:A5:6F:52:D2:B7:8E:7C:C3:D1:B9:9D:10:AF:10:90:9B:33:E6:68:01:FD',
+App 19624 output:     ext_key_usage: [ '1.3.6.1.5.5.7.3.1', '1.3.6.1.5.5.7.3.2' ],
+App 19624 output:     serialNumber: '324A0054CCE20A0674E87DA06D057157',
+App 19624 output:     raw: <Buffer 30 82 06 6d 30 82 05 55 a0 03 02 01 02 02 10 32 4a 00 54 cc e2 0a 06 74 e8 7d a0 6d 05 71 57 30 0d 06 09 2a 86 48 86 f7 0d 01 01 0b 05 00 30 72 31 0b ... 1599 more bytes>,
+App 19624 output:     issuerCertificate: {
+App 19624 output:       subject: [Object: null prototype],
+App 19624 output:       issuer: [Object: null prototype],
+App 19624 output:       infoAccess: [Object: null prototype],
+App 19624 output:       modulus: '8B5E0156B9EC6B11EF48E9439E9BC8BA5391A5BDAB2AFA5E3A35E10D5C35EA52A89934280F7E592B486BE7B4D74B7D2F83CFFE8B26C359791F60A169A75ACB9F3721EF18BD9BFD41EB757CB796D95E86CB2A12E2A7F703E4CEE605F7419B1EBCD2F6D16669510CDEB5ED3C0B27CF888E203DE34E958F1534C626CBF73F64E9F530257DCDA9399B3FEA7A692B8BC47D0BF85693B66B96CAECCFD27BBD43BED3F589DA4D744921C4BDF530BCBC49A96515B3D6FFBF1D90949C0825B6ADCFFCC7D9FB55D519D04ABF6246E524ED8FBE64980C6A519E7A807320A9B4D9BF436A9E10AD2BA0CD64AD4039D2E2B8DBC2F23AA3E2B716971F1EF6CFDF3C1E58E900076B',
+App 19624 output:       bits: 2048,
+App 19624 output:       exponent: '0x10001',
+App 19624 output:       pubkey: <Buffer 30 82 01 22 30 0d 06 09 2a 86 48 86 f7 0d 01 01 01 05 00 03 82 01 0f 00 30 82 01 0a 02 82 01 01 00 8b 5e 01 56 b9 ec 6b 11 ef 48 e9 43 9e 9b c8 ba 53 ... 244 more bytes>,
+App 19624 output:       valid_from: 'May 18 00:00:00 2015 GMT',
+App 19624 output:       valid_to: 'May 17 23:59:59 2025 GMT',
+App 19624 output:       fingerprint: '76:4D:2F:A5:9E:D1:23:F9:C9:55:70:C4:03:C9:2F:EF:33:8E:A7:45',
+App 19624 output:       fingerprint256: '82:1C:C5:5C:E7:EC:5C:74:FE:BB:42:F6:24:EB:6A:36:C4:78:21:5A:31:ED:67:E3:CF:72:3A:67:E8:C7:5E:BA',
+App 19624 output:       ext_key_usage: [Array],
+App 19624 output:       serialNumber: 'F01D4BEE7B7CA37B3C0566AC05972458',
+App 19624 output:       raw: <Buffer 30 82 05 f1 30 82 03 d9 a0 03 02 01 02 02 11 00 f0 1d 4b ee 7b 7c a3 7b 3c 05 66 ac 05 97 24 58 30 0d 06 09 2a 86 48 86 f7 0d 01 01 0c 05 00 30 81 85 ... 1475 more bytes>,
+App 19624 output:       issuerCertificate: [Object]
+App 19624 output:     }
+App 19624 output:   },
+App 19624 output:   code: 'ESOCKET',
+App 19624 output:   command: 'CONN'
+App 19624 output: }
+App 21051 output: Server listening on port: 5000 at Mon Aug 23 2021 12:10:41 GMT+0100 (West Africa Standard Time)
+App 21051 output: Database connected
+App 21051 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 21051 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 21051 output:   errno: 'ECONNREFUSED',
+App 21051 output:   code: 'ESOCKET',
+App 21051 output:   syscall: 'connect',
+App 21051 output:   address: '52.49.171.158',
+App 21051 output:   port: 465,
+App 21051 output:   command: 'CONN'
+App 21051 output: }
+App 26489 output: Server listening on port: 5000 at Mon Aug 23 2021 12:15:07 GMT+0100 (West Africa Standard Time)
+App 26489 output: Database connected
+App 26489 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 26489 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 26489 output:   errno: 'ECONNREFUSED',
+App 26489 output:   code: 'ESOCKET',
+App 26489 output:   syscall: 'connect',
+App 26489 output:   address: '52.49.171.158',
+App 26489 output:   port: 465,
+App 26489 output:   command: 'CONN'
+App 26489 output: }
+App 30001 output: Server listening on port: 5000 at Mon Aug 23 2021 12:17:09 GMT+0100 (West Africa Standard Time)
+App 30001 output: Database connected
+App 30001 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 30001 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 30001 output:   errno: 'ECONNREFUSED',
+App 30001 output:   code: 'ESOCKET',
+App 30001 output:   syscall: 'connect',
+App 30001 output:   address: '52.49.171.158',
+App 30001 output:   port: 465,
+App 30001 output:   command: 'CONN'
+App 30001 output: }
+App 30001 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 30001 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 30001 output:   errno: 'ECONNREFUSED',
+App 30001 output:   code: 'ESOCKET',
+App 30001 output:   syscall: 'connect',
+App 30001 output:   address: '52.49.171.158',
+App 30001 output:   port: 465,
+App 30001 output:   command: 'CONN'
+App 30001 output: }
+App 31703 output: Server listening on port: 5000 at Mon Aug 23 2021 12:18:40 GMT+0100 (West Africa Standard Time)
+App 31703 output: Database connected
+App 31703 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 31703 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 31703 output:   errno: 'ECONNREFUSED',
+App 31703 output:   code: 'ESOCKET',
+App 31703 output:   syscall: 'connect',
+App 31703 output:   address: '52.49.171.158',
+App 31703 output:   port: 465,
+App 31703 output:   command: 'CONN'
+App 31703 output: }
+App 31703 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 31703 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 31703 output:   errno: 'ECONNREFUSED',
+App 31703 output:   code: 'ESOCKET',
+App 31703 output:   syscall: 'connect',
+App 31703 output:   address: '52.49.171.158',
+App 31703 output:   port: 465,
+App 31703 output:   command: 'CONN'
+App 31703 output: }
+App 31703 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 31703 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 31703 output:   errno: 'ECONNREFUSED',
+App 31703 output:   code: 'ESOCKET',
+App 31703 output:   syscall: 'connect',
+App 31703 output:   address: '52.49.171.158',
+App 31703 output:   port: 465,
+App 31703 output:   command: 'CONN'
+App 31703 output: }
+App 3764 output: Server listening on port: 5000 at Mon Aug 23 2021 12:22:36 GMT+0100 (West Africa Standard Time)
+App 3764 output: Database connected
+App 3764 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 3764 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 3764 output:   errno: 'ECONNREFUSED',
+App 3764 output:   code: 'ESOCKET',
+App 3764 output:   syscall: 'connect',
+App 3764 output:   address: '52.49.171.158',
+App 3764 output:   port: 465,
+App 3764 output:   command: 'CONN'
+App 3764 output: }
+App 16873 output: Server listening on port: 5000 at Mon Aug 23 2021 12:33:16 GMT+0100 (West Africa Standard Time)
+App 16873 output: Database connected
+App 16873 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 16873 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 16873 output:   errno: 'ECONNREFUSED',
+App 16873 output:   code: 'ESOCKET',
+App 16873 output:   syscall: 'connect',
+App 16873 output:   address: '52.49.171.158',
+App 16873 output:   port: 465,
+App 16873 output:   command: 'CONN'
+App 16873 output: }
+App 19672 output: Server listening on port: 5000 at Mon Aug 23 2021 13:00:47 GMT+0100 (West Africa Standard Time)
+App 19672 output: Database connected
+App 10275 output: Server listening on port: 5000 at Mon Aug 23 2021 13:20:21 GMT+0100 (West Africa Standard Time)
+App 10275 output: Database connected
+App 10275 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 10275 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 10275 output:   errno: 'ECONNREFUSED',
+App 10275 output:   code: 'ESOCKET',
+App 10275 output:   syscall: 'connect',
+App 10275 output:   address: '52.49.171.158',
+App 10275 output:   port: 465,
+App 10275 output:   command: 'CONN'
+App 10275 output: }
+App 6112 output: Server listening on port: 5000 at Tue Aug 24 2021 07:44:53 GMT+0100 (West Africa Standard Time)
+App 6112 output: Database connected
+App 21132 output: Server listening on port: 5000 at Tue Aug 24 2021 08:52:50 GMT+0100 (West Africa Standard Time)
+App 21132 output: Database connected
+App 21132 output: (node:21132) UnhandledPromiseRejectionWarning: Error [ERR_TLS_CERT_ALTNAME_INVALID]: Hostname/IP does not match certificate's altnames: Host: mail.glowstopper.com. is not in the cert's altnames: DNS:eel.wghservers.com, DNS:www.eel.wghservers.com
+App 21132 output:     at Object.checkServerIdentity (tls.js:287:12)
+App 21132 output:     at TLSSocket.onConnectSecure (_tls_wrap.js:1512:27)
+App 21132 output:     at TLSSocket.emit (events.js:314:20)
+App 21132 output:     at TLSSocket._finishInit (_tls_wrap.js:937:8)
+App 21132 output:     at TLSWrap.ssl.onhandshakedone (_tls_wrap.js:711:12)
+App 21132 output: (node:21132) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+App 21132 output: (node:21132) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+App 10152 output: Server listening on port: 5000 at Wed Aug 25 2021 02:53:27 GMT+0100 (West Africa Standard Time)
+App 10152 output: Database connected
+App 26949 output: Server listening on port: 5000 at Wed Aug 25 2021 03:45:34 GMT+0100 (West Africa Standard Time)
+App 26949 output: Database connected
+App 24201 output: Server listening on port: 5000 at Wed Aug 25 2021 07:42:53 GMT+0100 (West Africa Standard Time)
+App 24201 output: Database connected
+App 27566 output: Server listening on port: 5000 at Wed Aug 25 2021 08:27:25 GMT+0100 (West Africa Standard Time)
+App 27566 output: Database connected
+App 6192 output: Server listening on port: 5000 at Wed Aug 25 2021 10:26:50 GMT+0100 (West Africa Standard Time)
+App 6192 output: Database connected
+App 20566 output: Server listening on port: 5000 at Wed Aug 25 2021 11:06:38 GMT+0100 (West Africa Standard Time)
+App 20566 output: Database connected
+App 29139 output: Server listening on port: 5000 at Wed Aug 25 2021 11:14:08 GMT+0100 (West Africa Standard Time)
+App 29139 output: Database connected
+App 32047 output: Server listening on port: 5000 at Wed Aug 25 2021 11:16:40 GMT+0100 (West Africa Standard Time)
+App 32047 output: Database connected
+App 1978 output: Server listening on port: 5000 at Wed Aug 25 2021 11:18:24 GMT+0100 (West Africa Standard Time)
+App 1978 output: Database connected

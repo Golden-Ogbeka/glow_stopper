@@ -4,8 +4,7 @@ import ProductCategoryCard from '../../layout/Products/ProductCategoryCard';
 import CustomerNavbar from '../../layout/CustomerNavbar';
 import MetaTags from '../../../utils/MetaTags';
 import axios from 'axios';
-import CryptoJS from 'crypto-js';
-import { encrypt_key, base_url } from '../../../app.json';
+import { base_url } from '../../../app.json';
 
 function Products() {
 	const [categories, setCategories] = React.useState([]);
@@ -15,16 +14,7 @@ function Products() {
 	React.useEffect(() => {
 		const getProductCategories = async () => {
 			try {
-				let storedSession = JSON.parse(
-					localStorage.getItem('sessionDetails_glowStopper'),
-				);
-				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
-				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.get(base_url + '/api/product/categories', {
-					headers: {
-						token: storedSession.userToken,
-					},
-				});
+				const response = await axios.get(base_url + '/api/product/categories');
 
 				if (response.data.status === 'PASSED') {
 					setCategories(response.data.productCategories);
