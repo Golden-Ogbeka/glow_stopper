@@ -250,9 +250,7 @@ function ProductView() {
 									}}
 									startIcon={<Share />}
 									onClick={() =>
-										openShareDialog(
-											`${base_url}/product/view/${productDetails.product_id}`,
-										)
+										openShareDialog(`/product/view/${productDetails.product_id}`)
 									}
 								>
 									share product

@@ -44,25 +44,25 @@ function ShareProductModal(props) {
 					</span>
 				</DialogTitle>
 				<DialogContent>
-					<WhatsappShareButton url={props.url}>
+					<WhatsappShareButton url={'https://www.glowstopper.com' + props.url}>
 						<WhatsappIcon />
 					</WhatsappShareButton>
-					<FacebookShareButton url={props.url}>
+					<FacebookShareButton url={'https://www.glowstopper.com' + props.url}>
 						<FacebookIcon />
 					</FacebookShareButton>
-					<TwitterShareButton url={props.url}>
+					<TwitterShareButton url={'https://www.glowstopper.com' + props.url}>
 						<TwitterIcon />
 					</TwitterShareButton>
-					<LinkedinShareButton url={props.url}>
+					<LinkedinShareButton url={'https://www.glowstopper.com' + props.url}>
 						<LinkedinIcon />
 					</LinkedinShareButton>
-					<TelegramShareButton url={props.url}>
+					<TelegramShareButton url={'https://www.glowstopper.com' + props.url}>
 						<TelegramIcon />
 					</TelegramShareButton>
-					<EmailShareButton url={props.url}>
+					<EmailShareButton url={'https://www.glowstopper.com' + props.url}>
 						<EmailIcon />
 					</EmailShareButton>
-					<PinterestShareButton url={props.url}>
+					<PinterestShareButton url={'https://www.glowstopper.com' + props.url}>
 						<PinterestIcon />
 					</PinterestShareButton>
 				</DialogContent>

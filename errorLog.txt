@@ -241,3 +241,83 @@ App 32047 output: Server listening on port: 5000 at Wed Aug 25 2021 11:16:40 GMT
 App 32047 output: Database connected
 App 1978 output: Server listening on port: 5000 at Wed Aug 25 2021 11:18:24 GMT+0100 (West Africa Standard Time)
 App 1978 output: Database connected
+App 15839 output: Server listening on port: 5000 at Wed Aug 25 2021 11:28:19 GMT+0100 (West Africa Standard Time)
+App 15839 output: Database connected
+App 15160 output: Server listening on port: 5000 at Wed Aug 25 2021 12:43:37 GMT+0100 (West Africa Standard Time)
+App 15160 output: Database connected
+App 31467 output: Server listening on port: 5000 at Wed Aug 25 2021 22:00:47 GMT+0100 (West Africa Standard Time)
+App 31467 output: Database connected
+App 10435 output: Server listening on port: 5000 at Wed Aug 25 2021 22:47:16 GMT+0100 (West Africa Standard Time)
+App 10435 output: Database connected
+App 32268 output: Server listening on port: 5000 at Thu Aug 26 2021 00:22:27 GMT+0100 (West Africa Standard Time)
+App 32268 output: Database connected
+App 14595 output: Server listening on port: 5000 at Thu Aug 26 2021 00:38:26 GMT+0100 (West Africa Standard Time)
+App 14595 output: Database connected
+App 8019 output: Server listening on port: 5000 at Thu Aug 26 2021 09:17:06 GMT+0100 (West Africa Standard Time)
+App 8019 output: Database connected
+App 7605 output: Server listening on port: 5000 at Fri Aug 27 2021 01:59:10 GMT+0100 (West Africa Standard Time)
+App 7605 output: Database connected
+App 457552 output: Server listening on port: 5000 at Fri Aug 27 2021 13:47:16 GMT+0100 (West Africa Standard Time)
+App 457552 output: Database connected
+App 457552 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 457552 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 457552 output:   errno: 'ECONNREFUSED',
+App 457552 output:   code: 'ESOCKET',
+App 457552 output:   syscall: 'connect',
+App 457552 output:   address: '52.49.171.158',
+App 457552 output:   port: 465,
+App 457552 output:   command: 'CONN'
+App 457552 output: }
+App 457552 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 457552 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 457552 output:   errno: 'ECONNREFUSED',
+App 457552 output:   code: 'ESOCKET',
+App 457552 output:   syscall: 'connect',
+App 457552 output:   address: '52.49.171.158',
+App 457552 output:   port: 465,
+App 457552 output:   command: 'CONN'
+App 457552 output: }
+App 471501 output: Server listening on port: 5000 at Fri Aug 27 2021 13:58:40 GMT+0100 (West Africa Standard Time)
+App 471501 output: Database connected
+App 471501 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 471501 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 471501 output:   errno: 'ECONNREFUSED',
+App 471501 output:   code: 'ESOCKET',
+App 471501 output:   syscall: 'connect',
+App 471501 output:   address: '52.49.171.158',
+App 471501 output:   port: 465,
+App 471501 output:   command: 'CONN'
+App 471501 output: }
+App 473242 output: Server listening on port: 5000 at Fri Aug 27 2021 13:59:38 GMT+0100 (West Africa Standard Time)
+App 473242 output: Database connected
+App 473242 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 473242 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 473242 output:   errno: 'ECONNREFUSED',
+App 473242 output:   code: 'ESOCKET',
+App 473242 output:   syscall: 'connect',
+App 473242 output:   address: '52.49.171.158',
+App 473242 output:   port: 465,
+App 473242 output:   command: 'CONN'
+App 473242 output: }
+App 476490 output: Server listening on port: 5000 at Fri Aug 27 2021 14:00:55 GMT+0100 (West Africa Standard Time)
+App 476490 output: Database connected
+App 476490 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 476490 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 476490 output:   errno: 'ECONNREFUSED',
+App 476490 output:   code: 'ESOCKET',
+App 476490 output:   syscall: 'connect',
+App 476490 output:   address: '52.49.171.158',
+App 476490 output:   port: 465,
+App 476490 output:   command: 'CONN'
+App 476490 output: }
+App 562746 output: Server listening on port: 5000 at Fri Aug 27 2021 15:08:54 GMT+0100 (West Africa Standard Time)
+App 562746 output: Database connected
+App 562746 output: Error: connect ECONNREFUSED 52.49.171.158:465
+App 562746 output:     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16) {
+App 562746 output:   errno: 'ECONNREFUSED',
+App 562746 output:   code: 'ESOCKET',
+App 562746 output:   syscall: 'connect',
+App 562746 output:   address: '52.49.171.158',
+App 562746 output:   port: 465,
+App 562746 output:   command: 'CONN'
+App 562746 output: }
