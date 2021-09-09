@@ -278,8 +278,14 @@ function Contact() {
 							paddingInline: '3vw',
 						}}
 					>
-						<Grid container spacing={4}>
-							<Grid item>
+						<Grid
+							container
+							spacing={1}
+							style={{
+								paddingInline: 20,
+							}}
+						>
+							<Grid item sm={12} lg={7} md={7} xs={12}>
 								<h3
 									style={{
 										fontFamily: 'Calibri',
@@ -298,8 +304,8 @@ function Contact() {
 												fontWeight: 'lighter',
 											}}
 										>
-											<b>Address:</b> 11 Alhaja Jaiyeola street Alagbole, Ogun State,
-											Nigeria
+											<b>Address:</b> Transit village, Adetokunbo Ademola Street Victoria
+											Island
 										</span>
 									</Box>
 
@@ -311,7 +317,7 @@ function Contact() {
 												fontWeight: 'lighter',
 											}}
 										>
-											<b>Phone number:</b> 08135913900
+											<b>Phone number:</b> 07010524919
 										</span>
 									</Box>
 
@@ -328,7 +334,7 @@ function Contact() {
 									</Box>
 								</p>
 							</Grid>
-							<Grid item>
+							<Grid item sm={12} lg={5} md={5} xs={12}>
 								<h3
 									style={{
 										fontFamily: 'Calibri',
