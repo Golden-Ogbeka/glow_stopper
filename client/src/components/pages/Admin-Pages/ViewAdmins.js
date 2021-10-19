@@ -19,13 +19,14 @@ import AppContext from '../../../utils/AppContext';
 
 function ViewAdmins() {
 	const [admins, setAdmins] = React.useState([]);
-	const { contextVariables, setContextVariables } = React.useContext(AppContext);
+	const { contextVariables, setContextVariables } =
+		React.useContext(AppContext);
 
 	React.useEffect(() => {
 		const getAdmins = async () => {
 			try {
 				let storedSession = JSON.parse(
-					localStorage.getItem('sessionDetails_glowStopper'),
+					localStorage.getItem('sessionDetails_glowStopper')
 				);
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
@@ -49,15 +50,18 @@ function ViewAdmins() {
 		if (window.confirm('Are you sure you want to remove this admin?')) {
 			try {
 				let storedSession = JSON.parse(
-					localStorage.getItem('sessionDetails_glowStopper'),
+					localStorage.getItem('sessionDetails_glowStopper')
 				);
 				storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 				storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
-				const response = await axios.delete(`${base_url}/api/admin/${email}`, {
-					headers: {
-						token: storedSession.userToken,
-					},
-				});
+				const response = await axios.delete(
+					`${base_url}/api/admin/?adminEmail=${email}`,
+					{
+						headers: {
+							token: storedSession.userToken,
+						},
+					}
+				);
 
 				if (response.data.status === 'PASSED') {
 					setContextVariables({

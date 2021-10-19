@@ -321,3 +321,253 @@ App 562746 output:   address: '52.49.171.158',
 App 562746 output:   port: 465,
 App 562746 output:   command: 'CONN'
 App 562746 output: }
+App 2065895 output: Server listening on port: 5000 at Mon Sep 06 2021 07:53:37 GMT+0100 (West Africa Standard Time)
+App 2065895 output: Database connected
+App 2111053 output: Server listening on port: 5000 at Mon Sep 06 2021 08:35:24 GMT+0100 (West Africa Standard Time)
+App 3015674 output: Server listening on port: 5000 at Mon Sep 06 2021 20:56:02 GMT+0100 (West Africa Standard Time)
+App 3015674 output: Database connected
+App 3976752 output: Server listening on port: 5000 at Tue Sep 07 2021 12:24:22 GMT+0100 (West Africa Standard Time)
+App 3976752 output: Database connected
+App 4048654 output: Server listening on port: 5000 at Tue Sep 07 2021 13:15:41 GMT+0100 (West Africa Standard Time)
+App 4048654 output: Database connected
+App 259223 output: Server listening on port: 5000 at Wed Sep 08 2021 05:52:56 GMT+0100 (West Africa Standard Time)
+App 259223 output: Database connected
+App 1948734 output: Server listening on port: 5000 at Thu Sep 09 2021 08:04:21 GMT+0100 (West Africa Standard Time)
+App 1948734 output: Database connected
+App 2055610 output: Server listening on port: 5000 at Thu Sep 09 2021 09:41:10 GMT+0100 (West Africa Standard Time)
+App 2055610 output: Database connected
+App 2068524 output: Server listening on port: 5000 at Thu Sep 09 2021 09:52:02 GMT+0100 (West Africa Standard Time)
+App 2068524 output: Database connected
+App 511620 output: Server listening on port: 5000 at Sat Sep 11 2021 08:29:05 GMT+0100 (West Africa Standard Time)
+App 511620 output: Database connected
+App 1984057 output: Server listening on port: 5000 at Sun Sep 12 2021 10:41:12 GMT+0100 (West Africa Standard Time)
+App 1984057 output: Database connected
+App 875821 output: Server listening on port: 5000 at Tue Sep 14 2021 14:21:13 GMT+0100 (West Africa Standard Time)
+App 875821 output: Database connected
+App 882439 output: Server listening on port: 5000 at Tue Sep 14 2021 14:27:39 GMT+0100 (West Africa Standard Time)
+App 882439 output: Database connected
+App 2104018 output: Server listening on port: 5000 at Wed Sep 15 2021 10:15:38 GMT+0100 (West Africa Standard Time)
+App 2104018 output: Database connected
+App 2341390 output: Server listening on port: 5000 at Wed Sep 15 2021 13:27:52 GMT+0100 (West Africa Standard Time)
+App 2341390 output: Database connected
+App 2785510 output: Server listening on port: 5000 at Wed Sep 15 2021 19:51:51 GMT+0100 (West Africa Standard Time)
+App 2785510 output: Database connected
+App 3494735 output: Server listening on port: 5000 at Thu Sep 16 2021 07:05:38 GMT+0100 (West Africa Standard Time)
+App 3494735 output: Database connected
+App 3635666 output: Server listening on port: 5000 at Thu Sep 16 2021 09:05:19 GMT+0100 (West Africa Standard Time)
+App 3635666 output: Database connected
+App 3949970 output: Server listening on port: 5000 at Thu Sep 16 2021 13:17:59 GMT+0100 (West Africa Standard Time)
+App 3949970 output: Database connected
+App 83028 output: Server listening on port: 5000 at Thu Sep 16 2021 17:59:12 GMT+0100 (West Africa Standard Time)
+App 83028 output: Database connected
+App 466642 output: Server listening on port: 5000 at Fri Sep 17 2021 00:18:11 GMT+0100 (West Africa Standard Time)
+App 466642 output: Database connected
+App 250543 output: Server listening on port: 5000 at Fri Sep 17 2021 05:43:48 GMT+0100 (West Africa Standard Time)
+App 250543 output: Database connected
+App 1003962 output: Server listening on port: 5000 at Fri Sep 17 2021 17:08:49 GMT+0100 (West Africa Standard Time)
+App 1003962 output: Database connected
+App 706163 output: Server listening on port: 5000 at Mon Sep 20 2021 10:20:23 GMT+0100 (West Africa Standard Time)
+App 706163 output: Database connected
+App 1047747 output: Server listening on port: 5000 at Mon Sep 20 2021 15:00:24 GMT+0100 (West Africa Standard Time)
+App 1047747 output: Database connected
+App 1098303 output: Server listening on port: 5000 at Mon Sep 20 2021 15:44:10 GMT+0100 (West Africa Standard Time)
+App 1098303 output: Database connected
+App 1124023 output: Server listening on port: 5000 at Mon Sep 20 2021 16:05:34 GMT+0100 (West Africa Standard Time)
+App 1124023 output: Database connected
+App 1181266 output: Server listening on port: 5000 at Mon Sep 20 2021 16:55:25 GMT+0100 (West Africa Standard Time)
+App 1181266 output: Database connected
+App 2128932 output: Server listening on port: 5000 at Tue Sep 21 2021 08:47:58 GMT+0100 (West Africa Standard Time)
+App 2128932 output: Database connected
+App 2189819 output: Server listening on port: 5000 at Tue Sep 21 2021 09:42:19 GMT+0100 (West Africa Standard Time)
+App 2189819 output: Database connected
+App 2649496 output: Server listening on port: 5000 at Tue Sep 21 2021 15:57:34 GMT+0100 (West Africa Standard Time)
+App 2649496 output: Database connected
+App 2653075 output: Server listening on port: 5000 at Tue Sep 21 2021 16:00:25 GMT+0100 (West Africa Standard Time)
+App 2653075 output: Database connected
+App 2657948 output: Server listening on port: 5000 at Tue Sep 21 2021 16:00:44 GMT+0100 (West Africa Standard Time)
+App 2657948 output: Database connected
+App 2993426 output: Server listening on port: 5000 at Tue Sep 21 2021 21:22:11 GMT+0100 (West Africa Standard Time)
+App 2993426 output: Database connected
+App 3594397 output: Server listening on port: 5000 at Wed Sep 22 2021 07:47:58 GMT+0100 (West Africa Standard Time)
+App 3594397 output: Database connected
+App 3625821 output: Server listening on port: 5000 at Wed Sep 22 2021 08:17:11 GMT+0100 (West Africa Standard Time)
+App 3625821 output: Database connected
+App 3957781 output: Server listening on port: 5000 at Wed Sep 22 2021 12:48:09 GMT+0100 (West Africa Standard Time)
+App 3957781 output: Database connected
+App 571587 output: Server listening on port: 5000 at Thu Sep 23 2021 01:09:21 GMT+0100 (West Africa Standard Time)
+App 571587 output: Database connected
+App 2628778 output: Server listening on port: 5000 at Fri Sep 24 2021 08:57:38 GMT+0100 (West Africa Standard Time)
+App 2628778 output: Database connected
+App 3649892 output: Server listening on port: 5000 at Sat Sep 25 2021 00:30:58 GMT+0100 (West Africa Standard Time)
+App 3649892 output: Database connected
+App 14373 output: Server listening on port: 5000 at Sat Sep 25 2021 09:55:04 GMT+0100 (West Africa Standard Time)
+App 14373 output: Database connected
+App 1642997 output: Server listening on port: 5000 at Sun Sep 26 2021 13:04:42 GMT+0100 (West Africa Standard Time)
+App 1642997 output: Database connected
+App 2842006 output: Server listening on port: 5000 at Mon Sep 27 2021 08:50:23 GMT+0100 (West Africa Standard Time)
+App 2842006 output: Database connected
+App 227139 output: Server listening on port: 5000 at Tue Sep 28 2021 09:10:33 GMT+0100 (West Africa Standard Time)
+App 227139 output: Database connected
+App 241323 output: Server listening on port: 5000 at Tue Sep 28 2021 09:21:10 GMT+0100 (West Africa Standard Time)
+App 241323 output: Database connected
+App 435930 output: Server listening on port: 5000 at Tue Sep 28 2021 11:59:21 GMT+0100 (West Africa Standard Time)
+App 435930 output: Database connected
+App 488781 output: Server listening on port: 5000 at Tue Sep 28 2021 12:44:13 GMT+0100 (West Africa Standard Time)
+App 488781 output: Database connected
+App 585728 output: Server listening on port: 5000 at Tue Sep 28 2021 13:54:03 GMT+0100 (West Africa Standard Time)
+App 585728 output: Database connected
+App 1099646 output: Server listening on port: 5000 at Tue Sep 28 2021 21:32:21 GMT+0100 (West Africa Standard Time)
+App 1099646 output: Database connected
+App 3782253 output: Server listening on port: 5000 at Thu Sep 30 2021 16:19:51 GMT+0100 (West Africa Standard Time)
+App 3782253 output: Database connected
+App 791131 output: Server listening on port: 5000 at Fri Oct 01 2021 12:28:08 GMT+0100 (West Africa Standard Time)
+App 791131 output: Database connected
+App 3734821 output: Server listening on port: 5000 at Tue Oct 05 2021 14:49:06 GMT+0100 (West Africa Standard Time)
+App 3734821 output: Database connected
+App 3738553 output: Server listening on port: 5000 at Tue Oct 05 2021 14:52:39 GMT+0100 (West Africa Standard Time)
+App 3738553 output: Database connected
+App 3754524 output: Server listening on port: 5000 at Tue Oct 05 2021 15:06:01 GMT+0100 (West Africa Standard Time)
+App 3754524 output: Database connected
+App 2899548 output: Server listening on port: 5000 at Thu Oct 07 2021 19:36:45 GMT+0100 (West Africa Standard Time)
+App 2899548 output: Database connected
+App 1856613 output: Server listening on port: 5000 at Sat Oct 09 2021 23:42:50 GMT+0100 (West Africa Standard Time)
+App 1856613 output: Database connected
+App 1885349 output: Server listening on port: 5000 at Sun Oct 10 2021 00:17:17 GMT+0100 (West Africa Standard Time)
+App 65218 output: Server listening on port: 5000 at Mon Oct 11 2021 15:01:46 GMT+0100 (West Africa Standard Time)
+App 65218 output: Database connected
+App 1692534 output: Server listening on port: 5000 at Tue Oct 12 2021 15:26:35 GMT+0100 (West Africa Standard Time)
+App 1692534 output: Database connected
+App 1720268 output: Server listening on port: 5000 at Tue Oct 12 2021 15:45:35 GMT+0100 (West Africa Standard Time)
+App 1720268 output: Database connected
+App 4193173 output: Server listening on port: 5000 at Thu Oct 14 2021 06:01:08 GMT+0100 (West Africa Standard Time)
+App 4193173 output: Database connected
+App 100518 output: Server listening on port: 5000 at Thu Oct 14 2021 07:30:33 GMT+0100 (West Africa Standard Time)
+App 100518 output: Database connected
+App 643867 output: Server listening on port: 5000 at Thu Oct 14 2021 14:31:13 GMT+0100 (West Africa Standard Time)
+App 643867 output: Database connected
+App 1630620 output: Server listening on port: 5000 at Fri Oct 15 2021 05:53:02 GMT+0100 (West Africa Standard Time)
+App 1630620 output: Database connected
+App 1854504 output: Server listening on port: 5000 at Fri Oct 15 2021 09:10:12 GMT+0100 (West Africa Standard Time)
+App 1854504 output: Database connected
+App 3720234 output: Server listening on port: 5000 at Sat Oct 16 2021 13:45:31 GMT+0100 (West Africa Standard Time)
+App 3720234 output: Database connected
+App 1528497 output: Server listening on port: 5000 at Sun Oct 17 2021 22:28:19 GMT+0100 (West Africa Standard Time)
+App 1528497 output: Database connected
+App 2236684 output: Server listening on port: 5000 at Mon Oct 18 2021 09:58:22 GMT+0100 (West Africa Standard Time)
+App 2236684 output: Database connected
+App 2248737 output: Server listening on port: 5000 at Mon Oct 18 2021 10:03:10 GMT+0100 (West Africa Standard Time)
+App 2248737 output: Database connected
+App 2248737 output: /home/glowstop/public_html/API/routes/Admin-Routes/AdminRoutes.js:458
+App 2248737 output: 				if (err) throw err;
+App 2248737 output: 				         ^
+App 2248737 output: [Error: EXDEV: cross-device link not permitted, rename '/tmp/upload_7abf779f99bd269cd6958cf6be4c6967' -> '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-11d-lensabl-5pmpSRctZb0-unsplash.jpg'] {
+App 2248737 output:   errno: -18,
+App 2248737 output:   code: 'EXDEV',
+App 2248737 output:   syscall: 'rename',
+App 2248737 output:   path: '/tmp/upload_7abf779f99bd269cd6958cf6be4c6967',
+App 2248737 output:   dest: '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-11d-lensabl-5pmpSRctZb0-unsplash.jpg'
+App 2248737 output: }
+App 2250814 output: Server listening on port: 5000 at Mon Oct 18 2021 10:03:42 GMT+0100 (West Africa Standard Time)
+App 2250814 output: Database connected
+App 2250814 output: /home/glowstop/public_html/API/routes/Admin-Routes/AdminRoutes.js:458
+App 2250814 output: 				if (err) throw err;
+App 2250814 output: 				         ^
+App 2250814 output: [Error: EXDEV: cross-device link not permitted, rename '/tmp/upload_12b921f2fafd57b8bf45df2e42195731' -> '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-0af-lensabl-5pmpSRctZb0-unsplash.jpg'] {
+App 2250814 output:   errno: -18,
+App 2250814 output:   code: 'EXDEV',
+App 2250814 output:   syscall: 'rename',
+App 2250814 output:   path: '/tmp/upload_12b921f2fafd57b8bf45df2e42195731',
+App 2250814 output:   dest: '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-0af-lensabl-5pmpSRctZb0-unsplash.jpg'
+App 2250814 output: }
+App 2252574 output: Server listening on port: 5000 at Mon Oct 18 2021 10:04:49 GMT+0100 (West Africa Standard Time)
+App 2252574 output: Database connected
+App 2252574 output: /home/glowstop/public_html/API/routes/Admin-Routes/AdminRoutes.js:458
+App 2252574 output: 				if (err) throw err;
+App 2252574 output: 				         ^
+App 2252574 output: [Error: EXDEV: cross-device link not permitted, rename '/tmp/upload_5c0ecc9d2a25f60caf74bbf7fb3e57d7' -> '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-d2c-lensabl-5pmpSRctZb0-unsplash.jpg'] {
+App 2252574 output:   errno: -18,
+App 2252574 output:   code: 'EXDEV',
+App 2252574 output:   syscall: 'rename',
+App 2252574 output:   path: '/tmp/upload_5c0ecc9d2a25f60caf74bbf7fb3e57d7',
+App 2252574 output:   dest: '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-d2c-lensabl-5pmpSRctZb0-unsplash.jpg'
+App 2252574 output: }
+App 2252744 output: Server listening on port: 5000 at Mon Oct 18 2021 10:04:52 GMT+0100 (West Africa Standard Time)
+App 2252744 output: Database connected
+App 2252744 output: /home/glowstop/public_html/API/routes/Admin-Routes/AdminRoutes.js:458
+App 2252744 output: 				if (err) throw err;
+App 2252744 output: 				         ^
+App 2252744 output: [Error: EXDEV: cross-device link not permitted, rename '/tmp/upload_6c5d1dbd35d60eba7e706e037131d580' -> '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-fb0-lensabl-5pmpSRctZb0-unsplash.jpg'] {
+App 2252744 output:   errno: -18,
+App 2252744 output:   code: 'EXDEV',
+App 2252744 output:   syscall: 'rename',
+App 2252744 output:   path: '/tmp/upload_6c5d1dbd35d60eba7e706e037131d580',
+App 2252744 output:   dest: '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-fb0-lensabl-5pmpSRctZb0-unsplash.jpg'
+App 2252744 output: }
+App 2253707 output: Server listening on port: 5000 at Mon Oct 18 2021 10:05:30 GMT+0100 (West Africa Standard Time)
+App 2253707 output: Database connected
+App 2253707 output: /home/glowstop/public_html/API/routes/Admin-Routes/AdminRoutes.js:458
+App 2253707 output: 				if (err) throw err;
+App 2253707 output: 				         ^
+App 2253707 output: [Error: EXDEV: cross-device link not permitted, rename '/tmp/upload_d71a2b30ab9ac9354901d00be00ae76c' -> '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-b5b-lensabl-5pmpSRctZb0-unsplash.jpg'] {
+App 2253707 output:   errno: -18,
+App 2253707 output:   code: 'EXDEV',
+App 2253707 output:   syscall: 'rename',
+App 2253707 output:   path: '/tmp/upload_d71a2b30ab9ac9354901d00be00ae76c',
+App 2253707 output:   dest: '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-b5b-lensabl-5pmpSRctZb0-unsplash.jpg'
+App 2253707 output: }
+App 2255182 output: Server listening on port: 5000 at Mon Oct 18 2021 10:06:27 GMT+0100 (West Africa Standard Time)
+App 2255182 output: Database connected
+App 2255182 output: /home/glowstop/public_html/API/routes/Admin-Routes/AdminRoutes.js:458
+App 2255182 output: 				if (err) throw err;
+App 2255182 output: 				         ^
+App 2255182 output: [Error: EXDEV: cross-device link not permitted, rename '/tmp/upload_0ea149a3c10a4383f6716a3b52ef0e40' -> '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-4ac-lensabl-5pmpSRctZb0-unsplash.jpg'] {
+App 2255182 output:   errno: -18,
+App 2255182 output:   code: 'EXDEV',
+App 2255182 output:   syscall: 'rename',
+App 2255182 output:   path: '/tmp/upload_0ea149a3c10a4383f6716a3b52ef0e40',
+App 2255182 output:   dest: '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-4ac-lensabl-5pmpSRctZb0-unsplash.jpg'
+App 2255182 output: }
+App 2257179 output: Server listening on port: 5000 at Mon Oct 18 2021 10:08:03 GMT+0100 (West Africa Standard Time)
+App 2257179 output: Database connected
+App 21774 output: Server listening on port: 5000 at Tue Oct 19 2021 06:46:35 GMT+0100 (West Africa Standard Time)
+App 21774 output: Database connected
+App 9902 output: Server listening on port: 5000 at Tue Oct 19 2021 06:55:21 GMT+0100 (West Africa Standard Time)
+App 9902 output: Database connected
+App 6272 output: Server listening on port: 5000 at Tue Oct 19 2021 08:01:59 GMT+0100 (West Africa Standard Time)
+App 6272 output: Database connected
+App 6272 output: /home/glowstop/public_html/API/routes/Admin-Routes/AdminRoutes.js:458
+App 6272 output: 				if (err) throw err;
+App 6272 output: 				         ^
+App 6272 output: [Error: EXDEV: cross-device link not permitted, rename '/tmp/upload_c589df882ffc491017da1eda6a2dec04' -> '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-337-allef-vinicius-r1btMgyLXGc-unsplash.jpg'] {
+App 6272 output:   errno: -18,
+App 6272 output:   code: 'EXDEV',
+App 6272 output:   syscall: 'rename',
+App 6272 output:   path: '/tmp/upload_c589df882ffc491017da1eda6a2dec04',
+App 6272 output:   dest: '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-337-allef-vinicius-r1btMgyLXGc-unsplash.jpg'
+App 6272 output: }
+App 13942 output: Server listening on port: 5000 at Tue Oct 19 2021 08:05:21 GMT+0100 (West Africa Standard Time)
+App 13942 output: Database connected
+App 21040 output: Server listening on port: 5000 at Tue Oct 19 2021 08:08:24 GMT+0100 (West Africa Standard Time)
+App 21040 output: Database connected
+App 21040 output: /home/glowstop/public_html/API/routes/Admin-Routes/AdminRoutes.js:458
+App 21040 output: 				if (err) throw err;
+App 21040 output: 				         ^
+App 21040 output: [Error: EXDEV: cross-device link not permitted, rename '/tmp/upload_fa0dd65af721fe06806be746c61c3eb6' -> '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-5d9-apostolos-vamvouras-qOUHhLsvQ1A-unsplash.jpg'] {
+App 21040 output:   errno: -18,
+App 21040 output:   code: 'EXDEV',
+App 21040 output:   syscall: 'rename',
+App 21040 output:   path: '/tmp/upload_fa0dd65af721fe06806be746c61c3eb6',
+App 21040 output:   dest: '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-5d9-apostolos-vamvouras-qOUHhLsvQ1A-unsplash.jpg'
+App 21040 output: }
+App 30556 output: Server listening on port: 5000 at Tue Oct 19 2021 08:11:41 GMT+0100 (West Africa Standard Time)
+App 30556 output: Database connected
+App 30556 output: /home/glowstop/public_html/API/routes/Admin-Routes/AdminRoutes.js:458
+App 30556 output: 				if (err) throw err;
+App 30556 output: 				         ^
+App 30556 output: [Error: EXDEV: cross-device link not permitted, rename '/tmp/upload_ef5c4fac2248e67cd322932f02518dad' -> '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-02d-dusan-jovic-uTlMDzkAz-M-unsplash.jpg'] {
+App 30556 output:   errno: -18,
+App 30556 output:   code: 'EXDEV',
+App 30556 output:   syscall: 'rename',
+App 30556 output:   path: '/tmp/upload_ef5c4fac2248e67cd322932f02518dad',
+App 30556 output:   dest: '/home/glowstop/public_html/API/uploads/product_category_images/glow_stopper-02d-dusan-jovic-uTlMDzkAz-M-unsplash.jpg'
+App 30556 output: }

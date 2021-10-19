@@ -93,42 +93,39 @@ router.post('/api/admin/product', verifyAdmin, (req, res, next) => {
 				path.resolve(__dirname, '../../', 'uploads/product_images') +
 				`/glow_stopper-${primaryIdentifier}-${productImage.name}`;
 
-			// Move the image
-			// Using file rename strategy
-			fs.rename(oldPath, `${newPath}`, (err) => {
+			// Using Read and write streams
+			const rawData = fs.readFileSync(oldPath);
+
+			fs.writeFile(newPath, rawData, (err) => {
 				if (err) throw err;
-				else {
-					const productImagePath = `/uploads/product_images/glow_stopper-${primaryIdentifier}-${productImage.name}`;
+				fs.unlink(oldPath, (err) => {
+					if (err) throw err;
+					else {
+						const productImagePath = `/uploads/product_images/glow_stopper-${primaryIdentifier}-${productImage.name}`;
 
-					const sql = `INSERT INTO products (product_name, product_desc, product_category, product_price, product_image, product_stock) VALUES (?, ?, ?, ?, ?, ?)`;
-					conn.query(
-						sql,
-						[
-							productName,
-							productDescription,
-							productCategory,
-							productPrice,
-							productImagePath,
-							productStock,
-						],
-						async (err, result) => {
-							if (err) throw err;
-							return res.send({
-								status: 'PASSED',
-								message: 'Product added successfully',
-								productID: result.insertId,
-							});
-						},
-					);
-				}
+						const sql = `INSERT INTO products (product_name, product_desc, product_category, product_price, product_image, product_stock) VALUES (?, ?, ?, ?, ?, ?)`;
+						conn.query(
+							sql,
+							[
+								productName,
+								productDescription,
+								productCategory,
+								productPrice,
+								productImagePath,
+								productStock,
+							],
+							async (err, result) => {
+								if (err) throw err;
+								return res.send({
+									status: 'PASSED',
+									message: 'Product added successfully',
+									productID: result.insertId,
+								});
+							}
+						);
+					}
+				});
 			});
-
-			//Using Read and write streams
-			// const rawData = fs.readFileSync(oldPath);
-
-			// fs.writeFileSync(newPath, rawData, (err) => {
-			// 	if (err) console.log(err);
-			// });
 		});
 	} catch (error) {
 		return res.status(500).send("Server Error. Couldn't add product");
@@ -163,33 +160,37 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 					path.resolve(__dirname, '../../', 'uploads/product_images') +
 					`/glow_stopper-${primaryIdentifier}-${productImage.name}`;
 
-				// Move the image
-				// Using file rename strategy
-				fs.rename(oldPath, `${newPath}`, (err) => {
-					if (err) throw err;
-					else {
-						const productImagePath = `/uploads/product_images/glow_stopper-${primaryIdentifier}-${productImage.name}`;
+				// Using Read and write streams
+				const rawData = fs.readFileSync(oldPath);
 
-						const sql = `UPDATE products SET product_name=?, product_desc=?, product_category=?, product_price=?, product_image=?, product_stock=? WHERE product_id=${productID}`;
-						conn.query(
-							sql,
-							[
-								productName,
-								productDescription,
-								productCategory,
-								productPrice,
-								productImagePath,
-								productStock,
-							],
-							async (err, result) => {
-								if (err) throw err;
-								return res.send({
-									status: 'PASSED',
-									message: 'Product updated successfully',
-								});
-							},
-						);
-					}
+				fs.writeFile(newPath, rawData, (err) => {
+					if (err) throw err;
+					fs.unlink(oldPath, (err) => {
+						if (err) throw err;
+						else {
+							const productImagePath = `/uploads/product_images/glow_stopper-${primaryIdentifier}-${productImage.name}`;
+
+							const sql = `UPDATE products SET product_name=?, product_desc=?, product_category=?, product_price=?, product_image=?, product_stock=? WHERE product_id=${productID}`;
+							conn.query(
+								sql,
+								[
+									productName,
+									productDescription,
+									productCategory,
+									productPrice,
+									productImagePath,
+									productStock,
+								],
+								async (err, result) => {
+									if (err) throw err;
+									return res.send({
+										status: 'PASSED',
+										message: 'Product updated successfully',
+									});
+								}
+							);
+						}
+					});
 				});
 			} else {
 				// No product Image
@@ -220,7 +221,7 @@ router.put('/api/admin/product', verifyAdmin, async (req, res, next) => {
 							message: 'Product updated successfully',
 							productID: result.insertId,
 						});
-					},
+					}
 				);
 			}
 		});
@@ -288,8 +289,8 @@ router.post('/api/admin/new', verifyAdmin, (req, res) => {
 });
 
 // Remove admin
-router.delete('/api/admin/:adminEmail', verifyAdmin, async (req, res) => {
-	const { adminEmail } = req.params;
+router.delete('/api/admin', verifyAdmin, async (req, res) => {
+	const { adminEmail } = req.query;
 	try {
 		const sql = `SELECT * FROM admin_details WHERE email= ?`;
 		conn.query(sql, adminEmail, async (err, result) => {
@@ -428,57 +429,92 @@ router.get('/api/admin/product/categories', verifyAdmin, (req, res) => {
 			});
 		});
 	} catch (error) {
-		return res.status(500).send("Server Error. Couldn't get product categories");
+		return res
+			.status(500)
+			.send("Server Error. Couldn't get product categories");
 	}
 });
 
 // Add new product category
-router.post('/api/admin/product/categories', verifyAdmin, (req, res, next) => {
-	try {
-		const form = formidable({ multiples: false });
-		form.parse(req, (err, fields, files) => {
-			if (err) {
-				next(err);
-				return res.status(400).send({
-					status: 'FAILED',
-					message: "Couldn't upload image",
-				});
-			}
-			const { categoryName, categoryDescription } = fields;
-			const { categoryImage } = files;
-			const oldPath = categoryImage.path;
-			const primaryIdentifier = uuid.v4().substr(0, 3); //to distinguish images
-			const newPath =
-				path.resolve(__dirname, '../../', 'uploads/product_category_images') +
-				`/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
-
-			// Move the image
-			// Using file rename strategy
-			fs.rename(oldPath, `${newPath}`, (err) => {
-				if (err) throw err;
-				else {
-					const categoryImagePath = `/uploads/product_category_images/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
-
-					const sql = `INSERT INTO product_categories (category_name, category_description, category_image) VALUES (?, ?, ?)`;
-					conn.query(
-						sql,
-						[categoryName, categoryDescription, categoryImagePath],
-						async (err, result) => {
-							if (err) throw err;
-							return res.send({
-								status: 'PASSED',
-								message: 'Product category added successfully',
-								categoryID: result.insertId,
-							});
-						},
-					);
+router.post(
+	'/api/admin/product/categories',
+	verifyAdmin,
+	async (req, res, next) => {
+		try {
+			const form = formidable({ multiples: false });
+			form.parse(req, (err, fields, files) => {
+				if (err) {
+					next(err);
+					return res.status(400).send({
+						status: 'FAILED',
+						message: "Couldn't upload image",
+					});
 				}
+				const { categoryName, categoryDescription } = fields;
+				const { categoryImage } = files;
+				const oldPath = categoryImage.path;
+				const primaryIdentifier = uuid.v4().substr(0, 3); //to distinguish images
+				const newPath =
+					path.resolve(__dirname, '../../', 'uploads/product_category_images') +
+					`/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+
+				// Using Read and write streams
+				const rawData = fs.readFileSync(oldPath);
+
+				fs.writeFile(newPath, rawData, (err) => {
+					if (err) throw err;
+					fs.unlink(oldPath, (err) => {
+						if (err) throw err;
+						else {
+							const categoryImagePath = `/uploads/product_category_images/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+
+							const sql = `INSERT INTO product_categories (category_name, category_description, category_image) VALUES (?, ?, ?)`;
+							conn.query(
+								sql,
+								[categoryName, categoryDescription, categoryImagePath],
+								async (err, result) => {
+									if (err) throw err;
+									return res.send({
+										status: 'PASSED',
+										message: 'Product category added successfully',
+										categoryID: result.insertId,
+									});
+								}
+							);
+						}
+					});
+				});
+
+				// Move the image
+				// Using file rename strategy
+				// fs.rename(oldPath, `${newPath}`, (err) => {
+				// 	if (err) throw err;
+				// 	else {
+				// 		const categoryImagePath = `/uploads/product_category_images/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+
+				// 		const sql = `INSERT INTO product_categories (category_name, category_description, category_image) VALUES (?, ?, ?)`;
+				// 		conn.query(
+				// 			sql,
+				// 			[categoryName, categoryDescription, categoryImagePath],
+				// 			async (err, result) => {
+				// 				if (err) throw err;
+				// 				return res.send({
+				// 					status: 'PASSED',
+				// 					message: 'Product category added successfully',
+				// 					categoryID: result.insertId,
+				// 				});
+				// 			}
+				// 		);
+				// 	}
+				// });
 			});
-		});
-	} catch (error) {
-		return res.status(500).send("Server Error. Couldn't add product category");
+		} catch (error) {
+			return res
+				.status(500)
+				.send("Server Error. Couldn't add product category");
+		}
 	}
-});
+);
 
 //Update product category
 router.put('/api/admin/product/category', verifyAdmin, async (req, res) => {
@@ -501,27 +537,31 @@ router.put('/api/admin/product/category', verifyAdmin, async (req, res) => {
 					path.resolve(__dirname, '../../', 'uploads/product_category_images') +
 					`/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
 
-				// Move the image
-				// Using file rename strategy
-				fs.rename(oldPath, `${newPath}`, (err) => {
-					if (err) throw err;
-					else {
-						const categoryImagePath = `/uploads/product_category_images/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+				// Using Read and write streams
+				const rawData = fs.readFileSync(oldPath);
 
-						const sql = `UPDATE product_categories SET category_name=?, category_description=?, category_image=? WHERE category_id=${categoryID}`;
-						conn.query(
-							sql,
-							[categoryName, categoryDescription, categoryImagePath],
-							async (err, result) => {
-								if (err) throw err;
-								return res.send({
-									status: 'PASSED',
-									message: 'Product category updated successfully',
-									categoryID: result.insertId,
-								});
-							},
-						);
-					}
+				fs.writeFile(newPath, rawData, (err) => {
+					if (err) throw err;
+					fs.unlink(oldPath, (err) => {
+						if (err) throw err;
+						else {
+							const categoryImagePath = `/uploads/product_category_images/glow_stopper-${primaryIdentifier}-${categoryImage.name}`;
+
+							const sql = `UPDATE product_categories SET category_name=?, category_description=?, category_image=? WHERE category_id=${categoryID}`;
+							conn.query(
+								sql,
+								[categoryName, categoryDescription, categoryImagePath],
+								async (err, result) => {
+									if (err) throw err;
+									return res.send({
+										status: 'PASSED',
+										message: 'Product category updated successfully',
+										categoryID: result.insertId,
+									});
+								}
+							);
+						}
+					});
 				});
 			} else {
 				// No category Image
@@ -539,12 +579,14 @@ router.put('/api/admin/product/category', verifyAdmin, async (req, res) => {
 							message: 'Product category updated successfully',
 							categoryID: result.insertId,
 						});
-					},
+					}
 				);
 			}
 		});
 	} catch (error) {
-		return res.status(500).send("Server Error. Couldn't update product category");
+		return res
+			.status(500)
+			.send("Server Error. Couldn't update product category");
 	}
 });
 
@@ -567,7 +609,9 @@ router.delete('/api/admin/product/category', verifyAdmin, (req, res) => {
 			});
 		});
 	} catch (error) {
-		return res.status(500).send("Server Error. Couldn't delete product category");
+		return res
+			.status(500)
+			.send("Server Error. Couldn't delete product category");
 	}
 });
 

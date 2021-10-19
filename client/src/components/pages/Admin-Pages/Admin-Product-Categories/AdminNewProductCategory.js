@@ -1,5 +1,11 @@
 import React from 'react';
-import { Box, TextField, Button, makeStyles } from '@material-ui/core';
+import {
+	Box,
+	TextField,
+	Button,
+	makeStyles,
+	CircularProgress,
+} from '@material-ui/core';
 import AdminNavbar from '../../../layout/Admin/AdminNavbar';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -20,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
 
 function AdminNewProductCategory() {
 	const classes = useStyles();
-	const { contextVariables, setContextVariables } = React.useContext(AppContext);
+	const [loading, setLoading] = React.useState(false);
+	const { contextVariables, setContextVariables } =
+		React.useContext(AppContext);
 	const history = useHistory();
 	const formik = useFormik({
 		initialValues: {
@@ -31,19 +39,20 @@ function AdminNewProductCategory() {
 		validationSchema: Yup.object({
 			categoryName: Yup.string().required('Category name is required'),
 			categoryDescription: Yup.string().required(
-				'Category Description is required',
+				'Category Description is required'
 			),
 		}),
 		onSubmit: (values) => {
-			addProduct(values);
+			addProductCategory(values);
 		},
 		enableReinitialize: true,
 	});
 
-	const addProduct = async (values) => {
+	const addProductCategory = async (values) => {
 		try {
+			setLoading(true);
 			let storedSession = JSON.parse(
-				localStorage.getItem('sessionDetails_glowStopper'),
+				localStorage.getItem('sessionDetails_glowStopper')
 			);
 			storedSession = CryptoJS.AES.decrypt(storedSession, encrypt_key);
 			storedSession = JSON.parse(storedSession.toString(CryptoJS.enc.Utf8));
@@ -60,7 +69,7 @@ function AdminNewProductCategory() {
 					headers: {
 						token: storedSession.userToken,
 					},
-				},
+				}
 			);
 			if (response.data.status === 'PASSED') {
 				setContextVariables({
@@ -84,7 +93,10 @@ function AdminNewProductCategory() {
 					},
 				});
 			}
+			setLoading(false);
 		} catch (error) {
+			setLoading(false);
+
 			setContextVariables({
 				...contextVariables,
 				feedback: {
@@ -92,9 +104,9 @@ function AdminNewProductCategory() {
 					open: true,
 					type: 'error',
 					message:
-						error.response.status === 500
+						error.response?.status === 500
 							? error.response.data
-							: error.response.data.message,
+							: error.response.data?.message,
 				},
 			});
 		}
@@ -197,7 +209,8 @@ function AdminNewProductCategory() {
 							onBlur={formik.handleBlur}
 							value={formik.values.categoryDescription || ''}
 							error={
-								formik.touched.categoryDescription && formik.errors.categoryDescription
+								formik.touched.categoryDescription &&
+								formik.errors.categoryDescription
 							}
 							helperText={
 								formik.touched.categoryDescription &&
@@ -258,7 +271,7 @@ function AdminNewProductCategory() {
 								}}
 								type='submit'
 							>
-								Add Category
+								{loading ? <CircularProgress /> : <>Add Category</>}
 							</Button>
 						</center>
 					</form>
